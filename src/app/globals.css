@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -7,21 +9,68 @@ html {
 }
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Day Mode Colors */
+  --primary: #0066CC;
+  --background: #D5DEE7;
+  --card-background: #E8EEF4;
+  --text-primary: #1F2937;
+  --text-body: #64748B;
+  --text-secondary: #6B7280;
+  --success: #10B981;
+  --border: #E5E7EB;
+  --hero-gradient: linear-gradient(135deg, #0066CC 0%, #004499 100%);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+[data-theme="dark"] {
+  /* Night Mode Colors (Default) */
+  --primary: #36b0d9;
+  --background: #002246;
+  --card-background: #001d39;
+  --deepest: #001c38;
+  --text-primary: #FFFFFF;
+  --text-secondary: #9ab6e0;
+  --text-body: #596d8c;
+  --success: #10B981;
+  --border: #334155;
+  --hero-gradient: linear-gradient(135deg, #1782ac 0%, #053a56 100%);
 }
 
 body {
-  color: var(--foreground);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: var(--text-body);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  transition: background-color 300ms ease, color 300ms ease;
+}
+
+/* Heading Styles */
+h1 {
+  @apply text-5xl md:text-6xl font-extrabold;
+  color: var(--text-primary);
+}
+
+h2 {
+  @apply text-4xl md:text-5xl font-bold;
+  color: var(--text-primary);
+}
+
+h3 {
+  @apply text-3xl md:text-4xl font-bold;
+  color: var(--text-primary);
+}
+
+h4 {
+  @apply text-2xl md:text-3xl font-semibold;
+  color: var(--text-primary);
+}
+
+h5 {
+  @apply text-xl md:text-2xl font-semibold;
+  color: var(--text-primary);
+}
+
+h6 {
+  @apply text-lg md:text-xl font-medium;
+  color: var(--text-primary);
 }
 
 @layer utilities {
@@ -36,14 +85,28 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: var(--card-background);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #c1c1c1;
+  background: var(--text-secondary);
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #a8a8a8;
+  background: var(--primary);
+}
+
+/* Scrolling animation for Built With ticker */
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-scroll:hover {
+  animation-play-state: paused;
 }

@@ -7,7 +7,17 @@
       "Bash(npm install:*)",
       "Bash(npm run build:*)",
       "Bash(npm run dev:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git remote add:*)",
+      "Bash(git push:*)",
+      "Bash(npx next dev:*)",
+      "Bash(curl:*)",
+      "Bash(pkill:*)",
+      "Bash(npx tsc:*)",
+      "Bash(taskkill:*)",
+      "Bash(rm:*)",
+      "Bash(git checkout:*)"
     ],
     "deny": []
   }

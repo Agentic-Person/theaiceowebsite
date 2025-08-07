@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link';
 import Container from '@/components/ui/Container';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
@@ -68,15 +70,14 @@ const workflowSteps = [
 
 export default function WorkflowSection() {
   return (
-    <section id="workflow" className="py-24 bg-white">
+    <section id="workflow" className="py-24" style={{ backgroundColor: 'var(--background)' }}>
       <Container>
         <div className="text-center mb-16">
-          <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
+          <h2 className="text-4xl lg:text-5xl font-bold mb-6" style={{ color: 'var(--text-primary)' }}>
             How We Work
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Our proven 5-step process ensures your AI implementation succeeds from day one. 
-            From discovery to delivery, we&apos;re with you every step of the way.
+          <p className="text-xl max-w-3xl mx-auto" style={{ color: 'var(--text-body)' }}>
+            Discovery → Design → Development → Deployment
           </p>
         </div>
 
@@ -84,29 +85,29 @@ export default function WorkflowSection() {
           {workflowSteps.map((step, index) => (
             <Card key={index} className="h-full relative overflow-hidden group hover:shadow-lg transition-shadow">
               <CardHeader className="text-center pb-4">
-                <div className="w-16 h-16 bg-gray-900 text-white rounded-full mx-auto mb-4 flex items-center justify-center text-2xl font-bold">
+                <div className="w-16 h-16 text-white rounded-full mx-auto mb-4 flex items-center justify-center text-2xl font-bold" style={{ backgroundColor: 'var(--text-primary)' }}>
                   {step.number}
                 </div>
                 <CardTitle className="text-xl mb-2">
                   {step.title}
                 </CardTitle>
-                <p className="text-sm text-gray-600 font-medium">
+                <p className="text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>
                   {step.subtitle}
                 </p>
               </CardHeader>
               
               <CardContent>
-                <p className="text-gray-700 text-sm mb-4 leading-relaxed">
+                <p className="text-sm mb-4 leading-relaxed" style={{ color: 'var(--text-body)' }}>
                   {step.description}
                 </p>
                 
                 <ul className="space-y-2">
                   {step.features.map((feature, featureIndex) => (
                     <li key={featureIndex} className="flex items-start space-x-2">
-                      <div className="flex-shrink-0 w-4 h-4 bg-gray-300 rounded-full mt-1 flex items-center justify-center">
-                        <div className="w-1.5 h-1.5 bg-gray-600 rounded-full"></div>
+                      <div className="flex-shrink-0 w-4 h-4 rounded-full mt-1 flex items-center justify-center" style={{ backgroundColor: 'var(--card-background)' }}>
+                        <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: 'var(--text-secondary)' }}></div>
                       </div>
-                      <span className="text-xs text-gray-600">{feature}</span>
+                      <span className="text-xs" style={{ color: 'var(--text-secondary)' }}>{feature}</span>
                     </li>
                   ))}
                 </ul>
@@ -114,18 +115,55 @@ export default function WorkflowSection() {
 
               {/* Step connector line */}
               {index < workflowSteps.length - 1 && (
-                <div className="hidden lg:block absolute top-20 -right-4 w-8 h-0.5 bg-gray-300 z-10"></div>
+                <div className="hidden lg:block absolute top-20 -right-4 w-8 h-0.5 z-10" style={{ backgroundColor: 'var(--border)' }}></div>
               )}
             </Card>
           ))}
         </div>
 
+        {/* Built With Section */}
+        <div className="py-16">
+          <div className="text-center mb-8">
+            <h3 className="text-2xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>
+              Built With Industry-Leading Technology
+            </h3>
+          </div>
+          
+          {/* Auto-scrolling ticker */}
+          <div className="relative overflow-hidden">
+            <div 
+              className="flex space-x-8 animate-scroll"
+              style={{
+                animation: 'scroll 20s linear infinite'
+              }}
+            >
+              {[
+                'Anthropic', 'Python', 'Docker', 'n8n', 'OpenAI', 'Vercel',
+                'Anthropic', 'Python', 'Docker', 'n8n', 'OpenAI', 'Vercel' // Duplicate for seamless loop
+              ].map((tech, index) => (
+                <div
+                  key={index}
+                  className="flex-shrink-0 px-6 py-4 rounded-lg border flex items-center justify-center min-w-[120px]"
+                  style={{ 
+                    backgroundColor: 'var(--card-background)',
+                    borderColor: 'var(--border)'
+                  }}
+                >
+                  <span className="font-medium text-sm" style={{ color: 'var(--text-primary)' }}>
+                    {tech}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
         {/* CTA Section */}
-        <div className="text-center bg-gray-50 rounded-2xl p-8">
-          <h3 className="text-2xl font-bold text-gray-900 mb-4">
+        <div className="text-center rounded-2xl p-8" style={{ backgroundColor: 'var(--background)' }}>
+          <h3 className="text-2xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>
             Ready to Get Started?
           </h3>
-          <p className="text-gray-600 mb-6">
+          <p className="mb-6" style={{ color: 'var(--text-body)' }}>
             Begin with our free assessment and discover how AI can transform your business.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">

@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link';
 import Container from '@/components/ui/Container';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
@@ -39,13 +41,13 @@ const solutionPillars: SolutionPillar[] = [
 
 export default function SolutionSection() {
   return (
-    <section id="solutions" className="py-24 bg-white">
+    <section id="solutions" className="py-24" style={{ backgroundColor: 'var(--background)' }}>
       <Container>
         <div className="text-center mb-16">
-          <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
-            How We Build AI That Actually Works
+          <h2 className="text-4xl lg:text-5xl font-bold mb-6" style={{ color: 'var(--text-primary)' }}>
+            Custom AI Solutions That Work
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <p className="text-xl max-w-3xl mx-auto" style={{ color: 'var(--text-body)' }}>
             Our proven three-pillar approach ensures your AI implementation delivers 
             real results, not just impressive demos.
           </p>
@@ -56,14 +58,14 @@ export default function SolutionSection() {
             <Card key={index} className="h-full relative overflow-hidden group hover:shadow-xl transition-shadow">
               <CardHeader>
                 <div className="flex items-center space-x-3 mb-4">
-                  <div className="w-10 h-10 bg-gray-900 text-white rounded-lg flex items-center justify-center font-bold">
+                  <div className="w-10 h-10 text-white rounded-lg flex items-center justify-center font-bold" style={{ backgroundColor: 'var(--text-primary)' }}>
                     {index + 1}
                   </div>
                   <CardTitle className="text-2xl">
                     {pillar.title}
                   </CardTitle>
                 </div>
-                <p className="text-gray-600 leading-relaxed">
+                <p className="leading-relaxed" style={{ color: 'var(--text-body)' }}>
                   {pillar.description}
                 </p>
               </CardHeader>
@@ -71,28 +73,31 @@ export default function SolutionSection() {
                 <ul className="space-y-3">
                   {pillar.features.map((feature, featureIndex) => (
                     <li key={featureIndex} className="flex items-start space-x-3">
-                      <div className="flex-shrink-0 w-5 h-5 bg-gray-200 rounded-full mt-0.5 flex items-center justify-center">
-                        <div className="w-2 h-2 bg-gray-600 rounded-full"></div>
+                      <div className="flex-shrink-0 w-5 h-5 rounded-full mt-0.5 flex items-center justify-center" style={{ backgroundColor: 'var(--card-background)' }}>
+                        <div className="w-2 h-2 rounded-full" style={{ backgroundColor: 'var(--text-secondary)' }}></div>
                       </div>
-                      <span className="text-gray-700">{feature}</span>
+                      <span style={{ color: 'var(--text-body)' }}>{feature}</span>
                     </li>
                   ))}
                 </ul>
               </CardContent>
               
               {/* Hover Effect */}
-              <div className="absolute inset-0 bg-gradient-to-r from-gray-900/5 to-gray-600/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity" style={{ background: 'linear-gradient(to right, var(--text-primary)/5, var(--text-secondary)/5)' }}></div>
             </Card>
           ))}
         </div>
 
         {/* CTA */}
         <div className="text-center">
-          <Link href="/workflow">
+          <a href="#workflow" onClick={(e) => {
+            e.preventDefault();
+            document.getElementById('workflow')?.scrollIntoView({ behavior: 'smooth' });
+          }}>
             <Button variant="outline" size="lg">
               See How We Do It
             </Button>
-          </Link>
+          </a>
         </div>
       </Container>
     </section>

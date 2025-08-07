@@ -37,13 +37,13 @@ const freeResources: Resource[] = [
 
 export default function ResourcesSection() {
   return (
-    <section id="resources" className="py-24 bg-white">
+    <section id="resources" className="py-24" style={{ backgroundColor: 'var(--background)' }}>
       <Container>
         <div className="text-center mb-16">
-          <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
-            Free AI Education & Resources
+          <h2 className="text-4xl lg:text-5xl font-bold mb-6" style={{ color: 'var(--text-primary)' }}>
+            Start Your AI Journey
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <p className="text-xl max-w-3xl mx-auto" style={{ color: 'var(--text-body)' }}>
             Get the knowledge you need to make informed AI decisions for your business. 
             All resources are free and designed specifically for SMBs.
           </p>
@@ -52,16 +52,16 @@ export default function ResourcesSection() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
           {/* Lead Magnet - Left Column */}
           <div className="space-y-6">
-            <Card className="border-2 border-gray-900 shadow-lg">
+            <Card className="border-2 shadow-lg" style={{ borderColor: 'var(--text-primary)' }}>
               <CardHeader className="pb-4">
                 <div className="flex items-center justify-between mb-3">
-                  <span className="bg-gray-900 text-white text-sm font-semibold px-3 py-1 rounded-full">
+                  <span className="text-white text-sm font-semibold px-3 py-1 rounded-full" style={{ backgroundColor: 'var(--text-primary)' }}>
                     FEATURED RESOURCE
                   </span>
                   <span className="text-2xl font-bold text-green-600">FREE</span>
                 </div>
                 <CardTitle className="text-3xl mb-3">
-                  The SMB Owner&apos;s AI Playbook
+                  AI EDGE eBook
                 </CardTitle>
                 <CardDescription className="text-lg">
                   Your complete guide to understanding, planning, and implementing AI in your business. 
@@ -75,12 +75,12 @@ export default function ResourcesSection() {
                   <ul className="space-y-2">
                     {leadMagnetFeatures.map((feature, index) => (
                       <li key={index} className="flex items-start space-x-3">
-                        <div className="flex-shrink-0 w-5 h-5 bg-gray-900 rounded-full mt-0.5 flex items-center justify-center">
+                        <div className="flex-shrink-0 w-5 h-5 rounded-full mt-0.5 flex items-center justify-center" style={{ backgroundColor: 'var(--text-primary)' }}>
                           <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
                             <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                           </svg>
                         </div>
-                        <span className="text-gray-700">{feature}</span>
+                        <span style={{ color: 'var(--text-body)' }}>{feature}</span>
                       </li>
                     ))}
                   </ul>
@@ -91,13 +91,14 @@ export default function ResourcesSection() {
                     <input
                       type="email"
                       placeholder="Enter your email address"
-                      className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-transparent"
+                      className="flex-1 px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:border-transparent"
+                      style={{ borderColor: 'var(--border)', backgroundColor: 'var(--background)', color: 'var(--text-primary)' }}
                     />
                   </div>
                   <Button variant="primary" size="lg" className="w-full">
                     Download Free Playbook
                   </Button>
-                  <p className="text-xs text-gray-500 text-center">
+                  <p className="text-xs text-center" style={{ color: 'var(--text-secondary)' }}>
                     No spam. Unsubscribe anytime. We respect your privacy.
                   </p>
                 </div>
@@ -105,52 +106,58 @@ export default function ResourcesSection() {
             </Card>
           </div>
 
-          {/* Free Resources - Right Column */}
+          {/* AI Assessment - Right Column */}
           <div className="space-y-6">
-            <div className="mb-8">
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">
-                Additional Free Resources
-              </h3>
-              <p className="text-gray-600">
-                Access our library of free tools, templates, and guides designed to help SMBs succeed with AI.
-              </p>
-            </div>
+            <Card className="shadow-lg">
+              <CardHeader className="text-center pb-6">
+                <CardTitle className="text-3xl mb-4" style={{ color: 'var(--text-primary)' }}>
+                  Free AI Assessment
+                </CardTitle>
+                <CardDescription className="text-lg">
+                  Discover your biggest AI opportunities with our comprehensive business assessment.
+                </CardDescription>
+              </CardHeader>
+              
+              <CardContent>
+                <div className="space-y-6">
+                  <div className="space-y-4">
+                    <h4 className="font-semibold" style={{ color: 'var(--text-primary)' }}>What You&apos;ll Get:</h4>
+                    <ul className="space-y-3">
+                      {[
+                        "Custom AI opportunity analysis",
+                        "ROI projections for your business",
+                        "Implementation roadmap",
+                        "Priority recommendations",
+                        "No-obligation consultation"
+                      ].map((benefit, index) => (
+                        <li key={index} className="flex items-start space-x-3">
+                          <div className="flex-shrink-0 w-5 h-5 rounded-full mt-0.5 flex items-center justify-center" style={{ backgroundColor: '#10B981' }}>
+                            <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                              <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                            </svg>
+                          </div>
+                          <span style={{ color: 'var(--text-body)' }}>{benefit}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  
+                  <Button 
+                    variant="primary" 
+                    size="lg" 
+                    className="w-full"
+                    style={{ backgroundColor: '#10B981' }}
+                  >
+                    Book Your Free Assessment
+                  </Button>
+                  
+                  <p className="text-xs text-center" style={{ color: 'var(--text-secondary)' }}>
+                    15-minute call • No sales pitch • Immediate value
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
 
-            <div className="grid gap-4">
-              {freeResources.map((resource, index) => (
-                <Card key={index} className="hover:shadow-md transition-shadow cursor-pointer group">
-                  <CardContent className="p-6">
-                    <div className="flex items-start justify-between">
-                      <div className="flex-1">
-                        <h4 className="font-semibold text-gray-900 mb-2 group-hover:text-gray-700">
-                          {resource.title}
-                        </h4>
-                        <p className="text-gray-600 text-sm mb-3">
-                          {resource.description}
-                        </p>
-                        <span className="inline-flex items-center text-xs font-medium text-gray-500 uppercase tracking-wider">
-                          <div className="w-2 h-2 bg-gray-400 rounded-full mr-2"></div>
-                          {resource.type}
-                        </span>
-                      </div>
-                      <div className="flex-shrink-0 ml-4">
-                        <div className="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center group-hover:bg-gray-200 transition-colors">
-                          <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                          </svg>
-                        </div>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-
-            <div className="pt-4">
-              <Button variant="outline" size="md" className="w-full">
-                Browse All Resources
-              </Button>
-            </div>
           </div>
         </div>
       </Container>

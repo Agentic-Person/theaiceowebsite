@@ -1,35 +1,37 @@
+'use client';
+
 import Container from '@/components/ui/Container';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
 import { ProblemCard } from '@/types';
 
 const problems: ProblemCard[] = [
   {
-    title: "ChatGPT Doesn&apos;t Know Your Business",
-    description: "Generic tools miss your competitive edge and unique processes. They give broad answers when you need specific solutions tailored to your industry and workflow.",
+    title: "ChatGPT Doesn't Know Your Business",
+    description: "Generic tools miss your competitive edge",
   },
   {
     title: "Security Keeps You Up at Night",
-    description: "Can&apos;t risk client data on public platforms. Your business requires enterprise-grade security without the enterprise complexity and cost.",
+    description: "Can't risk client data on public platforms",
   },
   {
     title: "Nothing Connects",
-    description: "AI tools that don&apos;t talk to your existing systems create more work, not less. You need integration that actually works with your current tech stack.",
+    description: "AI tools that don't talk to your existing systems",
   },
   {
     title: "ROI is a Mystery",
-    description: "Spending money with no clear business impact. You need measurable results and transparent value, not vague promises of &lsquo;efficiency gains.&rsquo;",
+    description: "Spending money with no clear business impact",
   },
 ];
 
 export default function ProblemSection() {
   return (
-    <section id="problems" className="py-24 bg-gray-50">
+    <section id="problems" className="py-24" style={{ backgroundColor: 'var(--background)' }}>
       <Container>
         <div className="text-center mb-16">
-          <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
+          <h2 className="text-4xl lg:text-5xl font-bold mb-6" style={{ color: 'var(--text-primary)' }}>
             Why Most SMBs Struggle With AI
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <p className="text-xl max-w-3xl mx-auto" style={{ color: 'var(--text-body)' }}>
             You&apos;re not alone in feeling frustrated with AI implementations. 
             These are the four biggest challenges we help businesses overcome.
           </p>
@@ -40,8 +42,8 @@ export default function ProblemSection() {
             <Card key={index} className="h-full hover:shadow-lg transition-shadow">
               <CardHeader>
                 <div className="flex items-start space-x-4">
-                  <div className="flex-shrink-0 w-12 h-12 bg-gray-200 rounded-lg flex items-center justify-center">
-                    <span className="text-lg font-bold text-gray-600">
+                  <div className="flex-shrink-0 w-12 h-12 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'var(--card-background)' }}>
+                    <span className="text-lg font-bold" style={{ color: 'var(--text-secondary)' }}>
                       {index + 1}
                     </span>
                   </div>
@@ -53,7 +55,7 @@ export default function ProblemSection() {
                 </div>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-600 leading-relaxed">
+                <p className="leading-relaxed" style={{ color: 'var(--text-body)' }}>
                   {problem.description}
                 </p>
               </CardContent>
@@ -63,10 +65,10 @@ export default function ProblemSection() {
 
         {/* Transition */}
         <div className="text-center">
-          <p className="text-2xl font-semibold text-gray-900 mb-4">
+          <p className="text-2xl font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>
             There&apos;s a better way...
           </p>
-          <div className="w-16 h-1 bg-gray-300 mx-auto"></div>
+          <div className="w-16 h-1 mx-auto" style={{ backgroundColor: 'var(--border)' }}></div>
         </div>
       </Container>
     </section>

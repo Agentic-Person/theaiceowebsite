@@ -5,56 +5,70 @@ import Button from '@/components/ui/Button';
 
 const successStories = [
   {
-    company: "Legal Firm",
-    industry: "Legal Services",
-    result: "Cut case research time by 60%",
-    description: "Implemented AI-powered legal research tool that automates case law analysis and document review.",
-    metrics: ["60% faster research", "40% cost reduction", "95% accuracy rate"]
+    company: "Bankruptcy Navigator (v1.101)",
+    industry: "Legal Tech",
+    result: "Your AI-Driven Paralegal Attorney",
+    description: "Chapter 11 & 7 expertise with SMB-focused knowledge base and enterprise security.",
+    metrics: ["Chapter 11 & 7 expertise", "SMB-focused knowledge base", "Enterprise security"]
   },
   {
-    company: "Equipment Finance Company", 
+    company: "Equipment Finance Helper", 
     industry: "Financial Services",
-    result: "Increased close rate by 30%",
-    description: "Custom AI coaching system that helps sales team identify and address client concerns more effectively.",
-    metrics: ["30% higher close rate", "50% faster deal cycles", "85% team adoption"]
+    result: "Mentor-Style AI Coach",
+    description: "Reflective listening with hidden-risk mapping across three mastery levels.",
+    metrics: ["Reflective listening", "Hidden-risk mapping", "Three mastery levels"]
   },
   {
-    company: "Professional Services Firm",
-    industry: "Consulting",
-    result: "Automated 40% of admin tasks",
-    description: "AI workflow automation that handles client onboarding, scheduling, and routine communications.",
-    metrics: ["40% admin reduction", "25% cost savings", "98% client satisfaction"]
+    company: "AI Regulation Monitor",
+    industry: "Compliance",
+    result: "Enterprise-Grade Compliance",
+    description: "24/7 regulatory tracking with plain-language briefs and 60% faster updates.",
+    metrics: ["24/7 regulatory tracking", "Plain-language briefs", "60% faster updates"]
+  },
+  {
+    company: "AI Gimmick Guard",
+    industry: "Security",
+    result: "Fraud-Detection Agent",
+    description: "Risk reports with red flag detection built by Prompt Surgeon™.",
+    metrics: ["Risk reports", "Red flag detection", "Built by Prompt Surgeon™"]
+  },
+  {
+    company: "TValue Helper",
+    industry: "Analytics",
+    result: "Statistical Analysis Guide",
+    description: "Step-by-step guidance with 24/7 availability and skill-level adaptation.",
+    metrics: ["Step-by-step guidance", "24/7 availability", "Skill-level adaptation"]
   }
 ];
 
 export default function SuccessStoriesSection() {
   return (
-    <section id="success-stories" className="py-24 bg-gray-50">
+    <section id="success-stories" className="py-24" style={{ backgroundColor: 'var(--background)' }}>
       <Container>
         <div className="text-center mb-16">
-          <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
-            Proof It Works
+          <h2 className="text-4xl lg:text-5xl font-bold mb-6" style={{ color: 'var(--text-primary)' }}>
+            Live Solutions Driving Real Results
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <p className="text-xl max-w-3xl mx-auto" style={{ color: 'var(--text-body)' }}>
             See how SMBs like yours are using custom AI to drive growth, 
             reduce costs, and gain competitive advantages.
           </p>
-          <p className="text-lg text-gray-500 italic mt-4">
+          <p className="text-lg italic mt-4" style={{ color: 'var(--text-secondary)' }}>
             &ldquo;Real businesses, real results, real fast&rdquo;
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 mb-12">
           {successStories.map((story, index) => (
             <Card key={index} className="h-full hover:shadow-xl transition-shadow">
               <CardHeader className="text-center pb-6">
-                <div className="w-16 h-16 bg-gray-200 rounded-lg mx-auto mb-4 flex items-center justify-center">
-                  <span className="text-2xl font-bold text-gray-600">
+                <div className="w-16 h-16 rounded-lg mx-auto mb-4 flex items-center justify-center" style={{ backgroundColor: 'var(--card-background)' }}>
+                  <span className="text-2xl font-bold" style={{ color: 'var(--text-secondary)' }}>
                     {index + 1}
                   </span>
                 </div>
                 <div className="mb-3">
-                  <span className="px-3 py-1 bg-gray-100 text-gray-600 text-sm font-medium rounded-full">
+                  <span className="px-3 py-1 text-sm font-medium rounded-full" style={{ backgroundColor: 'var(--background)', color: 'var(--text-secondary)' }}>
                     {story.industry}
                   </span>
                 </div>
@@ -65,7 +79,7 @@ export default function SuccessStoriesSection() {
               </CardHeader>
               
               <CardContent className="text-center">
-                <p className="text-gray-700 mb-6 leading-relaxed text-sm">
+                <p className="mb-6 leading-relaxed text-sm" style={{ color: 'var(--text-body)' }}>
                   {story.description}
                 </p>
                 
@@ -73,7 +87,7 @@ export default function SuccessStoriesSection() {
                   {story.metrics.map((metric, metricIndex) => (
                     <div key={metricIndex} className="flex items-center justify-center space-x-2">
                       <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                      <span className="text-sm text-gray-700 font-medium">{metric}</span>
+                      <span className="text-sm font-medium" style={{ color: 'var(--text-body)' }}>{metric}</span>
                     </div>
                   ))}
                 </div>
@@ -87,11 +101,11 @@ export default function SuccessStoriesSection() {
         </div>
 
         {/* CTA Section */}
-        <div className="text-center bg-white rounded-2xl p-8 shadow-sm">
-          <h3 className="text-2xl font-bold text-gray-900 mb-4">
+        <div className="text-center rounded-2xl p-8 shadow-sm" style={{ backgroundColor: 'var(--card-background)' }}>
+          <h3 className="text-2xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>
             Ready for Your Success Story?
           </h3>
-          <p className="text-gray-600 mb-6">
+          <p className="mb-6" style={{ color: 'var(--text-body)' }}>
             Join the growing number of SMBs achieving remarkable results with custom AI solutions.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">

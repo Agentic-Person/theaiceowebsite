@@ -10,7 +10,7 @@ import TeamSection from '@/components/sections/TeamSection';
 
 export default function HomePage() {
   return (
-    <main>
+    <main style={{ backgroundColor: 'var(--background)' }}>
       <HeroSection />
       <ProblemSection />
       <SolutionSection />
