@@ -21,13 +21,11 @@ export default function HeroSection() {
             {/* Main Headlines */}
             <div className="space-y-4">
               <h1 className="text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight">
-                <span className="block">AI Strategy and</span>
-                <span className="block">Custom Tools</span>
-                <span className="block">Aligned to Your</span>
-                <span className="block">Unique Workflows</span>
+                <span className="block">Deploy Industry-Expert</span>
+                <span className="block">AI Agents Today</span>
               </h1>
               <p className="text-xl lg:text-2xl max-w-2xl" style={{ color: 'var(--text-secondary)' }}>
-                Generic solutions overlook your edge. We design tools that embed our expertise, mirror your processes, and uphold your security and compliance.
+                5 proven AI specialists with deep domain expertise in law, finance, and compliance. No custom development needed - start your free trial in minutes.
               </p>
             </div>
 
@@ -38,14 +36,14 @@ export default function HeroSection() {
                 size="lg"
                 style={{ backgroundColor: '#10B981' }}
               >
-                Book Your AI Strategy Session
+                Start Free 14-Day Trial
               </Button>
               <Button 
                 variant="outline" 
                 size="lg"
                 style={{ borderColor: '#10B981', color: '#10B981' }}
               >
-                Download AI EDGE eBook
+                Watch 2-Min Demo
               </Button>
             </div>
 
@@ -60,10 +58,7 @@ export default function HeroSection() {
                 </div>
                 <div>
                   <p className="text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>
-                    Founder-Led, Expert-Driven AI Solutions
-                  </p>
-                  <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
-                    Ready to Build Your Success Story
+                    Powered by Prompt Surgeon™ | Enterprise-Grade Security | Version 1.101+
                   </p>
                 </div>
               </div>
@@ -101,7 +96,7 @@ export default function HeroSection() {
             {/* Chat Header */}
             <div className="text-center mb-6">
               <h3 className="text-2xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>
-                Get answers now
+                Ask our AI about your industry
               </h3>
             </div>
 
@@ -133,9 +128,9 @@ export default function HeroSection() {
               {/* Suggestion Chips */}
               <div className="flex flex-wrap gap-2">
                 {[
-                  "What's in the AI EDGE eBook?",
-                  "How do you customize AI for my business?",
-                  "Tell me about your toolkit"
+                  "Which AI specialist fits my business?",
+                  "Show me Bankruptcy Navigator features",
+                  "How does the free trial work?"
                 ].map((suggestion, index) => (
                   <button
                     key={index}

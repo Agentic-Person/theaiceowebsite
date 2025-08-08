@@ -1,10 +1,11 @@
 import HeroSection from '@/components/sections/HeroSection';
 import ProblemSection from '@/components/sections/ProblemSection';
 import SolutionSection from '@/components/sections/SolutionSection';
-import WorkflowSection from '@/components/sections/WorkflowSection';
-import ToolkitSection from '@/components/sections/ToolkitSection';
+import TechnologySection from '@/components/sections/TechnologySection';
+import HowItWorksSection from '@/components/sections/HowItWorksSection';
 import OutcomesSection from '@/components/sections/OutcomesSection';
 import SuccessStoriesSection from '@/components/sections/SuccessStoriesSection';
+import PricingSection from '@/components/sections/PricingSection';
 import ResourcesSection from '@/components/sections/ResourcesSection';
 import TeamSection from '@/components/sections/TeamSection';
 
@@ -14,10 +15,11 @@ export default function HomePage() {
       <HeroSection />
       <ProblemSection />
       <SolutionSection />
-      <WorkflowSection />
-      <ToolkitSection />
+      <TechnologySection />
+      <HowItWorksSection />
       <OutcomesSection />
       <SuccessStoriesSection />
+      <PricingSection />
       <ResourcesSection />
       <TeamSection />
     </main>

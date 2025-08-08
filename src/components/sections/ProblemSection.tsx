@@ -6,20 +6,20 @@ import { ProblemCard } from '@/types';
 
 const problems: ProblemCard[] = [
   {
-    title: "ChatGPT Doesn't Know Your Business",
-    description: "Generic tools miss your competitive edge",
+    title: "ChatGPT Doesn't Know Bankruptcy Law",
+    description: "Missing case precedents and filing requirements",
   },
   {
-    title: "Security Keeps You Up at Night",
-    description: "Can't risk client data on public platforms",
+    title: "Claude Can't Coach Deal Psychology",
+    description: "No understanding of buyer hesitation patterns",
   },
   {
-    title: "Nothing Connects",
-    description: "AI tools that don't talk to your existing systems",
+    title: "Gemini Won't Track Compliance Changes",
+    description: "Can't monitor multiple regulators 24/7",
   },
   {
-    title: "ROI is a Mystery",
-    description: "Spending money with no clear business impact",
+    title: "Perplexity Can't Verify AI Vendors",
+    description: "No framework for detecting scams",
   },
 ];
 
@@ -29,11 +29,11 @@ export default function ProblemSection() {
       <Container>
         <div className="text-center mb-16">
           <h2 className="text-4xl lg:text-5xl font-bold mb-6" style={{ color: 'var(--text-primary)' }}>
-            Why Most SMBs Struggle With AI
+            Why Generic AI Falls Short for Professionals
           </h2>
           <p className="text-xl max-w-3xl mx-auto" style={{ color: 'var(--text-body)' }}>
-            You&apos;re not alone in feeling frustrated with AI implementations. 
-            These are the four biggest challenges we help businesses overcome.
+            Popular AI tools lack the deep domain expertise that professionals need 
+            to handle complex, industry-specific challenges.
           </p>
         </div>
 

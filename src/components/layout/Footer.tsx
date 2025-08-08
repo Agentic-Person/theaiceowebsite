@@ -7,23 +7,27 @@ import { NavigationItem } from '@/types';
 import { handleSectionClick } from '@/lib/scroll';
 
 const footerNavigation = {
-  solutions: [
-    { id: 'custom-ai-tools', label: 'Custom AI Tools', href: '#solutions', isScroll: true },
-    { id: 'workflow-automation', label: 'Workflow Automation', href: '#solutions', isScroll: true },
-    { id: 'ai-strategy', label: 'AI Strategy', href: '#solutions', isScroll: true },
-    { id: 'implementation', label: 'Implementation', href: '#workflow', isScroll: true },
+  products: [
+    { id: 'bankruptcy-navigator', label: 'Bankruptcy Navigator', href: '#solutions', isScroll: true },
+    { id: 'equipment-finance-helper', label: 'Equipment Finance Helper', href: '#solutions', isScroll: true },
+    { id: 'ai-regulation-monitor', label: 'AI Regulation Monitor', href: '#solutions', isScroll: true },
+    { id: 'ai-gimmick-guard', label: 'AI Gimmick Guard', href: '#solutions', isScroll: true },
+    { id: 'tvalue-helper', label: 'TValue Helper', href: '#solutions', isScroll: true },
+  ],
+  technology: [
+    { id: 'prompt-surgeon', label: 'Prompt Surgeon™', href: '#technology', isScroll: true },
+    { id: 'security', label: 'Security', href: '#technology', isScroll: true },
+    { id: 'api-docs', label: 'API Docs', href: '/api-docs', isScroll: false },
   ],
   company: [
-    { id: 'about-us', label: 'About Us', href: '#team', isScroll: true },
-    { id: 'our-process', label: 'Our Process', href: '#workflow', isScroll: true },
-    { id: 'success-stories', label: 'Success Stories', href: '#success-stories', isScroll: true },
+    { id: 'about', label: 'About', href: '#team', isScroll: true },
     { id: 'blog', label: 'Blog', href: '/blog', isScroll: false },
+    { id: 'careers', label: 'Careers', href: '/careers', isScroll: false },
   ],
-  resources: [
-    { id: 'ai-playbook', label: 'AI Playbook', href: '#resources', isScroll: true },
-    { id: 'roi-calculator', label: 'ROI Calculator', href: '#resources', isScroll: true },
-    { id: 'templates', label: 'Templates', href: '#resources', isScroll: true },
-    { id: 'webinars', label: 'Webinars', href: '#resources', isScroll: true },
+  legal: [
+    { id: 'privacy', label: 'Privacy', href: '/privacy', isScroll: false },
+    { id: 'terms', label: 'Terms', href: '/terms', isScroll: false },
+    { id: 'security', label: 'Security', href: '/security', isScroll: false },
   ],
 };
 
@@ -74,7 +78,7 @@ export default function Footer() {
 
         {/* Main Footer Content */}
         <div className="py-16">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8">
             {/* Company Info */}
             <div className="lg:col-span-2">
               <Link href="/" className="flex items-center mb-4">
@@ -85,12 +89,8 @@ export default function Footer() {
                   The AI CEO
                 </span>
               </Link>
-              <p className="mb-4 max-w-md font-medium text-lg" style={{ color: 'var(--text-secondary)' }}>
-                Lead with AI Strategy, Empowered by Human Insight
-              </p>
               <p className="mb-6 max-w-md" style={{ color: 'var(--text-body)' }}>
-                Custom AI solutions for small and medium businesses. 
-                We build AI that actually understands your business - without the enterprise price tag.
+                The AI CEO - Industry AI Specialists Powered by Prompt Surgeon™
               </p>
               <div className="flex space-x-4">
                 {socialLinks.map((link) => (
@@ -107,11 +107,52 @@ export default function Footer() {
               </div>
             </div>
 
-            {/* Solutions */}
+            {/* Products */}
             <div>
-              <h3 className="font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>Solutions</h3>
+              <h3 className="font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>Products</h3>
               <ul className="space-y-2">
-                {footerNavigation.solutions.map((link) => (
+                {footerNavigation.products.map((link) => (
+                  <li key={link.id}>
+                    {link.isScroll ? (
+                      <a
+                        href={link.href}
+                        onClick={(e) => handleSectionClick(e, link.href.substring(1))}
+                        className="transition-colors hover:brightness-110 cursor-pointer"
+                        style={{ color: 'var(--text-body)' }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.color = 'var(--primary)';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.color = 'var(--text-body)';
+                        }}
+                      >
+                        {link.label}
+                      </a>
+                    ) : (
+                      <Link
+                        href={link.href}
+                        className="transition-colors hover:brightness-110"
+                        style={{ color: 'var(--text-body)' }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.color = 'var(--primary)';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.color = 'var(--text-body)';
+                        }}
+                      >
+                        {link.label}
+                      </Link>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Technology */}
+            <div>
+              <h3 className="font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>Technology</h3>
+              <ul className="space-y-2">
+                {footerNavigation.technology.map((link) => (
                   <li key={link.id}>
                     {link.isScroll ? (
                       <a
@@ -189,11 +230,11 @@ export default function Footer() {
               </ul>
             </div>
 
-            {/* Resources */}
+            {/* Legal */}
             <div>
-              <h3 className="font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>Resources</h3>
+              <h3 className="font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>Legal</h3>
               <ul className="space-y-2">
-                {footerNavigation.resources.map((link) => (
+                {footerNavigation.legal.map((link) => (
                   <li key={link.id}>
                     {link.isScroll ? (
                       <a

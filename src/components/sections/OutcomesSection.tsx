@@ -4,37 +4,37 @@ import Button from '@/components/ui/Button';
 
 const outcomes = [
   {
-    title: "20% Boost in Operational Efficiency",
-    description: "Measured, not promised",
+    title: "40% Time Savings",
+    description: "Bankruptcy Navigator users process cases 40% faster",
     metrics: [
-      "Reduce manual processing time",
-      "Eliminate data entry errors", 
-      "Accelerate routine operations",
-      "Focus on strategic work"
+      "Automated document review",
+      "Instant precedent lookup", 
+      "Streamlined case management",
+      "Reduced research time"
+    ],
+    icon: "⏱️"
+  },
+  {
+    title: "30% Higher Close Rates",
+    description: "Equipment Finance Helper improves deal closure",
+    metrics: [
+      "Better buyer psychology insights",
+      "Hidden risk detection",
+      "Optimized deal progression",
+      "Emotional intelligence coaching"
     ],
     icon: "📈"
   },
   {
-    title: "Faster Decision Loops",
-    description: "Real-time insights when you need them",
+    title: "60% Faster Compliance",
+    description: "AI Regulation Monitor accelerates policy updates",
     metrics: [
-      "Real-time data analysis",
-      "Instant report generation",
-      "Automated insights delivery",
-      "Reduced decision latency"
+      "Real-time regulatory tracking",
+      "Automated policy alerts",
+      "Multi-regulator monitoring",
+      "Instant compliance reports"
     ],
     icon: "⚡"
-  },
-  {
-    title: "Seamless Integration",
-    description: "Works with your existing systems",
-    metrics: [
-      "No system overhauls needed",
-      "Minimal learning curve",
-      "Preserves existing workflows",
-      "Enhances current processes"
-    ],
-    icon: "🔗"
   }
 ];
 
@@ -44,11 +44,10 @@ export default function OutcomesSection() {
       <Container>
         <div className="text-center mb-16">
           <h2 className="text-4xl lg:text-5xl font-bold mb-6" style={{ color: 'var(--text-primary)' }}>
-            Outcomes You&apos;ll See
+            Proven Results Across Industries
           </h2>
           <p className="text-xl max-w-3xl mx-auto" style={{ color: 'var(--text-body)' }}>
-            Measurable improvements that directly impact your bottom line and operational performance. 
-            These aren&apos;t promises - they&apos;re results our clients achieve.
+            Real metrics from professionals using The AI CEO specialists in their daily operations.
           </p>
         </div>
 

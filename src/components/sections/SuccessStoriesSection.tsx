@@ -5,39 +5,39 @@ import Button from '@/components/ui/Button';
 
 const successStories = [
   {
-    company: "Bankruptcy Navigator (v1.101)",
-    industry: "Legal Tech",
-    result: "Your AI-Driven Paralegal Attorney",
-    description: "Chapter 11 & 7 expertise with SMB-focused knowledge base and enterprise security.",
-    metrics: ["Chapter 11 & 7 expertise", "SMB-focused knowledge base", "Enterprise security"]
+    company: "Bankruptcy Law Firm",
+    industry: "Legal Services",
+    result: "40% Faster Case Processing",
+    description: "Law firms using Bankruptcy Navigator report dramatic improvements in case management efficiency.",
+    metrics: ["Reduced research time", "Automated document review", "Audit trail compliance"]
   },
   {
-    company: "Equipment Finance Helper", 
+    company: "Equipment Finance Company", 
     industry: "Financial Services",
-    result: "Mentor-Style AI Coach",
-    description: "Reflective listening with hidden-risk mapping across three mastery levels.",
-    metrics: ["Reflective listening", "Hidden-risk mapping", "Three mastery levels"]
+    result: "30% Higher Deal Closure",
+    description: "Finance professionals using Equipment Finance Helper achieve significantly better close rates.",
+    metrics: ["Better buyer insights", "Risk detection", "Deal progression coaching"]
   },
   {
-    company: "AI Regulation Monitor",
-    industry: "Compliance",
-    result: "Enterprise-Grade Compliance",
-    description: "24/7 regulatory tracking with plain-language briefs and 60% faster updates.",
-    metrics: ["24/7 regulatory tracking", "Plain-language briefs", "60% faster updates"]
+    company: "Regional Bank",
+    industry: "Banking & Compliance",
+    result: "60% Faster Policy Updates",
+    description: "Banking compliance teams using AI Regulation Monitor accelerate their regulatory response times.",
+    metrics: ["Real-time monitoring", "Automated alerts", "Multi-regulator tracking"]
   },
   {
-    company: "AI Gimmick Guard",
-    industry: "Security",
-    result: "Fraud-Detection Agent",
-    description: "Risk reports with red flag detection built by Prompt Surgeon™.",
-    metrics: ["Risk reports", "Red flag detection", "Built by Prompt Surgeon™"]
+    company: "SMB Portfolio Manager",
+    industry: "Security & Risk",
+    result: "95% Scam Detection Rate",
+    description: "Portfolio managers using AI Gimmick Guard protect their firms from vendor fraud.",
+    metrics: ["5-point risk assessment", "Plain English reports", "Red flag detection"]
   },
   {
-    company: "TValue Helper",
-    industry: "Analytics",
-    result: "Statistical Analysis Guide",
-    description: "Step-by-step guidance with 24/7 availability and skill-level adaptation.",
-    metrics: ["Step-by-step guidance", "24/7 availability", "Skill-level adaptation"]
+    company: "Analytics Consulting Firm",
+    industry: "Data Analytics",
+    result: "50% Faster Analysis",
+    description: "Analytics teams using TValue Helper complete statistical analysis projects much faster.",
+    metrics: ["Step-by-step guidance", "Skill-level adaptation", "24/7 availability"]
   }
 ];
 
@@ -47,14 +47,10 @@ export default function SuccessStoriesSection() {
       <Container>
         <div className="text-center mb-16">
           <h2 className="text-4xl lg:text-5xl font-bold mb-6" style={{ color: 'var(--text-primary)' }}>
-            Live Solutions Driving Real Results
+            Trusted by Industry Leaders
           </h2>
           <p className="text-xl max-w-3xl mx-auto" style={{ color: 'var(--text-body)' }}>
-            See how SMBs like yours are using custom AI to drive growth, 
-            reduce costs, and gain competitive advantages.
-          </p>
-          <p className="text-lg italic mt-4" style={{ color: 'var(--text-secondary)' }}>
-            &ldquo;Real businesses, real results, real fast&rdquo;
+            Join 200+ firms already using The AI CEO specialists
           </p>
         </div>
 
