@@ -8,47 +8,47 @@ export default function HeroSection() {
   return (
     <section 
       id="hero" 
-      className="min-h-screen flex flex-col justify-center py-20 pt-32"
+      className="min-h-[calc(100vh-4rem)] pt-20 pb-10 flex items-center"
       style={{ 
         backgroundColor: 'var(--background)',
         color: 'var(--text-primary)'
       }}
     >
-      <Container>
+      <Container className="px-3 sm:px-5 lg:px-6">
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 items-center">
           {/* Left Column - 60% */}
-          <div className="lg:col-span-3 space-y-8">
+          <div className="lg:col-span-3 space-y-14">
             {/* Main Headlines */}
-            <div className="space-y-4">
-              <h1 className="text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight">
-                <span className="block">Deploy Industry-Expert</span>
-                <span className="block">AI Agents Today</span>
+            <div className="space-y-7">
+              <h1 className="text-4xl lg:text-5xl xl:text-6xl font-bold leading-snug">
+                <span className="block">Why Most Businesses</span>
+                <span className="block">Struggle to Make AI Work</span>
               </h1>
               <p className="text-xl lg:text-2xl max-w-2xl" style={{ color: 'var(--text-secondary)' }}>
-                5 proven AI specialists with deep domain expertise in law, finance, and compliance. No custom development needed - start your free trial in minutes.
+                AI isn't magic. Without the right strategy, most implementations fail.
               </p>
             </div>
 
             {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex flex-col sm:flex-row gap-7">
               <Button 
                 variant="primary" 
                 size="lg"
                 style={{ backgroundColor: '#10B981' }}
               >
-                Start Free 14-Day Trial
+                Start free 7-day trial
               </Button>
               <Button 
                 variant="outline" 
                 size="lg"
                 style={{ borderColor: '#10B981', color: '#10B981' }}
               >
-                Watch 2-Min Demo
+                Download free eBook
               </Button>
             </div>
 
             {/* Team Credibility Bar */}
-            <div className="pt-8">
+            <div className="pt-14">
               <div className="flex items-center space-x-4">
                 <div className="flex -space-x-2">
                   {/* Avatar Placeholders */}
@@ -90,72 +90,26 @@ export default function HeroSection() {
           </div>
         </div>
 
-        {/* Chat Interface Section */}
-        <div className="mt-20 pt-12" style={{ borderTop: '1px solid var(--border)' }}>
-          <div className="max-w-2xl mx-auto">
-            {/* Chat Header */}
-            <div className="text-center mb-6">
-              <h3 className="text-2xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>
-                Ask our AI about your industry
-              </h3>
-            </div>
+        {/* Bottom border line */}
+        <div className="mt-40 pt-10 border-t" style={{ borderColor: 'var(--border)' }}></div>
 
-            {/* Chat Interface */}
-            <div 
-              className="rounded-2xl p-6 shadow-xl"
-              style={{ backgroundColor: 'var(--card-background)' }}
-            >
-              {/* Chat Input */}
-              <div className="relative mb-4">
-                <input
-                  type="text"
-                  placeholder="Ask about our AI solutions..."
-                  className="w-full px-4 py-3 pr-12 rounded-xl border text-base focus:outline-none focus:ring-2"
-                  style={{
-                    backgroundColor: 'var(--background)',
-                    borderColor: 'var(--border)',
-                    color: 'var(--text-primary)'
-                  }}
-                />
-                <button 
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 p-2 rounded-lg hover:brightness-110 transition-colors"
-                  style={{ backgroundColor: 'var(--primary)' }}
-                >
-                  <Send className="w-4 h-4 text-white" />
-                </button>
-              </div>
-
-              {/* Suggestion Chips */}
-              <div className="flex flex-wrap gap-2">
-                {[
-                  "Which AI specialist fits my business?",
-                  "Show me Bankruptcy Navigator features",
-                  "How does the free trial work?"
-                ].map((suggestion, index) => (
-                  <button
-                    key={index}
-                    className="px-4 py-2 rounded-full text-sm border hover:brightness-110 transition-colors"
-                    style={{
-                      borderColor: 'var(--border)',
-                      color: 'var(--text-body)',
-                      backgroundColor: 'var(--background)'
-                    }}
-                  >
-                    {suggestion}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Scroll Hint */}
-            <div className="flex flex-col items-center space-y-2 pt-8">
-              <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>Scroll to learn more</p>
-              <div className="w-6 h-10 border-2 rounded-full flex justify-center" style={{ borderColor: 'var(--border)' }}>
-                <div className="w-1 h-3 rounded-full mt-2 animate-bounce" style={{ backgroundColor: 'var(--text-secondary)' }}></div>
-              </div>
-            </div>
+        {/* Scroll indicator */}
+        <div className="mt-6 flex flex-col items-center text-center">
+          <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+            Scroll to learn more
+          </span>
+          <div
+            className="mt-3 w-7 h-11 rounded-full flex items-start justify-center"
+            aria-hidden
+            style={{ border: '1.5px solid var(--text-secondary)' }}
+          >
+            <div
+              className="w-1 h-3 rounded-full animate-bounce"
+              style={{ backgroundColor: 'var(--text-secondary)', marginTop: '6px' }}
+            />
           </div>
         </div>
+
       </Container>
     </section>
   );

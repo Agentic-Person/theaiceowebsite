@@ -1,7 +1,10 @@
+'use client';
+
 import Container from '@/components/ui/Container';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/Card';
 import Button from '@/components/ui/Button';
 import { Resource } from '@/types';
+import { Send } from 'lucide-react';
 
 const leadMagnetFeatures = [
   "20+ real AI use cases for your industry",
@@ -39,6 +42,64 @@ export default function ResourcesSection() {
   return (
     <section id="resources" className="py-24" style={{ backgroundColor: 'var(--background)' }}>
       <Container>
+        {/* Chat Interface Section */}
+        <div className="mb-20">
+          <div className="max-w-2xl mx-auto">
+            {/* Chat Header */}
+            <div className="text-center mb-6">
+              <h3 className="text-2xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>
+                Ask our AI about your industry
+              </h3>
+            </div>
+
+            {/* Chat Interface */}
+            <div 
+              className="rounded-2xl p-6 shadow-xl"
+              style={{ backgroundColor: 'var(--card-background)' }}
+            >
+              {/* Chat Input */}
+              <div className="relative mb-4">
+                <input
+                  type="text"
+                  placeholder="Ask about our AI solutions..."
+                  className="w-full px-4 py-3 pr-12 rounded-xl border text-base focus:outline-none focus:ring-2"
+                  style={{
+                    backgroundColor: 'var(--background)',
+                    borderColor: 'var(--border)',
+                    color: 'var(--text-primary)'
+                  }}
+                />
+                <button 
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 p-2 rounded-lg hover:brightness-110 transition-colors"
+                  style={{ backgroundColor: 'var(--primary)' }}
+                >
+                  <Send className="w-4 h-4 text-white" />
+                </button>
+              </div>
+
+              {/* Suggestion Chips */}
+              <div className="flex flex-wrap gap-2">
+                {[
+                  "Which AI specialist fits my business?",
+                  "Show me Bankruptcy Navigator features",
+                  "How does the free trial work?"
+                ].map((suggestion, index) => (
+                  <button
+                    key={index}
+                    className="px-4 py-2 rounded-full text-sm border hover:brightness-110 transition-colors"
+                    style={{
+                      borderColor: 'var(--border)',
+                      color: 'var(--text-body)',
+                      backgroundColor: 'var(--background)'
+                    }}
+                  >
+                    {suggestion}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
         <div className="text-center mb-16">
           <h2 className="text-4xl lg:text-5xl font-bold mb-6" style={{ color: 'var(--text-primary)' }}>
             See The AI CEO Platform in Action
