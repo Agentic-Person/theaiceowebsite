@@ -12,21 +12,29 @@ export default function ParticleSystem({ className = '' }: ParticleSystemProps) 
   useEffect(() => {
     // Generate particles with varied properties
     const particleConfigs = [
-      // Top spiral emitter - full journey particles
-      { animation: 'animate-spiral-from-top', count: 40, colors: ['#001c38', '#001c38', '#001d39', '#001d39', '#36b0d9', '#596d8c', '#9ab6e0'] },
-      { animation: 'animate-spiral-from-top-delayed', count: 35, colors: ['#001c38', '#001c38', '#001d39', '#596d8c', '#9ab6e0'] },
+      // Top spiral emitter - full journey particles (varied radii)
+      { animation: 'animate-spiral-from-top', count: 25, colors: ['#001c38', '#001c38', '#001d39', '#001d39', '#36b0d9', '#596d8c', '#9ab6e0'] },
+      { animation: 'animate-spiral-from-top-delayed', count: 20, colors: ['#001c38', '#001c38', '#001d39', '#596d8c', '#9ab6e0'] },
+      { animation: 'animate-spiral-from-top-tight', count: 25, colors: ['#001c38', '#001d39', '#36b0d9', '#596d8c', '#9ab6e0'] },
+      { animation: 'animate-spiral-from-top-wide', count: 20, colors: ['#001c38', '#001d39', '#596d8c', '#9ab6e0'] },
       
-      // Top spiral emitter - half journey particles (disappear at 50%)
-      { animation: 'animate-spiral-from-top-half', count: 40, colors: ['#001c38', '#001c38', '#001d39', '#001d39', '#36b0d9', '#596d8c', '#9ab6e0'] },
-      { animation: 'animate-spiral-from-top-delayed-half', count: 35, colors: ['#001c38', '#001c38', '#001d39', '#9ab6e0', '#36b0d9'] },
+      // Top spiral emitter - half journey particles (varied radii)
+      { animation: 'animate-spiral-from-top-half', count: 25, colors: ['#001c38', '#001c38', '#001d39', '#001d39', '#36b0d9', '#596d8c', '#9ab6e0'] },
+      { animation: 'animate-spiral-from-top-delayed-half', count: 20, colors: ['#001c38', '#001c38', '#001d39', '#9ab6e0', '#36b0d9'] },
+      { animation: 'animate-spiral-from-top-tight-half', count: 25, colors: ['#001c38', '#001d39', '#36b0d9', '#596d8c'] },
+      { animation: 'animate-spiral-from-top-wide-half', count: 20, colors: ['#001c38', '#001d39', '#9ab6e0', '#36b0d9'] },
       
-      // Bottom spiral emitter - full journey particles
-      { animation: 'animate-spiral-from-bottom', count: 40, colors: ['#001c38', '#001c38', '#001d39', '#001d39', '#596d8c', '#9ab6e0'] },
-      { animation: 'animate-spiral-from-bottom-delayed', count: 35, colors: ['#001c38', '#001c38', '#001d39', '#36b0d9', '#596d8c', '#9ab6e0'] },
+      // Bottom spiral emitter - full journey particles (varied radii)
+      { animation: 'animate-spiral-from-bottom', count: 25, colors: ['#001c38', '#001c38', '#001d39', '#001d39', '#596d8c', '#9ab6e0'] },
+      { animation: 'animate-spiral-from-bottom-delayed', count: 20, colors: ['#001c38', '#001c38', '#001d39', '#36b0d9', '#596d8c', '#9ab6e0'] },
+      { animation: 'animate-spiral-from-bottom-tight', count: 25, colors: ['#001c38', '#001d39', '#596d8c', '#9ab6e0'] },
+      { animation: 'animate-spiral-from-bottom-wide', count: 20, colors: ['#001c38', '#001d39', '#36b0d9', '#596d8c'] },
       
-      // Bottom spiral emitter - half journey particles (disappear at 50%)
-      { animation: 'animate-spiral-from-bottom-half', count: 40, colors: ['#001c38', '#001c38', '#001d39', '#001d39', '#596d8c', '#36b0d9'] },
-      { animation: 'animate-spiral-from-bottom-delayed-half', count: 35, colors: ['#001c38', '#001c38', '#001d39', '#9ab6e0', '#36b0d9', '#596d8c'] }
+      // Bottom spiral emitter - half journey particles (varied radii)
+      { animation: 'animate-spiral-from-bottom-half', count: 25, colors: ['#001c38', '#001c38', '#001d39', '#001d39', '#596d8c', '#36b0d9'] },
+      { animation: 'animate-spiral-from-bottom-delayed-half', count: 20, colors: ['#001c38', '#001c38', '#001d39', '#9ab6e0', '#36b0d9', '#596d8c'] },
+      { animation: 'animate-spiral-from-bottom-tight-half', count: 25, colors: ['#001c38', '#001d39', '#596d8c', '#36b0d9'] },
+      { animation: 'animate-spiral-from-bottom-wide-half', count: 20, colors: ['#001c38', '#001d39', '#9ab6e0', '#36b0d9'] }
     ];
 
     const generatedParticles: Array<{ id: number; delay: number; animation: string; color: string; size: string }> = [];
@@ -40,10 +48,10 @@ export default function ParticleSystem({ className = '' }: ParticleSystemProps) 
           animation: config.animation,
           color: config.colors[Math.floor(Math.random() * config.colors.length)],
           size: ['w-1 h-1', 'w-1.5 h-1.5', 'w-2 h-2', 'w-3 h-3'][Math.floor(Math.random() * 4)],
-          // Add subtle randomness for organic movement
-          randomX: (Math.random() - 0.5) * 60, // ±30px horizontal offset
-          randomY: (Math.random() - 0.5) * 60, // ±30px vertical offset  
-          randomRotation: (Math.random() - 0.5) * 120, // ±60 degree rotation offset
+          // Add enhanced randomness for organic movement
+          randomX: (Math.random() - 0.5) * 100, // ±50px horizontal offset
+          randomY: (Math.random() - 0.5) * 100, // ±50px vertical offset  
+          randomRotation: (Math.random() - 0.5) * 180, // ±90 degree rotation offset
         });
       }
     });

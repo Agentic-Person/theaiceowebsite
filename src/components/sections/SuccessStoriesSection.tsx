@@ -2,6 +2,8 @@ import Link from 'next/link';
 import Container from '@/components/ui/Container';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
 import Button from '@/components/ui/Button';
+import ScrollReveal from '@/components/animations/ScrollReveal';
+import StaggerReveal from '@/components/animations/StaggerReveal';
 
 const successStories = [
   {
@@ -45,16 +47,20 @@ export default function SuccessStoriesSection() {
   return (
     <section id="success-stories" className="py-24" style={{ backgroundColor: 'var(--background)' }}>
       <Container>
-        <div className="text-center mb-16">
+        <ScrollReveal className="text-center mb-16">
           <h2 className="text-4xl lg:text-5xl font-bold mb-6" style={{ color: 'var(--text-primary)' }}>
             Trusted by Industry Leaders
           </h2>
           <p className="text-xl max-w-3xl mx-auto" style={{ color: 'var(--text-body)' }}>
             Join 200+ firms already using The AI CEO specialists
           </p>
-        </div>
+        </ScrollReveal>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 mb-12">
+        <StaggerReveal 
+          staggerDelay={0.15}
+          direction="up"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 mb-12"
+        >
           {successStories.map((story, index) => (
             <Card key={index} className="h-full hover:shadow-xl transition-shadow">
               <CardHeader className="text-center pb-6">
@@ -94,27 +100,29 @@ export default function SuccessStoriesSection() {
               </CardContent>
             </Card>
           ))}
-        </div>
+        </StaggerReveal>
 
         {/* CTA Section */}
-        <div className="text-center rounded-2xl p-8 shadow-sm" style={{ backgroundColor: 'var(--card-background)' }}>
-          <h3 className="text-2xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>
-            Ready for Your Success Story?
-          </h3>
-          <p className="mb-6" style={{ color: 'var(--text-body)' }}>
-            Join the growing number of SMBs achieving remarkable results with custom AI solutions.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button variant="primary" size="lg">
-              Start Your Free Assessment
-            </Button>
-            <Link href="/success-stories">
-              <Button variant="outline" size="lg">
-                View All Success Stories
+        <ScrollReveal direction="up" delay={0.4}>
+          <div className="text-center rounded-2xl p-8 shadow-sm" style={{ backgroundColor: 'var(--card-background)' }}>
+            <h3 className="text-2xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>
+              Ready for Your Success Story?
+            </h3>
+            <p className="mb-6" style={{ color: 'var(--text-body)' }}>
+              Join the growing number of SMBs achieving remarkable results with custom AI solutions.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button variant="primary" size="lg">
+                Start Your Free Assessment
               </Button>
-            </Link>
+              <Link href="/success-stories">
+                <Button variant="outline" size="lg">
+                  View All Success Stories
+                </Button>
+              </Link>
+            </div>
           </div>
-        </div>
+        </ScrollReveal>
       </Container>
     </section>
   );

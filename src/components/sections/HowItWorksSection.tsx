@@ -2,6 +2,8 @@
 
 import Container from '@/components/ui/Container';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
+import ScrollReveal from '@/components/animations/ScrollReveal';
+import StaggerReveal from '@/components/animations/StaggerReveal';
 
 const steps = [
   {
@@ -26,15 +28,19 @@ const steps = [
 
 export default function HowItWorksSection() {
   return (
-    <section id="how-it-works" className="py-24" style={{ backgroundColor: 'var(--card-background)' }}>
+    <section id="workflow" className="py-24" style={{ backgroundColor: 'var(--card-background)' }}>
       <Container>
-        <div className="text-center mb-16">
+        <ScrollReveal className="text-center mb-16">
           <h2 className="text-4xl lg:text-5xl font-bold mb-6" style={{ color: 'var(--text-primary)' }}>
             Enterprise AI in 3 Simple Steps
           </h2>
-        </div>
+        </ScrollReveal>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <StaggerReveal 
+          staggerDelay={0.2}
+          direction="up"
+          className="grid grid-cols-1 lg:grid-cols-3 gap-8"
+        >
           {steps.map((step, index) => (
             <Card key={index} className="h-full text-center hover:shadow-xl transition-shadow group">
               <CardHeader className="pb-6">
@@ -57,7 +63,7 @@ export default function HowItWorksSection() {
               </CardContent>
             </Card>
           ))}
-        </div>
+        </StaggerReveal>
 
         {/* Connection Lines for Desktop */}
         <div className="hidden lg:block relative -mt-32 mb-16">

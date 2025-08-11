@@ -1,9 +1,12 @@
 'use client';
 
+import React from 'react';
 import Link from 'next/link';
 import Container from '@/components/ui/Container';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
 import Button from '@/components/ui/Button';
+import ScrollReveal from '@/components/animations/ScrollReveal';
+import StaggerReveal from '@/components/animations/StaggerReveal';
 
 interface AISpecialist {
   title: string;
@@ -75,19 +78,23 @@ export default function SolutionSection() {
   return (
     <section id="solutions" className="py-24" style={{ backgroundColor: 'var(--background)' }}>
       <Container>
-        <div className="text-center mb-16">
+        <ScrollReveal className="text-center mb-16">
           <h2 className="text-4xl lg:text-5xl font-bold mb-6" style={{ color: 'var(--text-primary)' }}>
             5 Industry AI Specialists Ready to Deploy
           </h2>
           <p className="text-xl max-w-3xl mx-auto" style={{ color: 'var(--text-body)' }}>
             Each powered by Prompt Surgeon™ technology with enterprise security built-in
           </p>
-        </div>
+        </ScrollReveal>
 
         {/* 2-2-1 Grid Layout */}
         <div className="space-y-8 mb-16">
           {/* First Row - 2 Cards */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <StaggerReveal 
+            staggerDelay={0.2} 
+            direction="up" 
+            className="grid grid-cols-1 lg:grid-cols-2 gap-8"
+          >
             {aiSpecialists.slice(0, 2).map((specialist, index) => (
               <Card key={index} className="h-full relative overflow-hidden group hover:shadow-xl transition-shadow">
                 <CardHeader>
@@ -126,10 +133,14 @@ export default function SolutionSection() {
                 <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity" style={{ background: 'linear-gradient(to right, #10B981/5, #10B981/10)' }}></div>
               </Card>
             ))}
-          </div>
+          </StaggerReveal>
 
           {/* Second Row - 2 Cards */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <StaggerReveal 
+            staggerDelay={0.2} 
+            direction="up" 
+            className="grid grid-cols-1 lg:grid-cols-2 gap-8"
+          >
             {aiSpecialists.slice(2, 4).map((specialist, index) => (
               <Card key={index + 2} className="h-full relative overflow-hidden group hover:shadow-xl transition-shadow">
                 <CardHeader>
@@ -168,11 +179,12 @@ export default function SolutionSection() {
                 <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity" style={{ background: 'linear-gradient(to right, #10B981/5, #10B981/10)' }}></div>
               </Card>
             ))}
-          </div>
+          </StaggerReveal>
 
           {/* Third Row - 1 Card Centered */}
-          <div className="flex justify-center">
-            <div className="w-full lg:w-1/2">
+          <ScrollReveal direction="up" delay={0.4}>
+            <div className="flex justify-center">
+              <div className="w-full lg:w-1/2">
               <Card className="h-full relative overflow-hidden group hover:shadow-xl transition-shadow">
                 <CardHeader>
                   <div className="flex items-center justify-between mb-4">
@@ -209,16 +221,19 @@ export default function SolutionSection() {
                 {/* Hover Effect */}
                 <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity" style={{ background: 'linear-gradient(to right, #10B981/5, #10B981/10)' }}></div>
               </Card>
+              </div>
             </div>
-          </div>
+          </ScrollReveal>
         </div>
 
         {/* Note about trials */}
-        <div className="text-center">
-          <p className="text-lg mb-8" style={{ color: 'var(--text-secondary)' }}>
-            All solutions include: 14-day free trial • Cancel anytime • White-glove onboarding
-          </p>
-        </div>
+        <ScrollReveal direction="fade" delay={0.6}>
+          <div className="text-center">
+            <p className="text-lg mb-8" style={{ color: 'var(--text-secondary)' }}>
+              All solutions include: 14-day free trial • Cancel anytime • White-glove onboarding
+            </p>
+          </div>
+        </ScrollReveal>
       </Container>
     </section>
   );

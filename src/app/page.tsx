@@ -8,6 +8,7 @@ import SuccessStoriesSection from '@/components/sections/SuccessStoriesSection';
 import PricingSection from '@/components/sections/PricingSection';
 import ResourcesSection from '@/components/sections/ResourcesSection';
 import TeamSection from '@/components/sections/TeamSection';
+import FloatingNav from '@/components/animations/FloatingNav';
 
 export default function HomePage() {
   return (
@@ -22,6 +23,7 @@ export default function HomePage() {
       <PricingSection />
       <ResourcesSection />
       <TeamSection />
+      <FloatingNav />
     </main>
   );
 }

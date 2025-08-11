@@ -5,6 +5,8 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import Button from '@/components/ui/Button';
 import { Resource } from '@/types';
 import { Send } from 'lucide-react';
+import ScrollReveal from '@/components/animations/ScrollReveal';
+import StaggerReveal from '@/components/animations/StaggerReveal';
 
 const leadMagnetFeatures = [
   "20+ real AI use cases for your industry",
@@ -43,7 +45,7 @@ export default function ResourcesSection() {
     <section id="resources" className="py-24" style={{ backgroundColor: 'var(--background)' }}>
       <Container>
         {/* Chat Interface Section */}
-        <div className="mb-20">
+        <ScrollReveal className="mb-20">
           <div className="max-w-2xl mx-auto">
             {/* Chat Header */}
             <div className="text-center mb-6">
@@ -99,17 +101,21 @@ export default function ResourcesSection() {
               </div>
             </div>
           </div>
-        </div>
-        <div className="text-center mb-16">
+        </ScrollReveal>
+        <ScrollReveal className="text-center mb-16">
           <h2 className="text-4xl lg:text-5xl font-bold mb-6" style={{ color: 'var(--text-primary)' }}>
             See The AI CEO Platform in Action
           </h2>
           <p className="text-xl max-w-3xl mx-auto" style={{ color: 'var(--text-body)' }}>
             Watch how our AI specialists work or calculate your potential ROI before starting your free trial.
           </p>
-        </div>
+        </ScrollReveal>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+        <StaggerReveal 
+          staggerDelay={0.3}
+          direction="up"
+          className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start"
+        >
           {/* Watch Demo - Left Column */}
           <div className="space-y-6">
             <Card className="border-2 shadow-lg" style={{ borderColor: '#10B981' }}>
@@ -221,7 +227,7 @@ export default function ResourcesSection() {
             </Card>
 
           </div>
-        </div>
+        </StaggerReveal>
       </Container>
     </section>
   );

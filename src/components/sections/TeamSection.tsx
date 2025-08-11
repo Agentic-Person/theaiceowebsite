@@ -2,6 +2,8 @@ import Link from 'next/link';
 import Container from '@/components/ui/Container';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
 import Button from '@/components/ui/Button';
+import ScrollReveal from '@/components/animations/ScrollReveal';
+import StaggerReveal from '@/components/animations/StaggerReveal';
 
 const teamHighlights = [
   {
@@ -22,7 +24,7 @@ export default function TeamSection() {
   return (
     <section id="team" className="py-24" style={{ backgroundColor: 'var(--background)' }}>
       <Container>
-        <div className="text-center mb-16">
+        <ScrollReveal className="text-center mb-16">
           <h2 className="text-4xl lg:text-5xl font-bold mb-6" style={{ color: 'var(--text-primary)' }}>
             Meet The Team
           </h2>
@@ -32,10 +34,14 @@ export default function TeamSection() {
           <p className="text-lg font-medium italic" style={{ color: 'var(--text-secondary)' }}>
             &ldquo;We want to help as many people as we can&rdquo;
           </p>
-        </div>
+        </ScrollReveal>
 
         {/* Team Highlights */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+        <StaggerReveal 
+          staggerDelay={0.2}
+          direction="up"
+          className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12"
+        >
           {teamHighlights.map((highlight, index) => (
             <Card key={index} className="text-center h-full hover:shadow-lg transition-shadow">
               <CardHeader>
@@ -51,10 +57,11 @@ export default function TeamSection() {
               </CardContent>
             </Card>
           ))}
-        </div>
+        </StaggerReveal>
 
         {/* Company Values Preview */}
-        <div className="rounded-2xl p-8 mb-12" style={{ backgroundColor: 'var(--background)' }}>
+        <ScrollReveal direction="up" delay={0.3}>
+          <div className="rounded-2xl p-8 mb-12" style={{ backgroundColor: 'var(--background)' }}>
           <div className="text-center mb-8">
             <h3 className="text-2xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>Our Philosophy</h3>
             <p style={{ color: 'var(--text-body)' }}>The principles that guide everything we do</p>
@@ -75,27 +82,30 @@ export default function TeamSection() {
               </div>
             ))}
           </div>
-        </div>
+          </div>
+        </ScrollReveal>
 
         {/* CTA */}
-        <div className="text-center">
-          <h3 className="text-2xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>
-            Ready to Work Together?
-          </h3>
-          <p className="mb-6" style={{ color: 'var(--text-body)' }}>
-            Let&apos;s discuss how we can help your business succeed with custom AI solutions.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button variant="primary" size="lg">
-              Schedule a Call
-            </Button>
-            <Link href="/team">
-              <Button variant="outline" size="lg">
-                Meet the Full Team
+        <ScrollReveal direction="up" delay={0.5}>
+          <div className="text-center">
+            <h3 className="text-2xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>
+              Ready to Work Together?
+            </h3>
+            <p className="mb-6" style={{ color: 'var(--text-body)' }}>
+              Let&apos;s discuss how we can help your business succeed with custom AI solutions.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button variant="primary" size="lg">
+                Schedule a Call
               </Button>
-            </Link>
+              <Link href="/team">
+                <Button variant="outline" size="lg">
+                  Meet the Full Team
+                </Button>
+              </Link>
+            </div>
           </div>
-        </div>
+        </ScrollReveal>
       </Container>
     </section>
   );

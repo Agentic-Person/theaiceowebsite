@@ -24,12 +24,20 @@ export default {
       animation: {
         'spiral-from-top': 'spiral-from-top 38s ease-in-out infinite',
         'spiral-from-top-delayed': 'spiral-from-top 43s ease-in-out infinite',
+        'spiral-from-top-tight': 'spiral-from-top-tight 36s ease-in-out infinite',
+        'spiral-from-top-wide': 'spiral-from-top-wide 42s ease-in-out infinite',
         'spiral-from-top-half': 'spiral-from-top-half 38s ease-in-out infinite',
         'spiral-from-top-delayed-half': 'spiral-from-top-half 43s ease-in-out infinite',
+        'spiral-from-top-tight-half': 'spiral-from-top-tight-half 36s ease-in-out infinite',
+        'spiral-from-top-wide-half': 'spiral-from-top-wide-half 42s ease-in-out infinite',
         'spiral-from-bottom': 'spiral-from-bottom 41s ease-in-out infinite',
         'spiral-from-bottom-delayed': 'spiral-from-bottom 46s ease-in-out infinite',
+        'spiral-from-bottom-tight': 'spiral-from-bottom-tight 39s ease-in-out infinite',
+        'spiral-from-bottom-wide': 'spiral-from-bottom-wide 44s ease-in-out infinite',
         'spiral-from-bottom-half': 'spiral-from-bottom-half 41s ease-in-out infinite',
         'spiral-from-bottom-delayed-half': 'spiral-from-bottom-half 46s ease-in-out infinite',
+        'spiral-from-bottom-tight-half': 'spiral-from-bottom-tight-half 39s ease-in-out infinite',
+        'spiral-from-bottom-wide-half': 'spiral-from-bottom-wide-half 44s ease-in-out infinite',
       },
       keyframes: {
         'spiral-from-top': {
@@ -99,6 +107,158 @@ export default {
           },
           '50%': { 
             transform: 'rotate(360deg) translateY(20vh) rotate(-360deg)',
+            opacity: '0',
+            scale: '0.5'
+          },
+          '100%': { 
+            transform: 'rotate(720deg) translateY(0vh) rotate(-720deg)',
+            opacity: '0',
+            scale: '0.1'
+          }
+        },
+        'spiral-from-top-tight': {
+          '0%': { 
+            transform: 'rotate(0deg) translateY(-32vh) rotate(0deg)',
+            opacity: '0',
+            scale: '1.0'
+          },
+          '10%': { 
+            opacity: '0.8',
+          },
+          '90%': { 
+            opacity: '0.8',
+          },
+          '100%': { 
+            transform: 'rotate(720deg) translateY(0vh) rotate(-720deg)',
+            opacity: '0',
+            scale: '0.1'
+          }
+        },
+        'spiral-from-top-wide': {
+          '0%': { 
+            transform: 'rotate(0deg) translateY(-48vh) rotate(0deg)',
+            opacity: '0',
+            scale: '1.0'
+          },
+          '10%': { 
+            opacity: '0.8',
+          },
+          '90%': { 
+            opacity: '0.8',
+          },
+          '100%': { 
+            transform: 'rotate(720deg) translateY(0vh) rotate(-720deg)',
+            opacity: '0',
+            scale: '0.1'
+          }
+        },
+        'spiral-from-bottom-tight': {
+          '0%': { 
+            transform: 'rotate(0deg) translateY(32vh) rotate(0deg)',
+            opacity: '0',
+            scale: '1.0'
+          },
+          '10%': { 
+            opacity: '0.8',
+          },
+          '90%': { 
+            opacity: '0.8',
+          },
+          '100%': { 
+            transform: 'rotate(720deg) translateY(0vh) rotate(-720deg)',
+            opacity: '0',
+            scale: '0.1'
+          }
+        },
+        'spiral-from-bottom-wide': {
+          '0%': { 
+            transform: 'rotate(0deg) translateY(48vh) rotate(0deg)',
+            opacity: '0',
+            scale: '1.0'
+          },
+          '10%': { 
+            opacity: '0.8',
+          },
+          '90%': { 
+            opacity: '0.8',
+          },
+          '100%': { 
+            transform: 'rotate(720deg) translateY(0vh) rotate(-720deg)',
+            opacity: '0',
+            scale: '0.1'
+          }
+        },
+        'spiral-from-top-tight-half': {
+          '0%': { 
+            transform: 'rotate(0deg) translateY(-32vh) rotate(0deg)',
+            opacity: '0',
+            scale: '1.0'
+          },
+          '10%': { 
+            opacity: '0.8',
+          },
+          '50%': { 
+            transform: 'rotate(360deg) translateY(-16vh) rotate(-360deg)',
+            opacity: '0',
+            scale: '0.5'
+          },
+          '100%': { 
+            transform: 'rotate(720deg) translateY(0vh) rotate(-720deg)',
+            opacity: '0',
+            scale: '0.1'
+          }
+        },
+        'spiral-from-top-wide-half': {
+          '0%': { 
+            transform: 'rotate(0deg) translateY(-48vh) rotate(0deg)',
+            opacity: '0',
+            scale: '1.0'
+          },
+          '10%': { 
+            opacity: '0.8',
+          },
+          '50%': { 
+            transform: 'rotate(360deg) translateY(-24vh) rotate(-360deg)',
+            opacity: '0',
+            scale: '0.5'
+          },
+          '100%': { 
+            transform: 'rotate(720deg) translateY(0vh) rotate(-720deg)',
+            opacity: '0',
+            scale: '0.1'
+          }
+        },
+        'spiral-from-bottom-tight-half': {
+          '0%': { 
+            transform: 'rotate(0deg) translateY(32vh) rotate(0deg)',
+            opacity: '0',
+            scale: '1.0'
+          },
+          '10%': { 
+            opacity: '0.8',
+          },
+          '50%': { 
+            transform: 'rotate(360deg) translateY(16vh) rotate(-360deg)',
+            opacity: '0',
+            scale: '0.5'
+          },
+          '100%': { 
+            transform: 'rotate(720deg) translateY(0vh) rotate(-720deg)',
+            opacity: '0',
+            scale: '0.1'
+          }
+        },
+        'spiral-from-bottom-wide-half': {
+          '0%': { 
+            transform: 'rotate(0deg) translateY(48vh) rotate(0deg)',
+            opacity: '0',
+            scale: '1.0'
+          },
+          '10%': { 
+            opacity: '0.8',
+          },
+          '50%': { 
+            transform: 'rotate(360deg) translateY(24vh) rotate(-360deg)',
             opacity: '0',
             scale: '0.5'
           },

@@ -12,8 +12,6 @@ import { handleSectionClick } from '@/lib/scroll';
 const navigationItems: NavigationItem[] = [
   { label: 'Solutions', href: '#solutions' },
   { label: 'Workflow', href: '#workflow' },
-  { label: 'Toolkit', href: '#toolkit' },
-  { label: 'Outcomes', href: '#outcomes' },
   { label: 'Success Stories', href: '#success-stories' },
   { label: 'Resources', href: '#resources' },
   { label: 'Team', href: '#team' },
