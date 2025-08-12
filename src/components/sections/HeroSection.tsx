@@ -25,35 +25,26 @@ export default function HeroSection() {
       {/* Centered Content Layer */}
       <Container className="relative z-10 px-3 sm:px-5 lg:px-6">
         <div className="flex flex-col items-center text-center space-y-12">
-          {/* Main Headlines */}
+          {/* Main Headlines - Fade in from bottom with 0.2s delay */}
           <motion.div 
-            initial={{ opacity: 0, y: 50 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+            transition={{ duration: 0.5, delay: 0.2, ease: "easeOut" }}
             className="space-y-6 max-w-4xl"
           >
             <h1 className="text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight">
-              <motion.span 
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-                className="block"
-              >
+              <span className="block">
                 Why Most Businesses
-              </motion.span>
-              <motion.span 
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.4 }}
-                className="block"
-              >
+              </span>
+              <span className="block">
                 Struggle to Make AI Work
-              </motion.span>
+              </span>
             </h1>
+            {/* Subheadline - Fade in from bottom with 0.4s delay */}
             <motion.p 
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
+              transition={{ duration: 0.5, delay: 0.4, ease: "easeOut" }}
               className="text-xl lg:text-2xl xl:text-3xl max-w-3xl mx-auto" 
               style={{ color: 'var(--text-secondary)' }}
             >
@@ -61,11 +52,11 @@ export default function HeroSection() {
             </motion.p>
           </motion.div>
 
-          {/* CTA Buttons */}
+          {/* CTA Buttons - Fade in from bottom with 0.6s delay */}
           <motion.div 
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.8 }}
+            transition={{ duration: 0.5, delay: 0.6, ease: "easeOut" }}
             className="flex flex-col sm:flex-row gap-6 items-center justify-center"
           >
             <AnimatedButton 
@@ -85,11 +76,11 @@ export default function HeroSection() {
             </AnimatedButton>
           </motion.div>
 
-          {/* Team Credibility Bar */}
+          {/* Team Credibility Bar - Fade in with 0.8s delay */}
           <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 1.0 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.8, ease: "easeOut" }}
             className="pt-8"
           >
             <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6">

@@ -4,6 +4,9 @@ import Link from 'next/link';
 import Container from '@/components/ui/Container';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
 import Button from '@/components/ui/Button';
+import { TechTicker } from '@/components/ui/TechTicker';
+import { AnimatedCard } from '@/components/animations/AnimatedCard';
+import { AnimatedSectionHeader } from '@/components/animations/AnimatedSectionHeader';
 
 const workflowSteps = [
   {
@@ -72,18 +75,23 @@ export default function WorkflowSection() {
   return (
     <section id="workflow" className="py-24" style={{ backgroundColor: 'var(--background)' }}>
       <Container>
-        <div className="text-center mb-16">
+        <AnimatedSectionHeader className="text-center mb-16">
           <h2 className="text-4xl lg:text-5xl font-bold mb-6" style={{ color: 'var(--text-primary)' }}>
             How We Work
           </h2>
           <p className="text-xl max-w-3xl mx-auto" style={{ color: 'var(--text-body)' }}>
             Discovery → Design → Development → Deployment
           </p>
-        </div>
+        </AnimatedSectionHeader>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-16">
           {workflowSteps.map((step, index) => (
-            <Card key={index} className="h-full relative overflow-hidden group hover:shadow-lg transition-shadow">
+            <AnimatedCard 
+              key={index} 
+              index={index}
+              staggerDelay={0.1}
+              className="h-full relative overflow-hidden group"
+            >
               <CardHeader className="text-center pb-4">
                 <div className="w-16 h-16 text-white rounded-full mx-auto mb-4 flex items-center justify-center text-2xl font-bold" style={{ backgroundColor: 'var(--text-primary)' }}>
                   {step.number}
@@ -117,45 +125,13 @@ export default function WorkflowSection() {
               {index < workflowSteps.length - 1 && (
                 <div className="hidden lg:block absolute top-20 -right-4 w-8 h-0.5 z-10" style={{ backgroundColor: 'var(--border)' }}></div>
               )}
-            </Card>
+            </AnimatedCard>
           ))}
         </div>
 
-        {/* Built With Section */}
+        {/* Built With Section - Tech Ticker */}
         <div className="py-16">
-          <div className="text-center mb-8">
-            <h3 className="text-2xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>
-              Built With Industry-Leading Technology
-            </h3>
-          </div>
-          
-          {/* Auto-scrolling ticker */}
-          <div className="relative overflow-hidden">
-            <div 
-              className="flex space-x-8 animate-scroll"
-              style={{
-                animation: 'scroll 20s linear infinite'
-              }}
-            >
-              {[
-                'Anthropic', 'Python', 'Docker', 'n8n', 'OpenAI', 'Vercel',
-                'Anthropic', 'Python', 'Docker', 'n8n', 'OpenAI', 'Vercel' // Duplicate for seamless loop
-              ].map((tech, index) => (
-                <div
-                  key={index}
-                  className="flex-shrink-0 px-6 py-4 rounded-lg border flex items-center justify-center min-w-[120px]"
-                  style={{ 
-                    backgroundColor: 'var(--card-background)',
-                    borderColor: 'var(--border)'
-                  }}
-                >
-                  <span className="font-medium text-sm" style={{ color: 'var(--text-primary)' }}>
-                    {tech}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
+          <TechTicker />
         </div>
 
         {/* CTA Section */}

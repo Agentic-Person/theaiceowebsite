@@ -8,6 +8,7 @@ import Button from '@/components/ui/Button';
 import Container from '@/components/ui/Container';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { handleSectionClick } from '@/lib/scroll';
+import { useActiveSection } from '@/hooks/useActiveSection';
 
 const navigationItems: NavigationItem[] = [
   { label: 'Solutions', href: '#solutions' },
@@ -20,6 +21,10 @@ const navigationItems: NavigationItem[] = [
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  
+  // Active section tracking
+  const sectionIds = navigationItems.map(item => item.href.substring(1));
+  const activeSection = useActiveSection(sectionIds, 100);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -65,25 +70,39 @@ export default function Navbar() {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            {navigationItems.map((item) => (
-              <a
-                key={item.href}
-                href={item.href}
-                onClick={(e) => handleSectionClick(e, item.href.substring(1))}
-                className="font-medium transition-colors duration-300 hover:brightness-110 cursor-pointer"
-                style={{ 
-                  color: 'var(--text-secondary)',
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.color = 'var(--primary)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.color = 'var(--text-secondary)';
-                }}
-              >
-                {item.label}
-              </a>
-            ))}
+            {navigationItems.map((item) => {
+              const sectionId = item.href.substring(1);
+              const isActive = activeSection === sectionId;
+              
+              return (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  onClick={(e) => handleSectionClick(e, sectionId)}
+                  className={cn(
+                    "relative font-medium transition-all duration-300 cursor-pointer",
+                    "hover:text-[var(--primary)]",
+                    isActive ? "text-[var(--primary)]" : "text-[var(--text-secondary)]"
+                  )}
+                  style={{
+                    color: isActive ? 'var(--primary)' : undefined,
+                  }}
+                >
+                  {item.label}
+                  {/* Active indicator */}
+                  <span 
+                    className={cn(
+                      "absolute -bottom-1 left-0 h-0.5 bg-[var(--primary)] transition-all duration-300",
+                      isActive ? "w-full" : "w-0"
+                    )}
+                  />
+                  {/* Hover underline */}
+                  <span 
+                    className="absolute -bottom-1 left-0 w-full h-0.5 bg-[var(--primary)] scale-x-0 transition-transform duration-300 origin-left group-hover:scale-x-100"
+                  />
+                </a>
+              );
+            })}
           </div>
 
           {/* CTA Button and Theme Toggle */}

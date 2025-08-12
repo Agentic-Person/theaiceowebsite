@@ -1,6 +1,5 @@
 'use client';
 
-import { useRef, useCallback } from 'react';
 import Container from '@/components/ui/Container';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
 
@@ -52,28 +51,6 @@ const problems = [
 ];
 
 export default function AIProblemsSection() {
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-    if (!containerRef.current) return;
-    
-    const container = containerRef.current;
-    const rect = container.getBoundingClientRect();
-    const mouseX = e.clientX - rect.left;
-    const containerWidth = rect.width;
-    const scrollWidth = container.scrollWidth;
-    const maxScroll = scrollWidth - containerWidth;
-    
-    // Calculate scroll position based on mouse position (0 to 1)
-    const scrollPercentage = mouseX / containerWidth;
-    const targetScroll = scrollPercentage * maxScroll;
-    
-    container.scrollTo({
-      left: targetScroll,
-      behavior: 'smooth'
-    });
-  }, []);
-
   return (
     <section 
       id="ai-problems" 
@@ -89,30 +66,13 @@ export default function AIProblemsSection() {
             These are the real problems that make executives lose confidence in AI investments. 
             Sound familiar?
           </p>
-          <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
-            Move your mouse left and right to explore each problem
-          </p>
         </div>
 
-        <div 
-          ref={containerRef}
-          onMouseMove={handleMouseMove}
-          className="flex gap-8 overflow-x-auto pb-4 scrollbar-hide cursor-pointer"
-          style={{ 
-            scrollbarWidth: 'none',
-            msOverflowStyle: 'none'
-          }}
-        >
-          <style jsx>{`
-            .scrollbar-hide::-webkit-scrollbar {
-              display: none;
-            }
-          `}</style>
-          
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 lg:gap-8">
           {problems.map((problem, index) => (
             <Card 
               key={index} 
-              className="flex-none w-80 lg:w-96 h-full text-center hover:shadow-xl transition-all duration-300 group hover:scale-105"
+              className="h-full text-center hover:shadow-xl transition-all duration-300 group hover:scale-125"
               style={{ minHeight: '500px', backgroundColor: '#001c38' }}
             >
               <CardHeader className="pb-6">
