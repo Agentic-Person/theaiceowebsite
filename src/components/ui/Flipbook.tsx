@@ -40,21 +40,22 @@ export default function Flipbook({ images, interval = 4500, className = '' }: Fl
 
   return (
     <div className={`relative ${className}`}>
-      <AnimatePresence mode="wait">
+      <AnimatePresence mode="sync">
         <motion.div
           key={currentIndex}
-          initial={{ opacity: 0, scale: 0.9, rotateY: -15 }}
-          animate={{ opacity: 0.65, scale: 1, rotateY: 0 }}
-          exit={{ opacity: 0, scale: 0.9, rotateY: 15 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
           transition={{ 
-            duration: 1, // 1 second fade in to 65%
+            duration: 1.5, // 1.5 second crossfade
             ease: "easeInOut"
           }}
-          className="w-full h-full flex items-center justify-center"
+          className="flex items-center justify-center absolute"
+          style={{ position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%, -50%)' }}
         >
-          {/* Electric Holographic Card */}
+          {/* Electric Holographic Card - 20% larger */}
           <div 
-            className={`w-48 h-48 lg:w-64 lg:h-64 rounded-lg 
+            className={`w-[230px] h-[230px] lg:w-[307px] lg:h-[307px] rounded-lg 
                       backdrop-blur-md flex items-center justify-center
                       relative overflow-hidden transition-all duration-300
                       hover:scale-105 ${styles.electricCard}`}
@@ -73,14 +74,14 @@ export default function Flipbook({ images, interval = 4500, className = '' }: Fl
               `
             }}
           >
-            {/* Background Image Layer - 65% opacity */}
+            {/* Background Image Layer - full opacity (animation handles fading) */}
             <div 
               className="absolute inset-0"
               style={{
                 backgroundImage: `url(${flipbookItems[currentIndex].image})`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
-                opacity: 0.65
+                opacity: 0.8  // Slightly reduced for better text visibility
               }}
             ></div>
             
@@ -181,26 +182,6 @@ export default function Flipbook({ images, interval = 4500, className = '' }: Fl
       \`}</style>
       END COMMENTED SECTION */}
       
-      {/* Electric Page Indicators */}
-            <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 flex gap-2">
-        {flipbookItems.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => setCurrentIndex(index)}
-            className={`w-2 h-2 rounded-full transition-all ${
-              index === currentIndex 
-                      ? 'bg-[#4e8ad3] w-6 shadow-lg' 
-                      : 'bg-white/30 hover:bg-[#4e8ad3]/50'
-            }`}
-            style={{
-              boxShadow: index === currentIndex 
-                      ? '0 0 8px rgba(78, 138, 211, 0.6), 0 0 15px rgba(78, 138, 211, 0.4)'
-                : undefined
-            }}
-            aria-label={`Go to slide ${index + 1}: ${flipbookItems[index].title}`}
-          />
-        ))}
-      </div>
     </div>
   );
 }

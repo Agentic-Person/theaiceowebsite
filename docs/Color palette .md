@@ -15,6 +15,6 @@ Text Colors:
 - Medium Blue Gray: #596d8c (body text and descriptions)
 
 Interactive Elements:
-- Teal: #4e8ad3 (highlights, hover states, and accent elements)
+- Light Blue: #4e8ad3 (highlights, hover states, and accent elements)
 - Success Green: #10B981 (trust indicators and success states)
 - Gradient: Linear gradient from #1782ac to #053a56 for hero sections
