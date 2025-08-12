@@ -1,0 +1,193 @@
+/* Electric Card Animations */
+@keyframes electricPulse {
+  0%, 100% { 
+    box-shadow: 
+      0 0 0 1px rgba(78, 138, 211, 0.4),
+      0 0 15px rgba(78, 138, 211, 0.6),
+      0 0 25px rgba(78, 138, 211, 0.4),
+      0 0 35px rgba(78, 138, 211, 0.3),
+      0 0 50px rgba(78, 138, 211, 0.2),
+      inset 0 0 20px rgba(78, 138, 211, 0.15),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2),
+      inset 0 0 5px rgba(78, 138, 211, 0.1);
+    border-color: rgba(78, 138, 211, 0.6);
+  }
+  50% { 
+    box-shadow: 
+      0 0 0 1px rgba(78, 138, 211, 0.6),
+      0 0 20px rgba(78, 138, 211, 0.8),
+      0 0 35px rgba(78, 138, 211, 0.6),
+      0 0 45px rgba(78, 138, 211, 0.4),
+      0 0 60px rgba(78, 138, 211, 0.3),
+      inset 0 0 25px rgba(78, 138, 211, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.3),
+      inset 0 0 8px rgba(78, 138, 211, 0.15);
+    border-color: rgba(78, 138, 211, 0.8);
+  }
+}
+
+@keyframes shimmerSweep {
+  0% { transform: translateX(-100%) rotate(45deg); }
+  100% { transform: translateX(300%) rotate(45deg); }
+}
+
+@keyframes scanLines {
+  0% { transform: translateY(-100%); opacity: 0.1; }
+  50% { opacity: 0.3; }
+  100% { transform: translateY(100%); opacity: 0.1; }
+}
+
+@keyframes interference {
+  0% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 0.7; transform: scale(1.02); }
+  100% { opacity: 0.3; transform: scale(1); }
+}
+
+@keyframes textGlow {
+  0% { 
+    text-shadow: 
+      0 0 5px rgba(78, 138, 211, 0.8),
+      0 0 10px rgba(78, 138, 211, 0.6),
+      0 0 15px rgba(78, 138, 211, 0.4),
+      0 0 25px rgba(78, 138, 211, 0.3),
+      0 0 35px rgba(78, 138, 211, 0.2),
+      0 2px 4px rgba(0, 0, 0, 0.8);
+  }
+  100% { 
+    text-shadow: 
+      0 0 8px rgba(78, 138, 211, 1),
+      0 0 15px rgba(78, 138, 211, 0.8),
+      0 0 20px rgba(78, 138, 211, 0.6),
+      0 0 30px rgba(78, 138, 211, 0.4),
+      0 0 40px rgba(78, 138, 211, 0.3),
+      0 2px 4px rgba(0, 0, 0, 0.8);
+  }
+}
+
+@keyframes sparkle {
+  0% { 
+    opacity: 0.3; 
+    transform: scale(0.8) rotate(0deg); 
+  }
+  30% { 
+    opacity: 1; 
+    transform: scale(1.2) rotate(216deg); 
+  }
+  50% { 
+    opacity: 1; 
+    transform: scale(1.2) rotate(270deg); 
+  }
+  100% { 
+    opacity: 0.3; 
+    transform: scale(0.8) rotate(360deg); 
+  }
+}
+
+@keyframes spiralParticle {
+  0% {
+    opacity: 0;
+    transform: 
+      translateX(var(--start-x)) 
+      translateY(var(--start-y)) 
+      rotate(0deg) 
+      scale(0.5);
+  }
+  10% {
+    opacity: 0;
+    transform: 
+      translateX(var(--start-x)) 
+      translateY(var(--start-y)) 
+      rotate(36deg) 
+      scale(0.6);
+  }
+  30% {
+    opacity: 1;
+    transform: 
+      translateX(calc(var(--start-x) * 0.7)) 
+      translateY(calc(var(--start-y) * 0.7)) 
+      rotate(216deg) 
+      scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: 
+      translateX(0px) 
+      translateY(0px) 
+      rotate(1800deg) 
+      scale(0.2);
+  }
+}
+
+/* Electric Card Class */
+.electricCard {
+  animation: electricPulse 3s ease-in-out infinite;
+}
+
+.electricShimmer {
+  animation: shimmerSweep 4s ease-in-out infinite;
+}
+
+.electricScanLines {
+  animation: scanLines 2s linear infinite;
+}
+
+.electricInterference {
+  animation: interference 5s ease-in-out infinite alternate;
+}
+
+.electricText {
+  animation: textGlow 2.5s ease-in-out infinite alternate;
+}
+
+/* Particle Effects */
+.electricParticle {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: rgba(78, 138, 211, 0.8);
+  border-radius: 50%;
+  box-shadow: 0 0 4px rgba(78, 138, 211, 0.6);
+  animation: sparkle 3s ease-in-out infinite;
+}
+
+.electricParticle:nth-child(1) { top: 10%; left: 10%; animation-delay: 0s; }
+.electricParticle:nth-child(2) { top: 20%; right: 10%; animation-delay: 0.5s; }
+.electricParticle:nth-child(3) { bottom: 10%; left: 15%; animation-delay: 1s; }
+.electricParticle:nth-child(4) { bottom: 20%; right: 15%; animation-delay: 1.5s; }
+.electricParticle:nth-child(5) { top: 50%; left: 5%; animation-delay: 2s; }
+.electricParticle:nth-child(6) { top: 50%; right: 5%; animation-delay: 2.5s; }
+
+/* Spiral Particle Effects */
+.spiralParticle {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  background: rgba(78, 138, 211, 0.9);
+  border-radius: 50%;
+  box-shadow: 0 0 3px rgba(78, 138, 211, 0.7);
+  left: 50%;
+  top: 50%;
+  transform-origin: center;
+  animation: spiralParticle 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  animation-fill-mode: both;
+}
+
+/* Global animation for spiral particles */
+@keyframes spiralParticleInline {
+  0% {
+    opacity: 0;
+    transform: rotate(0deg) translateX(150px) translateY(0px) scale(0.5);
+  }
+  10% {
+    opacity: 0;
+    transform: rotate(36deg) translateX(150px) translateY(0px) scale(0.6);
+  }
+  30% {
+    opacity: 1;
+    transform: rotate(216deg) translateX(105px) translateY(0px) scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: rotate(1800deg) translateX(0px) translateY(0px) scale(0.2);
+  }
+}

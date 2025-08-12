@@ -13,7 +13,7 @@ const navigationItems: NavigationItem[] = [
   { label: 'Solutions', href: '#solutions' },
   { label: 'Workflow', href: '#workflow' },
   { label: 'Success Stories', href: '#success-stories' },
-  { label: 'Resources', href: '#resources' },
+  { label: 'Demos', href: '#demos' },
   { label: 'Team', href: '#team' },
 ];
 

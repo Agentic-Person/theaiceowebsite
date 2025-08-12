@@ -2,13 +2,17 @@
 
 import Container from '@/components/ui/Container';
 import Button from '@/components/ui/Button';
-import ParticleSystem from '@/components/ui/ParticleSystem';
 import Flipbook from '@/components/ui/Flipbook';
+import ParticleSystem from '@/components/ui/ParticleSystem_02';
 import { Send } from 'lucide-react';
 import { motion } from 'framer-motion';
 import AnimatedButton from '@/components/animations/AnimatedButton';
+import { useState, useEffect } from 'react';
 
 export default function HeroSection() {
+  // Burst mode state management - keeping it always true for continuous burst
+  const [burstMode, setBurstMode] = useState(true);
+
   return (
     <section 
       id="hero" 
@@ -18,13 +22,26 @@ export default function HeroSection() {
         color: 'var(--text-primary)'
       }}
     >
-      {/* Desktop Particle Systems - positioned behind content at multiple convergence points */}
+      {/* PARTICLE SYSTEMS */}
       <div className="absolute inset-0 hidden lg:block z-0">
         <div className="relative w-full h-full">
-          {/* Particle System 1: Converging at 70% horizontal, 35% vertical (right side, upper-middle) */}
-          <ParticleSystem className="w-full h-full absolute inset-0" convergencePoint="70%" convergenceVertical="35%" particleCount={0.5} />
-          {/* Particle System 2: Converging at 85% horizontal, 35% vertical (far right side, upper-middle) */}
-          <ParticleSystem className="w-full h-full absolute inset-0" convergencePoint="85%" convergenceVertical="35%" particleCount={0.5} />
+          {/* SYSTEM 1: "SlowSpiral1" - Flipbook center convergence */}
+          <ParticleSystem 
+            className="w-full h-full absolute inset-0" 
+            convergencePoint="70%" 
+            convergenceVertical="35%" 
+            particleCount={0.5}
+            burstMode={burstMode}
+          />
+          
+          {/* SYSTEM 2: "SlowSpiral2" - Right side convergence */}
+          <ParticleSystem 
+            className="w-full h-full absolute inset-0" 
+            convergencePoint="85%" 
+            convergenceVertical="35%" 
+            particleCount={0.5}
+            burstMode={burstMode}
+          />
         </div>
       </div>
 
@@ -45,8 +62,7 @@ export default function HeroSection() {
           }}
         >
           <Flipbook 
-            images={[]} // Add your image URLs here
-            interval={4000}
+            interval={4500} // 1s fade in + 2.5s hold + 1s fade out
             className="relative"
           />
         </motion.div>
@@ -55,10 +71,6 @@ export default function HeroSection() {
       {/* Content Container with 60/40 split */}
       <Container className="relative z-10 px-3 sm:px-5 lg:px-6 w-full">
         <div className="grid grid-cols-1 lg:grid-cols-[60%_40%] gap-8 lg:gap-12 items-center">
-          {/* Mobile/Tablet Particle System - shown above content on smaller screens */}
-          <div className="relative h-[30vh] block lg:hidden mb-8">
-            <ParticleSystem className="w-full h-full" />
-          </div>
           
           {/* Left Column - Content (60%) */}
           <div className="flex flex-col items-center lg:items-start text-center lg:text-left space-y-12">
@@ -76,7 +88,7 @@ export default function HeroSection() {
                 transition={{ duration: 0.8, delay: 0.2 }}
                 className="block"
               >
-                Why Most Businesses
+Intelligent Systems, Built for Humans.
               </motion.span>
               <motion.span 
                 initial={{ opacity: 0, y: 30 }}
@@ -84,7 +96,7 @@ export default function HeroSection() {
                 transition={{ duration: 0.8, delay: 0.4 }}
                 className="block"
               >
-                Struggle to Make AI Work
+                Powered by AI.
               </motion.span>
             </h1>
               <motion.p 
@@ -94,32 +106,36 @@ export default function HeroSection() {
                 className="text-xl lg:text-2xl xl:text-3xl" 
                 style={{ color: 'var(--text-secondary)' }}
               >
-                AI isn't magic. Without the right strategy, most implementations fail.
+                We build smart systems that remove repetitive tasks, and lighten the load for SMBs.
               </motion.p>
             </motion.div>
 
-            {/* CTA Buttons */}
+            {/* CTA Button */}
             <motion.div 
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.8 }}
-              className="flex flex-col sm:flex-row gap-6 items-center lg:items-start justify-center lg:justify-start w-full lg:w-auto"
+              className="flex items-center justify-center w-full px-4"
             >
-              <AnimatedButton 
-              className="h-14 px-8 border-2"
-              size="lg"
-              style={{ backgroundColor: '#FFC44F', borderColor: '#FFFFFF' }}
-            >
-              Book your AI strategy session
-            </AnimatedButton>
-            <AnimatedButton 
-              variant="outline"
-              className="h-14 px-8 border-2"
-              size="lg"
-              style={{ borderColor: '#FFFFFF', color: '#FFC44F' }}
+              <motion.button
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.95 }}
+                transition={{ duration: 0.2 }}
+                style={{
+                  backgroundColor: '#4e8ad3',
+                  borderColor: '#FFFFFF',
+                  color: '#FFFFFF',
+                  border: '2px solid #FFFFFF',
+                  padding: '12px 32px',
+                  fontSize: '18px',
+                  fontWeight: '500',
+                  borderRadius: '8px',
+                  cursor: 'pointer',
+                  fontFamily: 'inherit'
+                }}
               >
-                Download AI EDGE eBook
-              </AnimatedButton>
+                Book a quick discovery call
+              </motion.button>
             </motion.div>
 
             {/* Team Credibility Bar */}

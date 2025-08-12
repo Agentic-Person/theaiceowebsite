@@ -55,7 +55,7 @@ npm install react-intersection-observer
 
 ### Hero Particle System
 - **Particle Count**: 50-100 based on device performance
-- **Colors**: Match theme (#36b0d9, #002246, #9ab6e0)
+- **Colors**: Match theme (#4e8ad3, #002246, #9ab6e0)
 - **Movement**: Slow floating with mouse interaction
 - **Performance**: 60fps target, fallback for low-end devices
 

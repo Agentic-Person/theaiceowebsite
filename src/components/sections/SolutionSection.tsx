@@ -8,69 +8,42 @@ import Button from '@/components/ui/Button';
 import ScrollReveal from '@/components/animations/ScrollReveal';
 import StaggerReveal from '@/components/animations/StaggerReveal';
 
-interface AISpecialist {
+interface SolutionPillar {
   title: string;
-  badge: string;
-  tagline: string;
-  keyPoints: string[];
-  price: string;
+  description: string;
+  features: string[];
 }
 
-const aiSpecialists: AISpecialist[] = [
+const solutionPillars: SolutionPillar[] = [
   {
-    title: "Bankruptcy Navigator v1.101",
-    badge: "LEGAL AI",
-    tagline: "AI Paralegal for Chapter 7 & 11 Cases",
-    keyPoints: [
-      "Manages entire bankruptcy workflow",
-      "SMB-focused knowledge base",
-      "Audit-compliant with full logging"
-    ],
-    price: "From $497/month"
+    title: "Understand First",
+    description: "We start with a deep dive into YOUR processes, challenges, and goals. No cookie-cutter solutions.",
+    features: [
+      "Free 15-minute assessment",
+      "Custom opportunity analysis",
+      "Industry-specific recommendations",
+      "ROI projections for your business"
+    ]
   },
   {
-    title: "Equipment Finance Helper",
-    badge: "FINANCE AI",
-    tagline: "Deal Progression Coach with EQ",
-    keyPoints: [
-      "30% higher close rates",
-      "Hidden risk detection",
-      "Three mastery levels"
-    ],
-    price: "From $397/month"
+    title: "Build Custom", 
+    description: "Every solution is built specifically for your business, integrating seamlessly with your existing workflows.",
+    features: [
+      "Tailored AI tools and agents",
+      "Secure, private implementations",
+      "Integration with your current systems",
+      "Scalable architecture for growth"
+    ]
   },
   {
-    title: "AI Regulation Monitor",
-    badge: "COMPLIANCE AI",
-    tagline: "24/7 Banking Compliance Tracking",
-    keyPoints: [
-      "Multi-regulator monitoring",
-      "60% faster policy updates",
-      "Real-time alerts"
-    ],
-    price: "From $797/month"
-  },
-  {
-    title: "AI Gimmick Guard",
-    badge: "SECURITY AI",
-    tagline: "Vendor Fraud Detection System",
-    keyPoints: [
-      "5-point risk assessment",
-      "Plain English reports",
-      "Scam protection"
-    ],
-    price: "From $297/month"
-  },
-  {
-    title: "TValue Helper",
-    badge: "ANALYTICS AI",
-    tagline: "Statistical Analysis Assistant",
-    keyPoints: [
-      "Platform documentation integrated",
-      "Adaptive to skill level",
-      "24/7 availability"
-    ],
-    price: "From $297/month"
+    title: "Support Always",
+    description: "We're your AI success partners, providing ongoing optimization and support as your business grows.",
+    features: [
+      "Dedicated success manager",
+      "Regular performance reviews",
+      "Continuous optimization",
+      "24/7 technical support"
+    ]
   }
 ];
 
@@ -80,159 +53,63 @@ export default function SolutionSection() {
       <Container>
         <ScrollReveal className="text-center mb-16">
           <h2 className="text-4xl lg:text-5xl font-bold mb-6" style={{ color: 'var(--text-primary)' }}>
-            5 Industry AI Specialists Ready to Deploy
+            How We Build AI That Actually Works
           </h2>
-          <p className="text-xl max-w-3xl mx-auto" style={{ color: 'var(--text-body)' }}>
-            Each powered by Prompt Surgeon™ technology with enterprise security built-in
+          <p className="text-xl max-w-3xl mx-auto" style={{ color: 'var(--text-secondary)' }}>
+            Our proven three-pillar approach ensures your AI implementation delivers 
+            real results, not just impressive demos.
           </p>
         </ScrollReveal>
 
-        {/* 2-2-1 Grid Layout */}
-        <div className="space-y-8 mb-16">
-          {/* First Row - 2 Cards */}
-          <StaggerReveal 
-            staggerDelay={0.2} 
-            direction="up" 
-            className="grid grid-cols-1 lg:grid-cols-2 gap-8"
-          >
-            {aiSpecialists.slice(0, 2).map((specialist, index) => (
-              <Card key={index} className="h-full relative overflow-hidden group hover:shadow-xl transition-shadow">
-                <CardHeader>
-                  <div className="flex items-center justify-between mb-4">
-                    <span className="px-3 py-1 text-xs font-bold rounded-full text-white" style={{ backgroundColor: '#10B981' }}>
-                      {specialist.badge}
-                    </span>
-                    <span className="text-lg font-bold" style={{ color: 'var(--text-primary)' }}>
-                      {specialist.price}
-                    </span>
+        <StaggerReveal 
+          staggerDelay={0.2} 
+          direction="up" 
+          className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16"
+        >
+          {solutionPillars.map((pillar, index) => (
+            <Card key={index} className="h-full relative overflow-hidden group hover:shadow-xl transition-shadow">
+              <CardHeader>
+                <div className="flex items-center space-x-3 mb-4">
+                  <div className="w-10 h-10 text-white rounded-lg flex items-center justify-center font-bold" 
+                       style={{ backgroundColor: 'var(--primary)' }}>
+                    {index + 1}
                   </div>
-                  <CardTitle className="text-2xl mb-2">
-                    {specialist.title}
+                  <CardTitle className="text-2xl">
+                    {pillar.title}
                   </CardTitle>
-                  <p className="text-lg font-medium mb-4" style={{ color: 'var(--text-secondary)' }}>
-                    {specialist.tagline}
-                  </p>
-                </CardHeader>
-                <CardContent>
-                  <ul className="space-y-3 mb-6">
-                    {specialist.keyPoints.map((point, pointIndex) => (
-                      <li key={pointIndex} className="flex items-start space-x-3">
-                        <div className="flex-shrink-0 w-5 h-5 rounded-full mt-0.5 flex items-center justify-center" style={{ backgroundColor: '#10B981' }}>
-                          <div className="w-2 h-2 rounded-full bg-white"></div>
-                        </div>
-                        <span style={{ color: 'var(--text-body)' }}>{point}</span>
-                      </li>
-                    ))}
-                  </ul>
-                  <Button variant="primary" className="w-full" style={{ backgroundColor: '#10B981' }}>
-                    Start Free Trial
-                  </Button>
-                </CardContent>
-                
-                {/* Hover Effect */}
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity" style={{ background: 'linear-gradient(to right, #10B981/5, #10B981/10)' }}></div>
-              </Card>
-            ))}
-          </StaggerReveal>
+                </div>
+                <p className="leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+                  {pillar.description}
+                </p>
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-3">
+                  {pillar.features.map((feature, featureIndex) => (
+                    <li key={featureIndex} className="flex items-start space-x-3">
+                      <div className="flex-shrink-0 w-5 h-5 rounded-full mt-0.5 flex items-center justify-center" 
+                           style={{ backgroundColor: 'var(--card-background)' }}>
+                        <div className="w-2 h-2 rounded-full" style={{ backgroundColor: 'var(--primary)' }}></div>
+                      </div>
+                      <span style={{ color: 'var(--text-body)' }}>{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+              </CardContent>
+              
+              {/* Hover Effect */}
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" 
+                   style={{ background: 'linear-gradient(to right, rgba(255, 196, 79, 0.05), rgba(255, 196, 79, 0.1))' }}></div>
+            </Card>
+          ))}
+        </StaggerReveal>
 
-          {/* Second Row - 2 Cards */}
-          <StaggerReveal 
-            staggerDelay={0.2} 
-            direction="up" 
-            className="grid grid-cols-1 lg:grid-cols-2 gap-8"
-          >
-            {aiSpecialists.slice(2, 4).map((specialist, index) => (
-              <Card key={index + 2} className="h-full relative overflow-hidden group hover:shadow-xl transition-shadow">
-                <CardHeader>
-                  <div className="flex items-center justify-between mb-4">
-                    <span className="px-3 py-1 text-xs font-bold rounded-full text-white" style={{ backgroundColor: '#10B981' }}>
-                      {specialist.badge}
-                    </span>
-                    <span className="text-lg font-bold" style={{ color: 'var(--text-primary)' }}>
-                      {specialist.price}
-                    </span>
-                  </div>
-                  <CardTitle className="text-2xl mb-2">
-                    {specialist.title}
-                  </CardTitle>
-                  <p className="text-lg font-medium mb-4" style={{ color: 'var(--text-secondary)' }}>
-                    {specialist.tagline}
-                  </p>
-                </CardHeader>
-                <CardContent>
-                  <ul className="space-y-3 mb-6">
-                    {specialist.keyPoints.map((point, pointIndex) => (
-                      <li key={pointIndex} className="flex items-start space-x-3">
-                        <div className="flex-shrink-0 w-5 h-5 rounded-full mt-0.5 flex items-center justify-center" style={{ backgroundColor: '#10B981' }}>
-                          <div className="w-2 h-2 rounded-full bg-white"></div>
-                        </div>
-                        <span style={{ color: 'var(--text-body)' }}>{point}</span>
-                      </li>
-                    ))}
-                  </ul>
-                  <Button variant="primary" className="w-full" style={{ backgroundColor: '#10B981' }}>
-                    Start Free Trial
-                  </Button>
-                </CardContent>
-                
-                {/* Hover Effect */}
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity" style={{ background: 'linear-gradient(to right, #10B981/5, #10B981/10)' }}></div>
-              </Card>
-            ))}
-          </StaggerReveal>
-
-          {/* Third Row - 1 Card Centered */}
-          <ScrollReveal direction="up" delay={0.4}>
-            <div className="flex justify-center">
-              <div className="w-full lg:w-1/2">
-              <Card className="h-full relative overflow-hidden group hover:shadow-xl transition-shadow">
-                <CardHeader>
-                  <div className="flex items-center justify-between mb-4">
-                    <span className="px-3 py-1 text-xs font-bold rounded-full text-white" style={{ backgroundColor: '#10B981' }}>
-                      {aiSpecialists[4].badge}
-                    </span>
-                    <span className="text-lg font-bold" style={{ color: 'var(--text-primary)' }}>
-                      {aiSpecialists[4].price}
-                    </span>
-                  </div>
-                  <CardTitle className="text-2xl mb-2">
-                    {aiSpecialists[4].title}
-                  </CardTitle>
-                  <p className="text-lg font-medium mb-4" style={{ color: 'var(--text-secondary)' }}>
-                    {aiSpecialists[4].tagline}
-                  </p>
-                </CardHeader>
-                <CardContent>
-                  <ul className="space-y-3 mb-6">
-                    {aiSpecialists[4].keyPoints.map((point, pointIndex) => (
-                      <li key={pointIndex} className="flex items-start space-x-3">
-                        <div className="flex-shrink-0 w-5 h-5 rounded-full mt-0.5 flex items-center justify-center" style={{ backgroundColor: '#10B981' }}>
-                          <div className="w-2 h-2 rounded-full bg-white"></div>
-                        </div>
-                        <span style={{ color: 'var(--text-body)' }}>{point}</span>
-                      </li>
-                    ))}
-                  </ul>
-                  <Button variant="primary" className="w-full" style={{ backgroundColor: '#10B981' }}>
-                    Start Free Trial
-                  </Button>
-                </CardContent>
-                
-                {/* Hover Effect */}
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity" style={{ background: 'linear-gradient(to right, #10B981/5, #10B981/10)' }}></div>
-              </Card>
-              </div>
-            </div>
-          </ScrollReveal>
-        </div>
-
-        {/* Note about trials */}
-        <ScrollReveal direction="fade" delay={0.6}>
-          <div className="text-center">
-            <p className="text-lg mb-8" style={{ color: 'var(--text-secondary)' }}>
-              All solutions include: 14-day free trial • Cancel anytime • White-glove onboarding
-            </p>
-          </div>
+        {/* CTA */}
+        <ScrollReveal direction="fade" delay={0.6} className="text-center">
+          <Link href="/workflow">
+            <Button variant="outline" size="lg">
+              See How We Do It
+            </Button>
+          </Link>
         </ScrollReveal>
       </Container>
     </section>

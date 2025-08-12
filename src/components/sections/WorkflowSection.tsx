@@ -1,9 +1,9 @@
-'use client';
-
-import Link from 'next/link';
 import Container from '@/components/ui/Container';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
 import Button from '@/components/ui/Button';
+import { Send } from 'lucide-react';
+import ScrollReveal from '@/components/animations/ScrollReveal';
+import Image from 'next/image';
 
 const workflowSteps = [
   {
@@ -69,6 +69,14 @@ const workflowSteps = [
 ];
 
 export default function WorkflowSection() {
+  const stepImages: string[] = [
+    '/01_discover_card_v2.webp',
+    '/02_design_solutions_card.webp',
+    '/03_development_build_card.webp',
+    '/04_training_implementation_card.png',
+    '/05_customer_success_support_card.png',
+  ];
+
   return (
     <section id="workflow" className="py-24" style={{ backgroundColor: 'var(--background)' }}>
       <Container>
@@ -77,7 +85,8 @@ export default function WorkflowSection() {
             How We Work
           </h2>
           <p className="text-xl max-w-3xl mx-auto" style={{ color: 'var(--text-body)' }}>
-            Discovery → Design → Development → Deployment
+            Our proven 5-step process ensures your AI implementation succeeds from day one. 
+            From discovery to delivery, we&apos;re with you every step of the way.
           </p>
         </div>
 
@@ -85,8 +94,15 @@ export default function WorkflowSection() {
           {workflowSteps.map((step, index) => (
             <Card key={index} className="h-full relative overflow-hidden group hover:shadow-lg transition-shadow">
               <CardHeader className="text-center pb-4">
-                <div className="w-16 h-16 text-white rounded-full mx-auto mb-4 flex items-center justify-center text-2xl font-bold" style={{ backgroundColor: 'var(--text-primary)' }}>
-                  {step.number}
+                <div className="mx-auto mb-4 w-32 h-32 rounded-lg overflow-hidden shadow-lg border-2" style={{ backgroundColor: 'var(--card-background)', borderColor: '#4e8ad3' }}>
+                  <Image
+                    src={stepImages[index]}
+                    alt={step.title}
+                    width={128}
+                    height={128}
+                    className="w-32 h-32 object-cover"
+                    priority={index < 2}
+                  />
                 </div>
                 <CardTitle className="text-xl mb-2">
                   {step.title}
@@ -121,62 +137,64 @@ export default function WorkflowSection() {
           ))}
         </div>
 
-        {/* Built With Section */}
-        <div className="py-16">
-          <div className="text-center mb-8">
-            <h3 className="text-2xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>
-              Built With Industry-Leading Technology
-            </h3>
-          </div>
-          
-          {/* Auto-scrolling ticker */}
-          <div className="relative overflow-hidden">
+        {/* Chat Interface Section */}
+        <ScrollReveal className="mt-16">
+          <div className="max-w-4xl mx-auto">
+            {/* Chat Header */}
+            <div className="text-center mb-6">
+              <h3 className="text-2xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>
+                Our custom AI chatbot can QUICKLY answer 100% of your questions...      80% of the time.
+              </h3>
+            </div>
+
+            {/* Chat Interface */}
             <div 
-              className="flex space-x-8 animate-scroll"
-              style={{
-                animation: 'scroll 20s linear infinite'
-              }}
+              className="rounded-2xl p-8 shadow-xl"
+              style={{ backgroundColor: 'var(--card-background)' }}
             >
-              {[
-                'Anthropic', 'Python', 'Docker', 'n8n', 'OpenAI', 'Vercel',
-                'Anthropic', 'Python', 'Docker', 'n8n', 'OpenAI', 'Vercel' // Duplicate for seamless loop
-              ].map((tech, index) => (
-                <div
-                  key={index}
-                  className="flex-shrink-0 px-6 py-4 rounded-lg border flex items-center justify-center min-w-[120px]"
-                  style={{ 
-                    backgroundColor: 'var(--card-background)',
-                    borderColor: 'var(--border)'
+              {/* Chat Input */}
+              <div className="relative mb-6">
+                <input
+                  type="text"
+                  placeholder="Ask about our AI solutions..."
+                  className="w-full px-4 py-4 pr-12 rounded-xl border text-base focus:outline-none focus:ring-2"
+                  style={{
+                    backgroundColor: 'var(--background)',
+                    borderColor: 'var(--border)',
+                    color: 'var(--text-primary)'
                   }}
+                />
+                <button 
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 p-2 rounded-lg hover:brightness-110 transition-colors"
+                  style={{ backgroundColor: 'var(--primary)' }}
                 >
-                  <span className="font-medium text-sm" style={{ color: 'var(--text-primary)' }}>
-                    {tech}
-                  </span>
-                </div>
-              ))}
+                  <Send className="w-4 h-4 text-white" />
+                </button>
+              </div>
+
+              {/* Suggestion Chips */}
+              <div className="flex flex-wrap gap-2">
+                {[
+                  "Which AI specialist fits my business?",
+                  "Show me Bankruptcy Navigator features",
+                  "How does the free trial work?"
+                ].map((suggestion, index) => (
+                  <button
+                    key={index}
+                    className="px-4 py-2 rounded-full text-sm border hover:brightness-110 transition-colors"
+                    style={{
+                      borderColor: 'var(--border)',
+                      color: 'var(--text-body)',
+                      backgroundColor: 'var(--background)'
+                    }}
+                  >
+                    {suggestion}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
-        </div>
-
-        {/* CTA Section */}
-        <div className="text-center rounded-2xl p-8" style={{ backgroundColor: 'var(--background)' }}>
-          <h3 className="text-2xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>
-            Ready to Get Started?
-          </h3>
-          <p className="mb-6" style={{ color: 'var(--text-body)' }}>
-            Begin with our free assessment and discover how AI can transform your business.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button variant="primary" size="lg">
-              Start with Free Assessment
-            </Button>
-            <Link href="/workflow">
-              <Button variant="outline" size="lg">
-                Learn More About Our Process
-              </Button>
-            </Link>
-          </div>
-        </div>
+        </ScrollReveal>
       </Container>
     </section>
   );

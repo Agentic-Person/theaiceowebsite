@@ -127,7 +127,7 @@
 - [x] **Color Scheme**: Professional dark blue theme with CSS variables
 - [x] **Theme Provider**: next-themes integration with forced dark mode
 - [x] **Color Variables**: Complete color system (background, cards, text, borders)
-  - Primary: #36b0d9 (teal), Background: #002246 (dark blue)
+  - Primary: #4e8ad3 (blue), Background: #002246 (dark blue)
   - Card Background: #001d39, Text: #FFFFFF, Secondary: #9ab6e0
 - [x] **Theme Toggle**: Component ready for future light/dark mode switching
 - [x] **CSS System**: Proper CSS variable application with fallbacks

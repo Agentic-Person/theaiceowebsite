@@ -84,40 +84,6 @@ export default function OutcomesSection() {
           ))}
         </div>
 
-        {/* Results Preview */}
-        <div className="rounded-2xl p-8 text-center" style={{ backgroundColor: 'var(--background)' }}>
-          <h3 className="text-2xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>
-            Ready to See These Results?
-          </h3>
-          <p className="mb-6 max-w-2xl mx-auto" style={{ color: 'var(--text-body)' }}>
-            Our clients typically see meaningful improvements within 30-60 days of implementation. 
-            Start with a free assessment to identify your biggest opportunities.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button variant="primary" size="lg">
-              Get Your Free Assessment
-            </Button>
-            <Button variant="outline" size="lg">
-              View Client Results
-            </Button>
-          </div>
-          
-          {/* Stats Preview */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12 pt-8" style={{ borderTop: '1px solid var(--border)' }}>
-            <div className="text-center">
-              <div className="text-3xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>85%</div>
-              <div className="text-sm" style={{ color: 'var(--text-secondary)' }}>Average efficiency gain</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>45 days</div>
-              <div className="text-sm" style={{ color: 'var(--text-secondary)' }}>Typical time to value</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>3.2x</div>
-              <div className="text-sm" style={{ color: 'var(--text-secondary)' }}>Average ROI within 12 months</div>
-            </div>
-          </div>
-        </div>
       </Container>
     </section>
   );
