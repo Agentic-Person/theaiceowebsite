@@ -4,37 +4,40 @@ import { useEffect, useState } from 'react';
 
 interface ParticleSystemProps {
   className?: string;
+  convergencePoint?: string; // Custom horizontal position for particle convergence
+  convergenceVertical?: string; // Custom vertical position for particle convergence
+  particleCount?: number; // Multiplier for particle count (0-1)
 }
 
-export default function ParticleSystem({ className = '' }: ParticleSystemProps) {
+export default function ParticleSystem({ className = '', convergencePoint = '70%', convergenceVertical = '50%', particleCount = 1 }: ParticleSystemProps) {
   const [particles, setParticles] = useState<Array<{ id: number; delay: number; animation: string; color: string; size: string; randomX: number; randomY: number; randomRotation: number }>>([]);
 
   useEffect(() => {
     // Generate particles with varied properties
     const particleConfigs = [
       // Top spiral emitter - full journey particles (varied radii)
-      { animation: 'animate-spiral-from-top', count: 25, colors: ['#001c38', '#001c38', '#001d39', '#001d39', '#36b0d9', '#596d8c', '#9ab6e0'] },
-      { animation: 'animate-spiral-from-top-delayed', count: 20, colors: ['#001c38', '#001c38', '#001d39', '#596d8c', '#9ab6e0'] },
-      { animation: 'animate-spiral-from-top-tight', count: 25, colors: ['#001c38', '#001d39', '#36b0d9', '#596d8c', '#9ab6e0'] },
-      { animation: 'animate-spiral-from-top-wide', count: 20, colors: ['#001c38', '#001d39', '#596d8c', '#9ab6e0'] },
+      { animation: 'animate-spiral-from-top', count: Math.floor(25 * particleCount), colors: ['#001c38', '#001c38', '#001d39', '#001d39', '#36b0d9', '#596d8c', '#9ab6e0'] },
+      { animation: 'animate-spiral-from-top-delayed', count: Math.floor(20 * particleCount), colors: ['#001c38', '#001c38', '#001d39', '#596d8c', '#9ab6e0'] },
+      { animation: 'animate-spiral-from-top-tight', count: Math.floor(25 * particleCount), colors: ['#001c38', '#001d39', '#36b0d9', '#596d8c', '#9ab6e0'] },
+      { animation: 'animate-spiral-from-top-wide', count: Math.floor(20 * particleCount), colors: ['#001c38', '#001d39', '#596d8c', '#9ab6e0'] },
       
       // Top spiral emitter - half journey particles (varied radii)
-      { animation: 'animate-spiral-from-top-half', count: 25, colors: ['#001c38', '#001c38', '#001d39', '#001d39', '#36b0d9', '#596d8c', '#9ab6e0'] },
-      { animation: 'animate-spiral-from-top-delayed-half', count: 20, colors: ['#001c38', '#001c38', '#001d39', '#9ab6e0', '#36b0d9'] },
-      { animation: 'animate-spiral-from-top-tight-half', count: 25, colors: ['#001c38', '#001d39', '#36b0d9', '#596d8c'] },
-      { animation: 'animate-spiral-from-top-wide-half', count: 20, colors: ['#001c38', '#001d39', '#9ab6e0', '#36b0d9'] },
+      { animation: 'animate-spiral-from-top-half', count: Math.floor(25 * particleCount), colors: ['#001c38', '#001c38', '#001d39', '#001d39', '#36b0d9', '#596d8c', '#9ab6e0'] },
+      { animation: 'animate-spiral-from-top-delayed-half', count: Math.floor(20 * particleCount), colors: ['#001c38', '#001c38', '#001d39', '#9ab6e0', '#36b0d9'] },
+      { animation: 'animate-spiral-from-top-tight-half', count: Math.floor(25 * particleCount), colors: ['#001c38', '#001d39', '#36b0d9', '#596d8c'] },
+      { animation: 'animate-spiral-from-top-wide-half', count: Math.floor(20 * particleCount), colors: ['#001c38', '#001d39', '#9ab6e0', '#36b0d9'] },
       
       // Bottom spiral emitter - full journey particles (varied radii)
-      { animation: 'animate-spiral-from-bottom', count: 25, colors: ['#001c38', '#001c38', '#001d39', '#001d39', '#596d8c', '#9ab6e0'] },
-      { animation: 'animate-spiral-from-bottom-delayed', count: 20, colors: ['#001c38', '#001c38', '#001d39', '#36b0d9', '#596d8c', '#9ab6e0'] },
-      { animation: 'animate-spiral-from-bottom-tight', count: 25, colors: ['#001c38', '#001d39', '#596d8c', '#9ab6e0'] },
-      { animation: 'animate-spiral-from-bottom-wide', count: 20, colors: ['#001c38', '#001d39', '#36b0d9', '#596d8c'] },
+      { animation: 'animate-spiral-from-bottom', count: Math.floor(25 * particleCount), colors: ['#001c38', '#001c38', '#001d39', '#001d39', '#596d8c', '#9ab6e0'] },
+      { animation: 'animate-spiral-from-bottom-delayed', count: Math.floor(20 * particleCount), colors: ['#001c38', '#001c38', '#001d39', '#36b0d9', '#596d8c', '#9ab6e0'] },
+      { animation: 'animate-spiral-from-bottom-tight', count: Math.floor(25 * particleCount), colors: ['#001c38', '#001d39', '#596d8c', '#9ab6e0'] },
+      { animation: 'animate-spiral-from-bottom-wide', count: Math.floor(20 * particleCount), colors: ['#001c38', '#001d39', '#36b0d9', '#596d8c'] },
       
       // Bottom spiral emitter - half journey particles (varied radii)
-      { animation: 'animate-spiral-from-bottom-half', count: 25, colors: ['#001c38', '#001c38', '#001d39', '#001d39', '#596d8c', '#36b0d9'] },
-      { animation: 'animate-spiral-from-bottom-delayed-half', count: 20, colors: ['#001c38', '#001c38', '#001d39', '#9ab6e0', '#36b0d9', '#596d8c'] },
-      { animation: 'animate-spiral-from-bottom-tight-half', count: 25, colors: ['#001c38', '#001d39', '#596d8c', '#36b0d9'] },
-      { animation: 'animate-spiral-from-bottom-wide-half', count: 20, colors: ['#001c38', '#001d39', '#9ab6e0', '#36b0d9'] }
+      { animation: 'animate-spiral-from-bottom-half', count: Math.floor(25 * particleCount), colors: ['#001c38', '#001c38', '#001d39', '#001d39', '#596d8c', '#36b0d9'] },
+      { animation: 'animate-spiral-from-bottom-delayed-half', count: Math.floor(20 * particleCount), colors: ['#001c38', '#001c38', '#001d39', '#9ab6e0', '#36b0d9', '#596d8c'] },
+      { animation: 'animate-spiral-from-bottom-tight-half', count: Math.floor(25 * particleCount), colors: ['#001c38', '#001d39', '#596d8c', '#36b0d9'] },
+      { animation: 'animate-spiral-from-bottom-wide-half', count: Math.floor(20 * particleCount), colors: ['#001c38', '#001d39', '#9ab6e0', '#36b0d9'] }
     ];
 
     const generatedParticles: Array<{ id: number; delay: number; animation: string; color: string; size: string }> = [];
@@ -57,29 +60,30 @@ export default function ParticleSystem({ className = '' }: ParticleSystemProps) 
     });
 
     setParticles(generatedParticles);
-  }, []);
+  }, [particleCount]);
 
   return (
     <div className={`relative w-full h-full overflow-hidden ${className}`}>
       {/* Animated Particles */}
       {particles.map((particle) => {
-        // Clean positioning: top-center for top spirals, bottom-center for bottom spirals
-        const isTopSpiral = particle.animation.includes('spiral-from-top');
-        const isBottomSpiral = particle.animation.includes('spiral-from-bottom');
-        
-        // Move both emitters to center of hero page
-        let positionClasses = 'top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2';
+        // Position particles to converge at the specified convergence point
+        // The animations handle the movement from top/bottom to this convergence point
+        // This creates the effect of emitters at top/bottom converging at the specified position
+        const positionStyle = {
+          top: convergenceVertical,
+          left: convergencePoint,
+          transform: 'translate(-50%, -50%)'
+        };
         
         return (
           <div
             key={particle.id}
-            className={`absolute rounded-full ${particle.size} ${particle.animation} ${positionClasses}`}
+            className={`absolute rounded-full ${particle.size} ${particle.animation}`}
             style={{
+              ...positionStyle,
               animationDelay: `${particle.delay}s`,
               opacity: 0,
               backgroundColor: particle.color,
-              // Apply subtle random offsets for organic movement
-              transform: `translate(${particle.randomX}px, ${particle.randomY}px) rotate(${particle.randomRotation}deg)`,
             }}
           />
         );

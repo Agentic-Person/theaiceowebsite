@@ -3,6 +3,7 @@
 import Container from '@/components/ui/Container';
 import Button from '@/components/ui/Button';
 import ParticleSystem from '@/components/ui/ParticleSystem';
+import Flipbook from '@/components/ui/Flipbook';
 import { Send } from 'lucide-react';
 import { motion } from 'framer-motion';
 import AnimatedButton from '@/components/animations/AnimatedButton';
@@ -11,28 +12,64 @@ export default function HeroSection() {
   return (
     <section 
       id="hero" 
-      className="relative min-h-[calc(100vh-4rem)] pt-20 pb-10 flex items-center justify-center overflow-hidden"
+      className="relative min-h-[calc(100vh-4rem)] pt-20 pb-10 flex items-center overflow-hidden"
       style={{ 
         backgroundColor: 'var(--background)',
         color: 'var(--text-primary)'
       }}
     >
-      {/* Fullscreen Particle System Background */}
-      <div className="absolute inset-0 z-0">
-        <ParticleSystem className="w-full h-full" />
+      {/* Desktop Particle Systems - positioned behind content at multiple convergence points */}
+      <div className="absolute inset-0 hidden lg:block z-0">
+        <div className="relative w-full h-full">
+          {/* Particle System 1: Converging at 70% horizontal, 35% vertical (right side, upper-middle) */}
+          <ParticleSystem className="w-full h-full absolute inset-0" convergencePoint="70%" convergenceVertical="35%" particleCount={0.5} />
+          {/* Particle System 2: Converging at 85% horizontal, 35% vertical (far right side, upper-middle) */}
+          <ParticleSystem className="w-full h-full absolute inset-0" convergencePoint="85%" convergenceVertical="35%" particleCount={0.5} />
+        </div>
       </div>
 
-      {/* Centered Content Layer */}
-      <Container className="relative z-10 px-3 sm:px-5 lg:px-6">
-        <div className="flex flex-col items-center text-center space-y-12">
-          {/* Main Headlines */}
-          <motion.div 
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
-            className="space-y-6 max-w-4xl"
-          >
-            <h1 className="text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight">
+      {/* Flipbook positioned at the perfect convergence point (adjusted left for better balance) */}
+      <div className="absolute hidden lg:block z-20" 
+           style={{ 
+             left: '70%', 
+             top: '35%', 
+             transform: 'translate(-50%, -50%)'
+           }}>
+        <motion.div
+          initial={{ opacity: 0, scale: 0 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ 
+            duration: 1.2, 
+            delay: 1.5,
+            ease: [0.25, 0.46, 0.45, 0.94]
+          }}
+        >
+          <Flipbook 
+            images={[]} // Add your image URLs here
+            interval={4000}
+            className="relative"
+          />
+        </motion.div>
+      </div>
+
+      {/* Content Container with 60/40 split */}
+      <Container className="relative z-10 px-3 sm:px-5 lg:px-6 w-full">
+        <div className="grid grid-cols-1 lg:grid-cols-[60%_40%] gap-8 lg:gap-12 items-center">
+          {/* Mobile/Tablet Particle System - shown above content on smaller screens */}
+          <div className="relative h-[30vh] block lg:hidden mb-8">
+            <ParticleSystem className="w-full h-full" />
+          </div>
+          
+          {/* Left Column - Content (60%) */}
+          <div className="flex flex-col items-center lg:items-start text-center lg:text-left space-y-12">
+            {/* Main Headlines */}
+            <motion.div 
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+              className="space-y-6 max-w-2xl"
+            >
+              <h1 className="text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight">
               <motion.span 
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -50,25 +87,25 @@ export default function HeroSection() {
                 Struggle to Make AI Work
               </motion.span>
             </h1>
-            <motion.p 
+              <motion.p 
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.6 }}
+                className="text-xl lg:text-2xl xl:text-3xl" 
+                style={{ color: 'var(--text-secondary)' }}
+              >
+                AI isn't magic. Without the right strategy, most implementations fail.
+              </motion.p>
+            </motion.div>
+
+            {/* CTA Buttons */}
+            <motion.div 
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
-              className="text-xl lg:text-2xl xl:text-3xl max-w-3xl mx-auto" 
-              style={{ color: 'var(--text-secondary)' }}
+              transition={{ duration: 0.8, delay: 0.8 }}
+              className="flex flex-col sm:flex-row gap-6 items-center lg:items-start justify-center lg:justify-start w-full lg:w-auto"
             >
-              AI isn't magic. Without the right strategy, most implementations fail.
-            </motion.p>
-          </motion.div>
-
-          {/* CTA Buttons */}
-          <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.8 }}
-            className="flex flex-col sm:flex-row gap-6 items-center justify-center"
-          >
-            <AnimatedButton 
+              <AnimatedButton 
               className="h-14 px-8 border-2"
               size="lg"
               style={{ backgroundColor: '#FFC44F', borderColor: '#FFFFFF' }}
@@ -80,19 +117,19 @@ export default function HeroSection() {
               className="h-14 px-8 border-2"
               size="lg"
               style={{ borderColor: '#FFFFFF', color: '#FFC44F' }}
-            >
-              Download AI EDGE eBook
-            </AnimatedButton>
-          </motion.div>
+              >
+                Download AI EDGE eBook
+              </AnimatedButton>
+            </motion.div>
 
-          {/* Team Credibility Bar */}
-          <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 1.0 }}
-            className="pt-8"
-          >
-            <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6">
+            {/* Team Credibility Bar */}
+            <motion.div 
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 1.0 }}
+              className="pt-8"
+            >
+              <div className="flex flex-col sm:flex-row items-center lg:items-start justify-center lg:justify-start space-y-4 sm:space-y-0 sm:space-x-6">
               <div className="flex -space-x-2">
                 {/* Avatar Placeholders */}
                 {[0, 1, 2].map((index) => (
@@ -119,12 +156,18 @@ export default function HeroSection() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, delay: 1.5 }}
               >
-                <p className="text-sm font-semibold text-center sm:text-left" style={{ color: 'var(--text-primary)' }}>
-                  Powered by Prompt Surgeon™ | Enterprise-Grade Security | Version 1.101+
-                </p>
-              </motion.div>
-            </div>
-          </motion.div>
+                  <p className="text-sm font-semibold text-center lg:text-left" style={{ color: 'var(--text-primary)' }}>
+                    Powered by Prompt Surgeon™ | Enterprise-Grade Security | Version 1.101+
+                  </p>
+                </motion.div>
+              </div>
+            </motion.div>
+          </div>
+
+          {/* Right Column - Empty space for visual balance (40%) */}
+          <div className="hidden lg:block">
+            {/* This empty column maintains the 60/40 layout balance */}
+          </div>
         </div>
 
         {/* Bottom border line with scroll indicator */}
