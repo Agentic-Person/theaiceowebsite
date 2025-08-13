@@ -29,7 +29,7 @@ const demos: Demo[] = [
     title: 'Demo 2',
     description: 'Streamline processes and eliminate repetitive tasks',
     duration: '3:15',
-    videoUrl: '',
+    videoUrl: 'https://youtu.be/Qa75KUwdThw',
     thumbnail: '/api/placeholder/600/400'
   },
   {
