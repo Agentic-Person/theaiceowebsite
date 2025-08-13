@@ -57,23 +57,23 @@ export default {
         'spiral-from-bottom-tight-half-fast': 'spiral-from-bottom-tight-half 7.8s ease-in-out infinite',
         'spiral-from-bottom-wide-half-fast': 'spiral-from-bottom-wide-half 8.8s ease-in-out infinite',
         
-        // Rapid versions (3x faster, infinite) - for SlowSpiral burst phase
-        'spiral-from-top-rapid': 'spiral-from-top 12.5s ease-in-out infinite',
-        'spiral-from-top-delayed-rapid': 'spiral-from-top 14.5s ease-in-out infinite',
-        'spiral-from-top-tight-rapid': 'spiral-from-top-tight 12s ease-in-out infinite',
-        'spiral-from-top-wide-rapid': 'spiral-from-top-wide 14s ease-in-out infinite',
-        'spiral-from-top-half-rapid': 'spiral-from-top-half 12.5s ease-in-out infinite',
-        'spiral-from-top-delayed-half-rapid': 'spiral-from-top-half 14.5s ease-in-out infinite',
-        'spiral-from-top-tight-half-rapid': 'spiral-from-top-tight-half 12s ease-in-out infinite',
-        'spiral-from-top-wide-half-rapid': 'spiral-from-top-wide-half 14s ease-in-out infinite',
-        'spiral-from-bottom-rapid': 'spiral-from-bottom 13.5s ease-in-out infinite',
-        'spiral-from-bottom-delayed-rapid': 'spiral-from-bottom 15.5s ease-in-out infinite',
-        'spiral-from-bottom-tight-rapid': 'spiral-from-bottom-tight 13s ease-in-out infinite',
-        'spiral-from-bottom-wide-rapid': 'spiral-from-bottom-wide 14.5s ease-in-out infinite',
-        'spiral-from-bottom-half-rapid': 'spiral-from-bottom-half 13.5s ease-in-out infinite',
-        'spiral-from-bottom-delayed-half-rapid': 'spiral-from-bottom-half 15.5s ease-in-out infinite',
-        'spiral-from-bottom-tight-half-rapid': 'spiral-from-bottom-tight-half 13s ease-in-out infinite',
-        'spiral-from-bottom-wide-half-rapid': 'spiral-from-bottom-wide-half 14.5s ease-in-out infinite',
+        // Rapid versions (69% slower than original) - for SlowSpiral burst phase
+        'spiral-from-top-rapid': 'spiral-from-top 21.2s ease-in-out infinite',  // was 16.3s
+        'spiral-from-top-delayed-rapid': 'spiral-from-top 24.6s ease-in-out infinite',  // was 18.9s
+        'spiral-from-top-tight-rapid': 'spiral-from-top-tight 20.3s ease-in-out infinite',  // was 15.6s
+        'spiral-from-top-wide-rapid': 'spiral-from-top-wide 23.7s ease-in-out infinite',  // was 18.2s
+        'spiral-from-top-half-rapid': 'spiral-from-top-half 21.2s ease-in-out infinite',  // was 16.3s
+        'spiral-from-top-delayed-half-rapid': 'spiral-from-top-half 24.6s ease-in-out infinite',  // was 18.9s
+        'spiral-from-top-tight-half-rapid': 'spiral-from-top-tight-half 20.3s ease-in-out infinite',  // was 15.6s
+        'spiral-from-top-wide-half-rapid': 'spiral-from-top-wide-half 23.7s ease-in-out infinite',  // was 18.2s
+        'spiral-from-bottom-rapid': 'spiral-from-bottom 22.9s ease-in-out infinite',  // was 17.6s
+        'spiral-from-bottom-delayed-rapid': 'spiral-from-bottom 26.3s ease-in-out infinite',  // was 20.2s
+        'spiral-from-bottom-tight-rapid': 'spiral-from-bottom-tight 22.0s ease-in-out infinite',  // was 16.9s
+        'spiral-from-bottom-wide-rapid': 'spiral-from-bottom-wide 24.6s ease-in-out infinite',  // was 18.9s
+        'spiral-from-bottom-half-rapid': 'spiral-from-bottom-half 22.9s ease-in-out infinite',  // was 17.6s
+        'spiral-from-bottom-delayed-half-rapid': 'spiral-from-bottom-half 26.3s ease-in-out infinite',  // was 20.2s
+        'spiral-from-bottom-tight-half-rapid': 'spiral-from-bottom-tight-half 22.0s ease-in-out infinite',  // was 16.9s
+        'spiral-from-bottom-wide-half-rapid': 'spiral-from-bottom-wide-half 24.6s ease-in-out infinite',  // was 18.9s
       },
       keyframes: {
         'spiral-from-top': {

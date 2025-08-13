@@ -81,7 +81,7 @@ export default function ParticleSystem({ className = '', convergencePoint = '70%
         generatedParticles.push({
           id: particleId++,
           delay: burstMode 
-            ? emitterOffset + (Math.random() * 15) // Each emitter has its own offset + spread
+            ? emitterOffset + (Math.random() * 26) // Increased spread to match 69% longer duration
             : Math.random() * 35, // Normal mode: 0-35s delay
           animation: config.animation,
           color: config.colors[Math.floor(Math.random() * config.colors.length)],

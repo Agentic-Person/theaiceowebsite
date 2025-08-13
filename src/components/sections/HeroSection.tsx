@@ -88,12 +88,20 @@ export default function HeroSection() {
                 transition={{ duration: 0.8, delay: 0.2 }}
                 className="block"
               >
-Intelligent Systems, Built for Humans.
+                Intelligent Systems.
               </motion.span>
               <motion.span 
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.4 }}
+                className="block"
+              >
+                Built for Humans.
+              </motion.span>
+              <motion.span 
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.6 }}
                 className="block"
               >
                 Powered by AI.
@@ -102,11 +110,11 @@ Intelligent Systems, Built for Humans.
               <motion.p 
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.6 }}
+                transition={{ duration: 0.8, delay: 0.8 }}
                 className="text-xl lg:text-2xl xl:text-3xl" 
                 style={{ color: 'var(--text-secondary)' }}
               >
-                We build smart systems that remove repetitive tasks, and lighten the load for SMBs.
+                We build smart systems that manage repetitive tasks, simplify workflows, and lighten the load for SMBs.
               </motion.p>
             </motion.div>
 
@@ -114,7 +122,7 @@ Intelligent Systems, Built for Humans.
             <motion.div 
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.8 }}
+              transition={{ duration: 0.8, delay: 1.0 }}
               className="flex items-center justify-center w-full px-4"
             >
               <motion.button
@@ -142,7 +150,7 @@ Intelligent Systems, Built for Humans.
             <motion.div 
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 1.0 }}
+              transition={{ duration: 0.8, delay: 1.2 }}
               className="pt-8"
             >
               <div className="flex flex-col sm:flex-row items-center lg:items-start justify-center lg:justify-start space-y-4 sm:space-y-0 sm:space-x-6">

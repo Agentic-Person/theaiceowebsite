@@ -1,8 +1,8 @@
-# The AI CEO Website - Ready to Deploy
+# Agentic Personnel Website - Ready to Deploy
 
-> **STRATEGIC PIVOT COMPLETE**: From AI Consulting to Product Company with 5 Ready-to-Deploy AI Specialists
+> **BRAND TRANSFORMATION COMPLETE**: Smart systems that manage repetitive tasks, simplify workflows, and lighten the load for SMBs
 
-A modern, responsive website built with Next.js 15, TypeScript, and Tailwind CSS showcasing The AI CEO's transformation into a product company offering industry-expert AI agents.
+A modern, responsive website built with Next.js 15, TypeScript, and Tailwind CSS showcasing Agentic Personnel's smart automation solutions for small and medium businesses.
 
 ## 🎯 **Ready-to-Deploy Status**
 
@@ -14,15 +14,15 @@ A modern, responsive website built with Next.js 15, TypeScript, and Tailwind CSS
 
 ## 🚀 **Strategic Transformation**
 
-### **Business Model Pivot**
-**BEFORE**: "We help SMBs implement custom AI solutions through consultation"  
-**AFTER**: "Deploy 5 industry-expert AI agents today with 14-day free trials"
+### **Brand Evolution**
+**BEFORE**: "The AI CEO - AI Strategy and Custom Tools"  
+**AFTER**: "Agentic Personnel - Smart Systems Built for Humans, Powered by AI"
 
 ### **Core Value Proposition**
-- **Immediate Deployment**: "No custom development needed - start your free trial in minutes"
-- **Industry Expertise**: Domain-specific AI specialists, not generic tools
-- **Risk-Free Trials**: 14-day free access to all AI specialists
-- **Proven Results**: Real customer metrics from 200+ firms
+- **Smart Automation**: "We build smart systems that manage repetitive tasks"
+- **Workflow Simplification**: Streamline processes and eliminate bottlenecks
+- **SMB Focus**: Solutions designed specifically for small and medium businesses
+- **Human-Centric**: "Intelligent Systems. Built for Humans. Powered by AI."
 
 ## 🏢 **Product Portfolio**
 
@@ -55,6 +55,13 @@ A modern, responsive website built with Next.js 15, TypeScript, and Tailwind CSS
 
 ## 🎨 **Design & Technical Features**
 
+### **Advanced Particle System**
+- **Dual Convergence Points**: Two particle systems with separate focal points
+- **16 Animation Variants**: Top/bottom emitters with full/half journey particles
+- **Professional Color Palette**: Blues (#001c38, #36b0d9, #596d8c, #9ab6e0)
+- **Performance Optimized**: ~720 total particles running smoothly at 60fps
+- **Fully Documented**: See `docs/ParticleSystem.md` for complete reference
+
 ### **Professional Dark Theme**
 - Custom CSS variables for consistent theming
 - Professional dark blue color scheme (#002246)
@@ -62,12 +69,12 @@ A modern, responsive website built with Next.js 15, TypeScript, and Tailwind CSS
 - Smooth scrolling navigation system
 
 ### **Homepage Architecture**
-1. **Hero**: Product-focused positioning with free trial CTAs
-2. **Problems**: Industry-specific AI limitations  
+1. **Hero**: "Intelligent Systems. Built for Humans. Powered by AI." with dual particle systems
+2. **Problems**: SMB-specific automation challenges  
 3. **Solutions**: 5 AI specialists showcase with 2-2-1 grid
-4. **Technology**: Prompt Surgeon™ platform credibility
-5. **How It Works**: Simple 3-step deployment process
-6. **Outcomes**: Proven customer metrics
+4. **Workflow**: Redesigned 5-step process with alternating image-text layout
+5. **Technology**: Prompt Surgeon™ platform credibility
+6. **Demos**: YouTube video demonstrations (2 active, 3 placeholders)
 7. **Success Stories**: Testimonials from 200+ firms
 8. **Pricing**: Transparent 3-tier structure
 9. **Resources**: Demo video + ROI calculator
@@ -83,12 +90,20 @@ A modern, responsive website built with Next.js 15, TypeScript, and Tailwind CSS
 
 ## 🌐 **Live Preview**
 
-**Development Server**: `npm run dev` → http://localhost:3000
+**Development Server**: `npm run dev` → http://localhost:3001
 
-**Key User Flows**:
-- Hero → Free Trial CTAs → AI Specialist Selection
-- Problem Identification → Solution Matching → Pricing → Trial Signup
-- Demo Video → ROI Calculator → Contact/Trial
+**Latest Updates**:
+- ✅ **Workflow Section Redesign**: Alternating image-text layout with perfect center alignment
+- ✅ **5-Step Process Visualization**: Discover → Design → Develop → Deploy → Deliver
+- ✅ **Enhanced Spacing**: 120px centerline gaps, 96px between steps
+- ✅ **Smooth Animations**: Framer Motion scroll-triggered effects
+- ✅ **Mobile Responsive**: Elegant stacking on smaller screens
+
+**Previous Updates**:
+- ✅ Navigation bar rebrand to "Agentic Personnel" with new logo
+- ✅ Updated tagline: "We build smart systems that manage repetitive tasks, simplify workflows, and lighten the load for SMBs"
+- ✅ CTA changed to "Let's Chat!"
+- ✅ YouTube video demos integrated (2 active videos)
 
 ## 📊 **Deployment Metrics**
 
@@ -144,7 +159,7 @@ npm start
 - "Download ROI Calculator" (Resources)
 
 ### **Social Proof Elements**
-- "200+ firms already using The AI CEO specialists"
+- "200+ firms already using Agentic Personnel solutions"
 - Real customer metrics: 40% time savings, 30% higher close rates
 - Industry-specific testimonials across 5 verticals
 
@@ -171,7 +186,7 @@ npm start
 ## 🔗 **Repository Links**
 
 **Main Branch**: https://github.com/Agentic-Person/theaiceowebsite/tree/main  
-**Ready to Deploy**: https://github.com/Agentic-Person/theaiceowebsite/tree/ready-to-deploy
+**Current Branch**: aps-001 (Agentic Personnel Branding)
 
 ---
 

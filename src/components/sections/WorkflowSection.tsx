@@ -1,8 +1,7 @@
+'use client';
+
 import Container from '@/components/ui/Container';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
-import Button from '@/components/ui/Button';
-import { Send } from 'lucide-react';
-import ScrollReveal from '@/components/animations/ScrollReveal';
+import { motion } from 'framer-motion';
 import Image from 'next/image';
 
 const workflowSteps = [
@@ -78,9 +77,16 @@ export default function WorkflowSection() {
   ];
 
   return (
-    <section id="workflow" className="py-24" style={{ backgroundColor: 'var(--background)' }}>
+    <section id="workflow" className="py-32" style={{ backgroundColor: 'var(--background)' }}>
       <Container>
-        <div className="text-center mb-16">
+        {/* Section Header */}
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-24"
+        >
           <h2 className="text-4xl lg:text-5xl font-bold mb-6" style={{ color: 'var(--text-primary)' }}>
             How We Work
           </h2>
@@ -88,113 +94,221 @@ export default function WorkflowSection() {
             Our proven 5-step process ensures your AI implementation succeeds from day one. 
             From discovery to delivery, we&apos;re with you every step of the way.
           </p>
-        </div>
+        </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-16">
-          {workflowSteps.map((step, index) => (
-            <Card key={index} className="h-full relative overflow-hidden group hover:shadow-lg transition-shadow">
-              <CardHeader className="text-center pb-4">
-                <div className="mx-auto mb-4 w-32 h-32 rounded-lg overflow-hidden shadow-lg border-2" style={{ backgroundColor: 'var(--card-background)', borderColor: '#4e8ad3' }}>
-                  <Image
-                    src={stepImages[index]}
-                    alt={step.title}
-                    width={128}
-                    height={128}
-                    className="w-32 h-32 object-cover"
-                    priority={index < 2}
-                  />
-                </div>
-                <CardTitle className="text-xl mb-2">
-                  {step.title}
-                </CardTitle>
-                <p className="text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>
-                  {step.subtitle}
-                </p>
-              </CardHeader>
-              
-              <CardContent>
-                <p className="text-sm mb-4 leading-relaxed" style={{ color: 'var(--text-body)' }}>
-                  {step.description}
-                </p>
-                
-                <ul className="space-y-2">
-                  {step.features.map((feature, featureIndex) => (
-                    <li key={featureIndex} className="flex items-start space-x-2">
-                      <div className="flex-shrink-0 w-4 h-4 rounded-full mt-1 flex items-center justify-center" style={{ backgroundColor: 'var(--card-background)' }}>
-                        <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: 'var(--text-secondary)' }}></div>
+        {/* Alternating Process Steps */}
+        <div className="space-y-24 max-w-7xl mx-auto">
+          {workflowSteps.map((step, index) => {
+            const isEven = index % 2 === 0;
+            
+            return (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+                className="relative"
+              >
+                {/* Desktop Layout */}
+                <div className="hidden lg:grid lg:grid-cols-[1fr_120px_auto_120px_1fr] items-center">
+                  {isEven ? (
+                    <>
+                      {/* Left Image */}
+                      <div className="flex justify-end">
+                        <motion.div
+                          whileHover={{ scale: 1.05 }}
+                          transition={{ duration: 0.3 }}
+                          className="relative w-[400px] h-[300px] rounded-2xl overflow-hidden shadow-2xl"
+                          style={{ borderColor: '#4e8ad3', borderWidth: '2px' }}
+                        >
+                          <Image
+                            src={stepImages[index]}
+                            alt={step.title}
+                            fill
+                            className="object-cover"
+                            priority={index < 2}
+                          />
+                        </motion.div>
                       </div>
-                      <span className="text-xs" style={{ color: 'var(--text-secondary)' }}>{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-              </CardContent>
+                      
+                      {/* Left Gap */}
+                      <div />
+                      
+                      {/* Center Line */}
+                      <div className="relative flex justify-center">
+                        <div className="absolute top-0 bottom-0 w-0.5" style={{ backgroundColor: 'var(--border)' }} />
+                        <div 
+                          className="relative z-10 w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg"
+                          style={{ 
+                            backgroundColor: '#4e8ad3',
+                            color: 'white'
+                          }}
+                        >
+                          {step.number}
+                        </div>
+                      </div>
+                      
+                      {/* Right Gap */}
+                      <div />
+                      
+                      {/* Right Content */}
+                      <div className="flex justify-start">
+                        <div className="max-w-md">
+                          <h3 className="text-3xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>
+                            {step.title}
+                          </h3>
+                          <p className="text-lg font-medium mb-4" style={{ color: '#4e8ad3' }}>
+                            {step.subtitle}
+                          </p>
+                          <p className="text-base mb-6 leading-relaxed" style={{ color: 'var(--text-body)' }}>
+                            {step.description}
+                          </p>
+                          <ul className="space-y-3">
+                            {step.features.map((feature, featureIndex) => (
+                              <li key={featureIndex} className="flex items-start space-x-3">
+                                <div 
+                                  className="flex-shrink-0 w-5 h-5 rounded-full mt-0.5 flex items-center justify-center"
+                                  style={{ backgroundColor: '#4e8ad3' }}
+                                >
+                                  <div className="w-2 h-2 rounded-full bg-white" />
+                                </div>
+                                <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+                                  {feature}
+                                </span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      {/* Left Content */}
+                      <div className="flex justify-end">
+                        <div className="max-w-md">
+                          <h3 className="text-3xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>
+                            {step.title}
+                          </h3>
+                          <p className="text-lg font-medium mb-4" style={{ color: '#4e8ad3' }}>
+                            {step.subtitle}
+                          </p>
+                          <p className="text-base mb-6 leading-relaxed" style={{ color: 'var(--text-body)' }}>
+                            {step.description}
+                          </p>
+                          <ul className="space-y-3">
+                            {step.features.map((feature, featureIndex) => (
+                              <li key={featureIndex} className="flex items-start space-x-3">
+                                <div 
+                                  className="flex-shrink-0 w-5 h-5 rounded-full mt-0.5 flex items-center justify-center"
+                                  style={{ backgroundColor: '#4e8ad3' }}
+                                >
+                                  <div className="w-2 h-2 rounded-full bg-white" />
+                                </div>
+                                <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+                                  {feature}
+                                </span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </div>
+                      
+                      {/* Left Gap */}
+                      <div />
+                      
+                      {/* Center Line */}
+                      <div className="relative flex justify-center">
+                        <div className="absolute top-0 bottom-0 w-0.5" style={{ backgroundColor: 'var(--border)' }} />
+                        <div 
+                          className="relative z-10 w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg"
+                          style={{ 
+                            backgroundColor: '#4e8ad3',
+                            color: 'white'
+                          }}
+                        >
+                          {step.number}
+                        </div>
+                      </div>
+                      
+                      {/* Right Gap */}
+                      <div />
+                      
+                      {/* Right Image */}
+                      <div className="flex justify-start">
+                        <motion.div
+                          whileHover={{ scale: 1.05 }}
+                          transition={{ duration: 0.3 }}
+                          className="relative w-[400px] h-[300px] rounded-2xl overflow-hidden shadow-2xl"
+                          style={{ borderColor: '#4e8ad3', borderWidth: '2px' }}
+                        >
+                          <Image
+                            src={stepImages[index]}
+                            alt={step.title}
+                            fill
+                            className="object-cover"
+                          />
+                        </motion.div>
+                      </div>
+                    </>
+                  )}
+                </div>
 
-              {/* Step connector line */}
-              {index < workflowSteps.length - 1 && (
-                <div className="hidden lg:block absolute top-20 -right-4 w-8 h-0.5 z-10" style={{ backgroundColor: 'var(--border)' }}></div>
-              )}
-            </Card>
-          ))}
+                {/* Mobile/Tablet Layout */}
+                <div className="lg:hidden space-y-6">
+                  <div className="flex items-center space-x-4 mb-4">
+                    <div 
+                      className="w-10 h-10 rounded-full flex items-center justify-center font-bold"
+                      style={{ 
+                        backgroundColor: '#4e8ad3',
+                        color: 'white'
+                      }}
+                    >
+                      {step.number}
+                    </div>
+                    <div>
+                      <h3 className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>
+                        {step.title}
+                      </h3>
+                      <p className="text-base font-medium" style={{ color: '#4e8ad3' }}>
+                        {step.subtitle}
+                      </p>
+                    </div>
+                  </div>
+                  
+                  <div className="relative w-full h-64 rounded-xl overflow-hidden shadow-xl">
+                    <Image
+                      src={stepImages[index]}
+                      alt={step.title}
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                  
+                  <p className="text-base leading-relaxed" style={{ color: 'var(--text-body)' }}>
+                    {step.description}
+                  </p>
+                  
+                  <ul className="space-y-2">
+                    {step.features.map((feature, featureIndex) => (
+                      <li key={featureIndex} className="flex items-start space-x-3">
+                        <div 
+                          className="flex-shrink-0 w-5 h-5 rounded-full mt-0.5 flex items-center justify-center"
+                          style={{ backgroundColor: '#4e8ad3' }}
+                        >
+                          <div className="w-2 h-2 rounded-full bg-white" />
+                        </div>
+                        <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+                          {feature}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </motion.div>
+            );
+          })}
         </div>
-
-        {/* Chat Interface Section */}
-        <ScrollReveal className="mt-16">
-          <div className="max-w-4xl mx-auto">
-            {/* Chat Header */}
-            <div className="text-center mb-6">
-              <h3 className="text-2xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>
-                Our custom AI chatbot can QUICKLY answer 100% of your questions...      80% of the time.
-              </h3>
-            </div>
-
-            {/* Chat Interface */}
-            <div 
-              className="rounded-2xl p-8 shadow-xl"
-              style={{ backgroundColor: 'var(--card-background)' }}
-            >
-              {/* Chat Input */}
-              <div className="relative mb-6">
-                <input
-                  type="text"
-                  placeholder="Ask about our AI solutions..."
-                  className="w-full px-4 py-4 pr-12 rounded-xl border text-base focus:outline-none focus:ring-2"
-                  style={{
-                    backgroundColor: 'var(--background)',
-                    borderColor: 'var(--border)',
-                    color: 'var(--text-primary)'
-                  }}
-                />
-                <button 
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 p-2 rounded-lg hover:brightness-110 transition-colors"
-                  style={{ backgroundColor: 'var(--primary)' }}
-                >
-                  <Send className="w-4 h-4 text-white" />
-                </button>
-              </div>
-
-              {/* Suggestion Chips */}
-              <div className="flex flex-wrap gap-2">
-                {[
-                  "Which AI specialist fits my business?",
-                  "Show me Bankruptcy Navigator features",
-                  "How does the free trial work?"
-                ].map((suggestion, index) => (
-                  <button
-                    key={index}
-                    className="px-4 py-2 rounded-full text-sm border hover:brightness-110 transition-colors"
-                    style={{
-                      borderColor: 'var(--border)',
-                      color: 'var(--text-body)',
-                      backgroundColor: 'var(--background)'
-                    }}
-                  >
-                    {suggestion}
-                  </button>
-                ))}
-              </div>
-            </div>
-          </div>
-        </ScrollReveal>
       </Container>
     </section>
   );
