@@ -17,38 +17,43 @@ interface Demo {
 
 const demos: Demo[] = [
   {
-    id: 'sales-marketing',
-    title: 'Sales & Marketing AI',
+    id: 'demo-1',
+    title: 'Demo 1',
     description: 'Advanced customer experience automation',
     duration: '2:30',
+    videoUrl: 'https://youtu.be/0IIZU_Mp9HI',
     thumbnail: '/api/placeholder/600/400'
   },
   {
-    id: 'operations',
-    title: 'Operations Automation',
+    id: 'demo-2',
+    title: 'Demo 2',
     description: 'Streamline processes and eliminate repetitive tasks',
     duration: '3:15',
+    videoUrl: '',
     thumbnail: '/api/placeholder/600/400'
   },
   {
-    id: 'knowledge-rag',
-    title: 'Knowledge Base RAG',
+    id: 'demo-3',
+    title: 'Demo 3',
     description: 'Intelligent search across all your content',
     duration: '2:45',
+    videoUrl: '',
     thumbnail: '/api/placeholder/600/400'
   },
   {
-    id: 'custom-workflows',
-    title: 'Custom Workflows',
+    id: 'demo-4',
+    title: 'Demo 4',
     description: 'Tailored solutions for your business needs',
     duration: '4:00',
+    videoUrl: '',
     thumbnail: '/api/placeholder/600/400'
   },
   {
-    id: 'analytics',
-    title: 'Analytics Dashboard',
+    id: 'demo-5',
+    title: 'Demo 5',
     description: 'Real-time insights and performance metrics',
     duration: '3:30',
+    videoUrl: '',
     thumbnail: '/api/placeholder/600/400'
   }
 ];
@@ -170,113 +175,58 @@ export default function DemoSection() {
             <Card className="overflow-hidden shadow-2xl" style={{ backgroundColor: 'var(--card-background)' }}>
               <CardContent className="p-0">
                 <div className="relative aspect-video bg-gray-900 flex items-center justify-center">
-                  {/* Video Thumbnail/Placeholder */}
-                  <AnimatePresence mode="wait">
-                    <motion.div
-                      key={activeDemo.id}
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.3 }}
-                      className="absolute inset-0 flex items-center justify-center"
-                      style={{
-                        backgroundImage: `linear-gradient(135deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 100%), url(${activeDemo.thumbnail})`,
-                        backgroundSize: 'cover',
-                        backgroundPosition: 'center'
-                      }}
-                    >
-                      {isLoading ? (
-                        <motion.div
-                          initial={{ scale: 0 }}
-                          animate={{ scale: 1 }}
-                          className="flex items-center justify-center"
-                        >
-                          <Loader2 className="w-12 h-12 text-[\#4e8ad3] animate-spin" />
-                        </motion.div>
-                      ) : (
-                        <motion.button
-                          whileHover={{ scale: 1.1 }}
-                          whileTap={{ scale: 0.95 }}
-                          onClick={handlePlayToggle}
-                          className="group relative"
-                        >
-                          <div className="w-20 h-20 bg-[\#4e8ad3]/20 rounded-full flex items-center justify-center backdrop-blur-sm border-2 border-[\#4e8ad3]/30 group-hover:bg-[\#4e8ad3]/30 transition-all duration-300">
-                            {isPlaying ? (
-                              <Pause className="w-8 h-8 text-[\#4e8ad3] ml-0" />
-                            ) : (
-                              <Play className="w-8 h-8 text-[\#4e8ad3] ml-1" />
-                            )}
+                  {/* If we have a video URL, show the embed, otherwise show placeholder */}
+                  {activeDemo.videoUrl ? (
+                    <AnimatePresence mode="wait">
+                      <motion.div
+                        key={activeDemo.id}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.3 }}
+                        className="absolute inset-0"
+                      >
+                        {isLoading ? (
+                          <div className="absolute inset-0 flex items-center justify-center bg-gray-900">
+                            <Loader2 className="w-12 h-12 text-[\#4e8ad3] animate-spin" />
                           </div>
-                        </motion.button>
-                      )}
-                    </motion.div>
-                  </AnimatePresence>
-
-                  {/* Video Title Overlay */}
-                  <div className="absolute top-4 left-4">
-                    <motion.div
-                      key={activeDemo.id}
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.3 }}
-                      className="bg-black/50 px-4 py-2 rounded-lg backdrop-blur-sm"
-                    >
-                      <h4 className="text-lg font-bold text-white">{activeDemo.title}</h4>
-                      <p className="text-sm text-gray-300">{activeDemo.description}</p>
-                    </motion.div>
-                  </div>
-
-                  {/* Custom Controls */}
-                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
-                    <div className="flex items-center justify-between text-white">
-                      <div className="flex items-center space-x-4">
-                        <motion.button
-                          whileHover={{ scale: 1.1 }}
-                          whileTap={{ scale: 0.95 }}
-                          onClick={handlePlayToggle}
-                          className="p-2 hover:bg-white/20 rounded-full transition-colors"
-                        >
-                          {isPlaying ? (
-                            <Pause className="w-5 h-5" />
-                          ) : (
-                            <Play className="w-5 h-5" />
-                          )}
-                        </motion.button>
-                        <div className="text-sm opacity-75">
-                          {activeDemo.duration}
+                        ) : (
+                          <iframe
+                            src={`${activeDemo.videoUrl.includes('youtu')
+                              ? activeDemo.videoUrl.replace('https://youtu.be/', 'https://www.youtube.com/embed/').replace('watch?v=', 'embed/')
+                              : activeDemo.videoUrl.replace('share', 'embed')}`}
+                            className="w-full h-full"
+                            frameBorder="0"
+                            allowFullScreen
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          />
+                        )}
+                      </motion.div>
+                    </AnimatePresence>
+                  ) : (
+                    /* Original placeholder for demos without videos */
+                    <AnimatePresence mode="wait">
+                      <motion.div
+                        key={activeDemo.id}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.3 }}
+                        className="absolute inset-0 flex items-center justify-center"
+                        style={{
+                          backgroundImage: `linear-gradient(135deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 100%), url(${activeDemo.thumbnail})`,
+                          backgroundSize: 'cover',
+                          backgroundPosition: 'center'
+                        }}
+                      >
+                        <div className="text-center">
+                          <h4 className="text-2xl font-bold text-white mb-2">{activeDemo.title}</h4>
+                          <p className="text-lg text-gray-300 mb-4">{activeDemo.description}</p>
+                          <p className="text-sm text-gray-400">Video coming soon</p>
                         </div>
-                      </div>
-
-                      <div className="flex items-center space-x-3">
-                        <motion.button
-                          whileHover={{ scale: 1.1 }}
-                          whileTap={{ scale: 0.95 }}
-                          className="p-2 hover:bg-white/20 rounded-full transition-colors"
-                        >
-                          <Volume2 className="w-5 h-5" />
-                        </motion.button>
-                        <motion.button
-                          whileHover={{ scale: 1.1 }}
-                          whileTap={{ scale: 0.95 }}
-                          className="p-2 hover:bg-white/20 rounded-full transition-colors"
-                        >
-                          <Maximize className="w-5 h-5" />
-                        </motion.button>
-                      </div>
-                    </div>
-
-                    {/* Progress Bar */}
-                    <div className="mt-3">
-                      <div className="w-full bg-white/20 rounded-full h-1">
-                        <motion.div 
-                          className="bg-[\#4e8ad3] h-1 rounded-full"
-                          initial={{ width: "0%" }}
-                          animate={{ width: isPlaying ? "100%" : "0%" }}
-                          transition={{ duration: isPlaying ? 10 : 0 }}
-                        />
-                      </div>
-                    </div>
-                  </div>
+                      </motion.div>
+                    </AnimatePresence>
+                  )}
                 </div>
               </CardContent>
             </Card>
