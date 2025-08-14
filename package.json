@@ -10,8 +10,8 @@
     "vercel-build": "npm install --legacy-peer-deps && next build"
   },
   "dependencies": {
-    "@react-three/drei": "10.4.0",
-    "@react-three/fiber": "^9.3.0",
+    "@react-three/drei": "^9.59.0",
+    "@react-three/fiber": "^8.13.7",
     "@types/three": "^0.179.0",
     "autoprefixer": "^10.4.21",
     "clsx": "^2.1.1",
@@ -36,4 +36,3 @@
     "typescript": "^5"
   }
 }
-
