@@ -48,7 +48,7 @@ export default function HeroSection() {
               className="text-xl lg:text-2xl xl:text-3xl max-w-3xl mx-auto" 
               style={{ color: 'var(--text-secondary)' }}
             >
-              AI isn't magic. Without the right strategy, most implementations fail.
+              AI isn&apos;t magic. Without the right strategy, most implementations fail.
             </motion.p>
           </motion.div>
 

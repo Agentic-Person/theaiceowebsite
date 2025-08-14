@@ -114,10 +114,10 @@ export default function AIProblemsSection() {
         {/* Bottom message */}
         <div className="text-center mt-12">
           <p className="text-lg font-medium" style={{ color: 'var(--text-primary)' }}>
-            If these problems sound familiar, you're not alone.
+            If these problems sound familiar, you&apos;re not alone.
           </p>
           <p className="text-base mt-2" style={{ color: 'var(--text-body)' }}>
-            Most businesses struggle with these exact issues. But there's a better way.
+            Most businesses struggle with these exact issues. But there&apos;s a better way.
           </p>
         </div>
       </Container>
