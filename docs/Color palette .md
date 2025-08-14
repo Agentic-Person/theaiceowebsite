@@ -11,6 +11,7 @@ Header & Navigation:
 
 Text Colors:
 - White: #FFFFFF (headers, titles, and primary text ONLY)
+- Off White: #DDDDDD (primary text ONLY)
 - Light Blue Gray: #9ab6e0 (secondary text and labels)
 - Medium Blue Gray: #596d8c (body text and descriptions)
 

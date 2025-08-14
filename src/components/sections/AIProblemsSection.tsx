@@ -72,8 +72,8 @@ export default function AIProblemsSection() {
           {problems.map((problem, index) => (
             <Card 
               key={index} 
-              className="h-full text-center hover:shadow-xl transition-all duration-300 group hover:scale-125"
-              style={{ minHeight: '500px', backgroundColor: '#001c38' }}
+              className="h-full text-center hover:shadow-xl transition-all duration-300 group hover:scale-110"
+              style={{ minHeight: '500px', backgroundColor: '#001c38', border: '1px solid #555' }}
             >
               <CardHeader className="pb-6">
                 {/* Icon */}
@@ -99,7 +99,7 @@ export default function AIProblemsSection() {
                     {problem.painPoints.map((point, pointIndex) => (
                       <li key={pointIndex} className="flex items-start space-x-3">
                         <div className="w-2 h-2 bg-red-500 rounded-full flex-shrink-0 mt-2"></div>
-                        <span className="text-sm leading-relaxed" style={{ color: 'var(--text-body)' }}>
+                        <span className="text-sm leading-relaxed" style={{ color: '#dddddd' }}>
                           {point}
                         </span>
                       </li>
