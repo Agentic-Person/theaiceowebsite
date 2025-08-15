@@ -40,7 +40,10 @@ export default function ChatInterface({
   };
 
   useEffect(() => {
-    scrollToBottom();
+    // Only scroll if there are messages to scroll to
+    if (messages.length > 0 || isTyping) {
+      scrollToBottom();
+    }
   }, [messages, isTyping]);
 
   const handleSubmit = (e: React.FormEvent) => {

@@ -16,7 +16,7 @@ const navigationItems: NavigationItem[] = [
   { label: 'Solutions', href: '#solutions' },
   { label: 'AI Voice', href: '#ai-voice' },
   { label: 'About', href: '#about' },
-  { label: 'Team', href: '#team' },
+  { label: 'Team', href: '#meet-team' },
 ];
 
 export default function Navbar() {

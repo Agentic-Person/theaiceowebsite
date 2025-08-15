@@ -33,7 +33,7 @@ export default function TeamSection() {
         </div>
 
         <ScrollReveal className="text-center mb-16">
-          <h2 className="text-4xl lg:text-5xl font-bold mb-6" style={{ color: 'var(--text-primary)' }}>
+          <h2 id="meet-team" className="text-4xl lg:text-5xl font-bold mb-6" style={{ color: 'var(--text-primary)' }}>
             Meet The Team
           </h2>
           <p className="text-xl max-w-3xl mx-auto mb-4" style={{ color: 'var(--text-body)' }}>
