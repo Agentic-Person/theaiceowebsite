@@ -36,20 +36,37 @@ export default function ChatInterface({
   const mode = externalMode || internalMode;
 
   const [hasInteracted, setHasInteracted] = useState(false);
+  const [isPageLoaded, setIsPageLoaded] = useState(false);
+  
+  // Mark page as loaded after a delay to prevent initial scroll
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsPageLoaded(true);
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, []);
   
   const scrollToBottom = () => {
-    // Only scroll within the chat container, not the whole page
-    if (hasInteracted && messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
+    // Only scroll if ALL conditions are met:
+    // 1. Page has fully loaded
+    // 2. User has interacted with the chat
+    // 3. There's actually a ref to scroll to
+    // 4. We're not on initial page load
+    if (isPageLoaded && hasInteracted && messagesEndRef.current) {
+      // Scroll only within the chat container
+      const chatContainer = messagesEndRef.current.parentElement;
+      if (chatContainer) {
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+      }
     }
   };
 
   useEffect(() => {
-    // Only scroll if user has interacted and there are messages
-    if (hasInteracted && (messages.length > 0 || isTyping)) {
+    // Only scroll if page is loaded, user has interacted, and there are messages
+    if (isPageLoaded && hasInteracted && (messages.length > 0 || isTyping)) {
       scrollToBottom();
     }
-  }, [messages, isTyping, hasInteracted]);
+  }, [messages, isTyping, hasInteracted, isPageLoaded]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

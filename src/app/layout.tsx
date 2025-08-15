@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import ScrollPreventionOnLoad from "@/components/ScrollPreventionOnLoad";
 
 const inter = Inter({ 
   subsets: ["latin"],
@@ -63,6 +64,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={inter.variable} data-theme="dark">
       <body className={`${inter.className} antialiased min-h-screen flex flex-col`}>
+        <ScrollPreventionOnLoad />
         <ThemeProvider>
           <Navbar />
           <main className="flex-1">
