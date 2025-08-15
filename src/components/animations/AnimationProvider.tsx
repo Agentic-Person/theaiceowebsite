@@ -143,7 +143,7 @@ export const AnimationProvider: React.FC<AnimationProviderProps> = ({
 export const withAnimation = <P extends object>(
   Component: React.ComponentType<P>
 ): React.FC<P> => {
-  return (props: P) => {
+  const WrappedComponent = (props: P) => {
     const { animationsEnabled } = useAnimationContext();
     
     if (!animationsEnabled) {
@@ -152,4 +152,8 @@ export const withAnimation = <P extends object>(
     
     return <Component {...props} />;
   };
+  
+  WrappedComponent.displayName = `withAnimation(${Component.displayName || Component.name || 'Component'})`;
+  
+  return WrappedComponent;
 };

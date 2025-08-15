@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
-import { useAnimation, AnimationControls } from 'framer-motion';
+import { useAnimation } from 'framer-motion';
 import { scrollTriggerConfig, shouldReduceMotion } from '@/lib/animations';
 
 interface UseScrollAnimationOptions {
@@ -13,7 +13,7 @@ interface UseScrollAnimationOptions {
 
 interface UseScrollAnimationReturn {
   ref: (node?: Element | null) => void;
-  controls: AnimationControls;
+  controls: ReturnType<typeof useAnimation>;
   inView: boolean;
   hasAnimated: boolean;
 }
@@ -106,7 +106,41 @@ export const useStaggeredScroll = (
   } = options;
 
   const { ref, inView, hasAnimated } = useScrollAnimation(scrollOptions);
-  const itemControls = Array.from({ length: itemCount }, () => useAnimation());
+  
+  // Create a fixed number of animation controls - max 20 items for performance
+  const maxItems = Math.min(itemCount, 20);
+  
+  // Create hooks unconditionally (React hooks rules)
+  const control1 = useAnimation();
+  const control2 = useAnimation();
+  const control3 = useAnimation();
+  const control4 = useAnimation();
+  const control5 = useAnimation();
+  const control6 = useAnimation();
+  const control7 = useAnimation();
+  const control8 = useAnimation();
+  const control9 = useAnimation();
+  const control10 = useAnimation();
+  const control11 = useAnimation();
+  const control12 = useAnimation();
+  const control13 = useAnimation();
+  const control14 = useAnimation();
+  const control15 = useAnimation();
+  const control16 = useAnimation();
+  const control17 = useAnimation();
+  const control18 = useAnimation();
+  const control19 = useAnimation();
+  const control20 = useAnimation();
+  
+  // Store in array, using only the needed ones
+  const allControls = [
+    control1, control2, control3, control4, control5,
+    control6, control7, control8, control9, control10,
+    control11, control12, control13, control14, control15,
+    control16, control17, control18, control19, control20
+  ];
+  
+  const itemControls = allControls.slice(0, maxItems);
 
   useEffect(() => {
     if (inView && !hasAnimated) {

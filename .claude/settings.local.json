@@ -20,6 +20,7 @@
       "Bash(git checkout:*)",
       "Bash(npm run lint)"
     ],
-    "deny": []
+    "deny": [],
+    "defaultMode": "acceptEdits"
   }
 }

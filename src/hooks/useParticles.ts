@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect, useRef, useState, useCallback, useMemo } from 'react';
 import * as THREE from 'three';
 
 interface ParticleConfig {
@@ -35,7 +35,7 @@ export const useParticles = ({ config = {}, containerRef }: UseParticlesOptions)
   const [isInitialized, setIsInitialized] = useState(false);
   const [error, setError] = useState<string | null>(null);
   
-  const finalConfig = { ...defaultConfig, ...config };
+  const finalConfig = useMemo(() => ({ ...defaultConfig, ...config }), [config]);
 
   // Handle mouse movement
   const handleMouseMove = useCallback((event: MouseEvent) => {

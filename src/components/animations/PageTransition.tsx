@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, Variants } from 'framer-motion';
 import { usePathname } from 'next/navigation';
 import { pageTransitionVariants, durations } from '@/lib/animations';
 import { useAnimationContext } from './AnimationProvider';
@@ -10,11 +10,7 @@ interface PageTransitionProps {
   children: React.ReactNode;
   mode?: 'wait' | 'sync' | 'popLayout';
   className?: string;
-  customVariants?: {
-    initial?: object;
-    animate?: object;
-    exit?: object;
-  };
+  customVariants?: Variants;
 }
 
 export const PageTransition: React.FC<PageTransitionProps> = ({

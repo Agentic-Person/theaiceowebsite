@@ -37,7 +37,7 @@ export default function ParticleSystem({ className = '' }: ParticleSystemProps) 
       { animation: 'animate-spiral-from-bottom-wide-half', count: 20, colors: ['#001c38', '#001d39', '#9ab6e0', '#36b0d9'] }
     ];
 
-    const generatedParticles: Array<{ id: number; delay: number; animation: string; color: string; size: string }> = [];
+    const generatedParticles: Array<{ id: number; delay: number; animation: string; color: string; size: string; randomX: number; randomY: number; randomRotation: number }> = [];
     let particleId = 0;
 
     particleConfigs.forEach(config => {

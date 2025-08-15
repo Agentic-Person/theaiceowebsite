@@ -76,11 +76,8 @@ export default function PricingSection() {
             <Card 
               key={index} 
               className={`h-full relative overflow-hidden hover:shadow-xl transition-shadow ${
-                tier.isPopular ? 'ring-2 ring-opacity-60' : ''
+                tier.isPopular ? 'ring-2 ring-green-500 ring-opacity-60' : ''
               }`}
-              style={{ 
-                ringColor: tier.isPopular ? '#10B981' : 'transparent'
-              }}
             >
               {tier.isPopular && (
                 <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">

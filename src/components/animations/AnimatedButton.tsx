@@ -10,6 +10,7 @@ interface AnimatedButtonProps {
   variant?: 'primary' | 'secondary' | 'outline';
   size?: 'sm' | 'md' | 'lg';
   disabled?: boolean;
+  style?: React.CSSProperties;
 }
 
 export default function AnimatedButton({
@@ -19,6 +20,7 @@ export default function AnimatedButton({
   variant = 'primary',
   size = 'md',
   disabled = false,
+  style,
 }: AnimatedButtonProps) {
   const baseClasses = 'font-medium rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2';
   
@@ -56,6 +58,7 @@ export default function AnimatedButton({
         ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
         ${className}
       `}
+      style={style}
     >
       <motion.span
         initial={{ opacity: 1 }}
