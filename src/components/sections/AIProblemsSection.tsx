@@ -53,7 +53,7 @@ const problems = [
 export default function AIProblemsSection() {
   return (
     <section 
-      id="ai-problems" 
+      id="why" 
       className="pt-10 pb-24" 
       style={{ backgroundColor: 'var(--background)' }}
     >

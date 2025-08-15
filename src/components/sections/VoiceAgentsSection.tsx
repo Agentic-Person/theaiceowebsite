@@ -6,6 +6,7 @@ import { Brain, TrendingUp, Sparkles, Mic, Phone } from 'lucide-react';
 import Button from '../ui/Button';
 import { Card } from '../ui/Card';
 import ScrollReveal from '../animations/ScrollReveal';
+import VoiceAgentDemo from './VoiceAgentDemo';
 
 const VoiceAgentsSection = () => {
   const containerVariants = {
@@ -52,7 +53,7 @@ const VoiceAgentsSection = () => {
   };
 
   return (
-    <section className="py-32 relative overflow-hidden bg-gradient-to-b from-slate-900 via-slate-900 to-black">
+    <section id="ai-voice" className="py-32 relative overflow-hidden bg-gradient-to-b from-slate-900 via-slate-900 to-black">
       {/* Background Effects */}
       <div className="absolute inset-0">
         <div className="absolute top-1/2 left-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl" />

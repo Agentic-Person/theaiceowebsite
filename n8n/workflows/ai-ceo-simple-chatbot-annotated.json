@@ -1,0 +1,372 @@
+{
+  "name": "AI CEO Simple Chatbot (Annotated)",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "# 🚀 AI CEO Simple Chatbot Workflow\n\n## Overview\nThis workflow powers a dual-mode (text/voice) chatbot for The AI CEO website. It seamlessly handles both text chat and voice conversations, providing intelligent responses about your business services.\n\n## Features\n- ✅ **Dual Mode**: Text and voice input support\n- ✅ **Smart AI**: Uses GPT-4 with business context\n- ✅ **Voice Processing**: Speech-to-text and text-to-speech\n- ✅ **Lead Generation**: Offers discovery calls when appropriate\n- ✅ **Session Management**: Tracks conversations by session ID\n\n## Setup Required\n1. **OpenAI Credentials**: Add your API key\n2. **Webhook Path**: Set to `ai-ceo-chat`\n3. **CORS Headers**: Already configured for web access\n4. **Activate Workflow**: Toggle the active switch\n\n## Data Flow\n**Text Mode**: Webhook → AI Chat → Response\n**Voice Mode**: Webhook → Speech-to-Text → AI Chat → Text-to-Speech → Response",
+        "height": 400,
+        "width": 380,
+        "color": 4
+      },
+      "id": "overview-note",
+      "name": "Workflow Overview",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [-200, 100]
+    },
+    {
+      "parameters": {
+        "content": "## 📥 Webhook Entry Point\n\n**Purpose**: Receives chat requests from your website\n\n**Accepts**:\n```json\n{\n  \"message\": \"User's text or base64 audio\",\n  \"sessionId\": \"unique-session-id\",\n  \"mode\": \"text\" or \"voice\",\n  \"timestamp\": \"ISO timestamp\"\n}\n```\n\n**Configuration**:\n- Method: POST\n- Path: `/webhook/ai-ceo-chat`\n- Response Mode: Response Node (wait for processing)\n\n**CORS Headers**:\n- Allow Origin: * (or specify your domain)\n- Allow Methods: POST, OPTIONS\n- Allow Headers: Content-Type\n\n**Note**: The webhook URL will be:\n`https://your-n8n.com/webhook/ai-ceo-chat`",
+        "height": 350,
+        "width": 300,
+        "color": 5
+      },
+      "id": "webhook-note",
+      "name": "Webhook Details",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [250, 500]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "ai-ceo-chat",
+        "responseMode": "responseNode",
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Access-Control-Allow-Origin",
+                "value": "*"
+              },
+              {
+                "name": "Access-Control-Allow-Methods",
+                "value": "POST, OPTIONS"
+              },
+              {
+                "name": "Access-Control-Allow-Headers",
+                "value": "Content-Type"
+              }
+            ]
+          }
+        }
+      },
+      "id": "webhook-entry",
+      "name": "Webhook Entry",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [250, 300],
+      "webhookId": "ai-ceo-chat"
+    },
+    {
+      "parameters": {
+        "content": "## 🔀 Mode Router\n\n**Purpose**: Determines if input is text or voice\n\n**Logic**:\n- If `mode === 'voice'` → Send to Speech-to-Text\n- Otherwise → Send directly to AI Chat\n\n**Why This Matters**:\n- Voice messages need transcription first\n- Text messages can go straight to AI\n- Maintains efficient processing flow\n\n**Note**: Voice mode expects base64 audio data in the message field",
+        "height": 220,
+        "width": 280,
+        "color": 6
+      },
+      "id": "router-note",
+      "name": "Router Logic",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [450, 500]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "voice-mode",
+              "leftValue": "={{ $json.mode }}",
+              "rightValue": "voice",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-mode",
+      "name": "Check If Voice Mode",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "content": "## 🎤 Speech-to-Text\n\n**Purpose**: Converts voice audio to text\n\n**Using**: OpenAI Whisper API\n- Model: `whisper-1`\n- Accepts: Audio binary data\n- Returns: Transcribed text\n\n**Expected Input**:\n- Base64 encoded audio from browser\n- Supported formats: webm, mp3, wav\n\n**Output**: Plain text transcription that flows to AI Chat",
+        "height": 200,
+        "width": 250,
+        "color": 3
+      },
+      "id": "stt-note",
+      "name": "Speech Processing",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [650, 50]
+    },
+    {
+      "parameters": {
+        "authentication": "predefinedCredentialType",
+        "resource": "audio",
+        "operation": "transcribe",
+        "model": "whisper-1",
+        "binaryPropertyName": "audio"
+      },
+      "id": "speech-to-text",
+      "name": "Speech to Text",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1,
+      "position": [650, 200],
+      "credentials": {
+        "openAiApi": {
+          "id": "1",
+          "name": "OpenAI Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## 🧠 AI Business Brain\n\n**Purpose**: The core intelligence of your chatbot\n\n**System Prompt Contains**:\n- Company name and services\n- Value proposition\n- Target audience\n- Key benefits\n- Discovery call link\n\n**Configuration**:\n- Model: GPT-4o (latest)\n- Temperature: 0.7 (balanced creativity)\n- Max Tokens: 300 (concise responses)\n\n**Smart Features**:\n- Understands context\n- Offers scheduling when appropriate\n- Maintains professional tone\n- Focuses on user needs\n\n**To Customize**: Edit the system prompt with your specific business details",
+        "height": 300,
+        "width": 280,
+        "color": 2
+      },
+      "id": "ai-note",
+      "name": "AI Configuration",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [850, 500]
+    },
+    {
+      "parameters": {
+        "resource": "chat",
+        "model": "gpt-4o",
+        "messages": {
+          "values": [
+            {
+              "role": "system",
+              "content": "You are an AI assistant for The AI CEO, a company that helps businesses implement custom AI solutions. \n\nCompany Information:\n- Name: The AI CEO\n- Services: Custom AI voice agents, chatbots, workflow automation, AI implementation strategy\n- Unique Value: We build AI that actually understands context and holds intelligent conversations, not dumb bots that frustrate customers\n- Target Clients: Businesses looking to improve sales, customer service, and operations with AI\n- Key Benefits: Never lose deals to poor AI, 24/7 intelligent customer engagement, custom solutions tailored to each business\n\nYour role:\n1. Answer questions about our services professionally and conversationally\n2. Explain how AI can transform their specific business\n3. Share examples of voice agents, chatbots, and automation we can build\n4. If they show interest, suggest scheduling a discovery call\n5. For scheduling, provide this link: https://calendly.com/aiceo/discovery\n\nKeep responses concise (under 150 words) and conversational. Focus on understanding their needs and explaining how we can help."
+            },
+            {
+              "role": "user",
+              "content": "={{ $json.mode === 'voice' ? $json.transcription : $json.message }}"
+            }
+          ]
+        },
+        "options": {
+          "temperature": 0.7,
+          "maxTokens": 300
+        }
+      },
+      "id": "openai-chat",
+      "name": "OpenAI Chat",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1,
+      "position": [850, 300],
+      "credentials": {
+        "openAiApi": {
+          "id": "1",
+          "name": "OpenAI Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "voice-response",
+              "leftValue": "={{ $('webhook-entry').item.json.mode }}",
+              "rightValue": "voice",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-mode-2",
+      "name": "Check If Voice Response Needed",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [1050, 300]
+    },
+    {
+      "parameters": {
+        "content": "## 🔊 Text-to-Speech\n\n**Purpose**: Converts AI response to audio for voice mode\n\n**Configuration**:\n- Voice: `shimmer` (natural female voice)\n- Format: MP3 (44.1kHz, 128kbps)\n- Provider: ElevenLabs or OpenAI TTS\n\n**Only Processes**: Voice mode responses\n\n**Output**: Base64 encoded audio that plays in browser",
+        "height": 180,
+        "width": 250,
+        "color": 3
+      },
+      "id": "tts-note",
+      "name": "Voice Response",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [1050, 50]
+    },
+    {
+      "parameters": {
+        "inputText": "={{ $json.message.content }}",
+        "voice": "shimmer",
+        "outputFormat": "mp3_44100_128",
+        "options": {}
+      },
+      "id": "text-to-speech",
+      "name": "Text to Speech",
+      "type": "@n8n/n8n-nodes-langchain.textToSpeech",
+      "typeVersion": 1,
+      "position": [1050, 200]
+    },
+    {
+      "parameters": {
+        "content": "## 📦 Response Formatter\n\n**Purpose**: Prepares final response data\n\n**Creates JSON with**:\n- `message`: AI response text\n- `timestamp`: Current ISO timestamp\n- `mode`: Original request mode\n- `sessionId`: For conversation tracking\n- `audioData`: Base64 audio (voice only)\n\n**Smart Logic**:\n- Only includes audio data for voice mode\n- Preserves session context\n- Maintains consistent format",
+        "height": 220,
+        "width": 250,
+        "color": 7
+      },
+      "id": "formatter-note",
+      "name": "Data Preparation",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [1250, 500]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "response-prep",
+      "name": "Prepare Response",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3,
+      "position": [1250, 300],
+      "executeOnce": false,
+      "values": {
+        "values": [
+          {
+            "name": "message",
+            "value": "={{ $('openai-chat').item.json.message.content }}"
+          },
+          {
+            "name": "timestamp",
+            "value": "={{ new Date().toISOString() }}"
+          },
+          {
+            "name": "mode",
+            "value": "={{ $('webhook-entry').item.json.mode || 'text' }}"
+          },
+          {
+            "name": "sessionId",
+            "value": "={{ $('webhook-entry').item.json.sessionId }}"
+          },
+          {
+            "name": "audioData",
+            "value": "={{ $('webhook-entry').item.json.mode === 'voice' ? $('text-to-speech').item.binary.audio.data : null }}"
+          }
+        ]
+      }
+    },
+    {
+      "parameters": {
+        "content": "## ✅ Final Response\n\n**Purpose**: Sends formatted data back to website\n\n**Response Format**:\n```json\n{\n  \"message\": \"AI response text\",\n  \"timestamp\": \"2024-01-15T...\",\n  \"mode\": \"text\" or \"voice\",\n  \"sessionId\": \"abc-123\",\n  \"audioData\": \"base64...\" // voice only\n}\n```\n\n**Status**: Always 200 OK\n**Headers**: JSON content type",
+        "height": 200,
+        "width": 250,
+        "color": 1
+      },
+      "id": "response-note",
+      "name": "Response Details",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [1450, 500]
+    },
+    {
+      "parameters": {
+        "options": {
+          "responseCode": 200,
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              }
+            ]
+          }
+        },
+        "respondWith": "json",
+        "responseBody": "={{ $json }}"
+      },
+      "id": "response",
+      "name": "Send Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [1450, 300]
+    },
+    {
+      "parameters": {
+        "content": "## 🔧 Troubleshooting Guide\n\n**Common Issues**:\n\n1. **No Response**\n   - Check workflow is active\n   - Verify webhook URL matches\n   - Test with curl first\n\n2. **OpenAI Errors**\n   - Verify API key is valid\n   - Check rate limits\n   - Review token usage\n\n3. **Voice Not Working**\n   - Ensure audio is base64 encoded\n   - Check audio format (webm/mp3)\n   - Verify TTS credentials\n\n4. **CORS Issues**\n   - Add your domain to Allow-Origin\n   - Check preflight OPTIONS handling\n\n**Testing**:\nUse the included test script:\n`node n8n/test-chatbot-webhook.js`",
+        "height": 350,
+        "width": 280,
+        "color": 6
+      },
+      "id": "debug-note",
+      "name": "Troubleshooting",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [-200, 550]
+    }
+  ],
+  "connections": {
+    "webhook-entry": {
+      "main": [[{"node": "check-mode", "type": "main", "index": 0}]]
+    },
+    "check-mode": {
+      "main": [
+        [{"node": "speech-to-text", "type": "main", "index": 0}],
+        [{"node": "openai-chat", "type": "main", "index": 0}]
+      ]
+    },
+    "speech-to-text": {
+      "main": [[{"node": "openai-chat", "type": "main", "index": 0}]]
+    },
+    "openai-chat": {
+      "main": [[{"node": "check-mode-2", "type": "main", "index": 0}]]
+    },
+    "check-mode-2": {
+      "main": [
+        [{"node": "text-to-speech", "type": "main", "index": 0}],
+        [{"node": "response-prep", "type": "main", "index": 0}]
+      ]
+    },
+    "text-to-speech": {
+      "main": [[{"node": "response-prep", "type": "main", "index": 0}]]
+    },
+    "response-prep": {
+      "main": [[{"node": "response", "type": "main", "index": 0}]]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "responseMode": "responseNode",
+    "description": "Fully annotated chatbot workflow with detailed sticky notes explaining each component, configuration, and troubleshooting tips."
+  }
+}

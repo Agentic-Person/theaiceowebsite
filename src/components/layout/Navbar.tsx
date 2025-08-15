@@ -6,15 +6,16 @@ import { cn } from '@/lib/utils';
 import { NavigationItem } from '@/types';
 import Button from '@/components/ui/Button';
 import Container from '@/components/ui/Container';
+import AnimatedChatButton from '@/components/ui/AnimatedChatButton';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { handleSectionClick } from '@/lib/scroll';
 import { useActiveSection } from '@/hooks/useActiveSection';
 
 const navigationItems: NavigationItem[] = [
+  { label: 'Why', href: '#why' },
   { label: 'Solutions', href: '#solutions' },
-  { label: 'Workflow', href: '#workflow' },
-  { label: 'Success Stories', href: '#success-stories' },
-  { label: 'Resources', href: '#resources' },
+  { label: 'AI Voice', href: '#ai-voice' },
+  { label: 'About', href: '#about' },
   { label: 'Team', href: '#team' },
 ];
 
@@ -108,9 +109,16 @@ export default function Navbar() {
           {/* CTA Button and Theme Toggle */}
           <div className="hidden md:flex items-center space-x-4">
             <ThemeToggle />
-            <Button variant="primary" size="md">
-              Get in Touch
-            </Button>
+            <AnimatedChatButton 
+              noAnimation
+              onClick={() => {
+                // Scroll to the voice agent demo section
+                const demoSection = document.getElementById('team');
+                if (demoSection) {
+                  demoSection.scrollIntoView({ behavior: 'smooth' });
+                }
+              }}
+            />
           </div>
 
           {/* Mobile Menu Button and Theme Toggle */}

@@ -1,0 +1,289 @@
+{
+  "name": "AI CEO Chatbot Webhook",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "ai-chat",
+        "responseMode": "responseNode",
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Access-Control-Allow-Origin",
+                "value": "*"
+              },
+              {
+                "name": "Access-Control-Allow-Methods",
+                "value": "POST, OPTIONS"
+              },
+              {
+                "name": "Access-Control-Allow-Headers",
+                "value": "Content-Type"
+              }
+            ]
+          }
+        }
+      },
+      "id": "webhook-receiver",
+      "name": "Webhook - Receive Chat",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "extract-message",
+              "name": "userMessage",
+              "value": "={{ $json.message }}",
+              "type": "string"
+            },
+            {
+              "id": "extract-session",
+              "name": "sessionId",
+              "value": "={{ $json.sessionId }}",
+              "type": "string"
+            },
+            {
+              "id": "extract-mode",
+              "name": "mode",
+              "value": "={{ $json.mode || 'text' }}",
+              "type": "string"
+            },
+            {
+              "id": "system-prompt",
+              "name": "systemPrompt",
+              "value": "You are an AI Sales Professional for The AI CEO company. You help businesses understand how custom AI solutions can transform their operations. The AI CEO specializes in:\n\n1. Custom AI Solutions for SMBs (small and medium businesses)\n2. AI Strategy Consulting\n3. Voice Agents with memory and context\n4. Workflow Automation with n8n\n5. No-code/low-code AI implementations\n\nKey points to emphasize:\n- We offer consultation-first approach with free strategy sessions\n- Our solutions are custom-built for each business, not generic tools\n- We focus on ROI and practical business outcomes\n- Security and compliance are built into everything we do\n- We make enterprise-grade AI accessible to SMBs\n\nBe conversational, professional, and focus on understanding the visitor's business needs. Ask clarifying questions when appropriate. Keep responses concise but informative.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "prepare-data",
+      "name": "Prepare Data",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "model": "gpt-4-turbo-preview",
+        "messages": {
+          "values": [
+            {
+              "role": "system",
+              "content": "={{ $('prepare-data').item.json.systemPrompt }}"
+            },
+            {
+              "role": "user", 
+              "content": "={{ $('prepare-data').item.json.userMessage }}"
+            }
+          ]
+        },
+        "options": {
+          "temperature": 0.7,
+          "maxTokens": 500,
+          "topP": 0.9
+        }
+      },
+      "id": "openai-chat",
+      "name": "OpenAI Chat",
+      "type": "n8n-nodes-base.openAi",
+      "typeVersion": 1.3,
+      "position": [650, 300],
+      "credentials": {
+        "openAiApi": {
+          "id": "1",
+          "name": "OpenAI Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "format-response",
+              "name": "response",
+              "value": "={{ $('openai-chat').item.json.choices[0].message.content }}",
+              "type": "string"
+            },
+            {
+              "id": "session-id",
+              "name": "sessionId", 
+              "value": "={{ $('prepare-data').item.json.sessionId }}",
+              "type": "string"
+            },
+            {
+              "id": "timestamp",
+              "name": "timestamp",
+              "value": "={{ new Date().toISOString() }}",
+              "type": "string"
+            },
+            {
+              "id": "success",
+              "name": "success",
+              "value": true,
+              "type": "boolean"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "format-response",
+      "name": "Format Response",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [850, 300]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "response",
+              "value": "I apologize, but I'm having trouble processing your request at the moment. This could be due to a temporary issue. Please try again in a moment, or feel free to contact The AI CEO directly at your convenience for immediate assistance with your AI needs."
+            },
+            {
+              "name": "sessionId",
+              "value": "={{ $('prepare-data').item.json.sessionId }}"
+            },
+            {
+              "name": "timestamp",
+              "value": "={{ new Date().toISOString() }}"
+            }
+          ],
+          "boolean": [
+            {
+              "name": "success",
+              "value": false
+            }
+          ],
+          "string": [
+            {
+              "name": "error",
+              "value": "={{ $json.error?.message || 'An error occurred processing the request' }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "error-handler",
+      "name": "Error Response",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [850, 500]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify($json) }}",
+        "options": {
+          "responseCode": 200,
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              }
+            ]
+          }
+        }
+      },
+      "id": "respond-webhook",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [1050, 300]
+    }
+  ],
+  "connections": {
+    "webhook-receiver": {
+      "main": [
+        [
+          {
+            "node": "prepare-data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "prepare-data": {
+      "main": [
+        [
+          {
+            "node": "openai-chat",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "openai-chat": {
+      "main": [
+        [
+          {
+            "node": "format-response",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "error-handler",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "format-response": {
+      "main": [
+        [
+          {
+            "node": "respond-webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "error-handler": {
+      "main": [
+        [
+          {
+            "node": "respond-webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "ai-ceo-chatbot-v1",
+  "meta": {
+    "templateCreatedBy": "The AI CEO Development Team",
+    "description": "Complete chatbot workflow for The AI CEO website. Receives webhook requests, processes with OpenAI, and returns formatted responses."
+  },
+  "id": "ai-ceo-chatbot-workflow",
+  "tags": [
+    {
+      "name": "chatbot"
+    },
+    {
+      "name": "webhook"
+    },
+    {
+      "name": "openai"
+    }
+  ]
+}

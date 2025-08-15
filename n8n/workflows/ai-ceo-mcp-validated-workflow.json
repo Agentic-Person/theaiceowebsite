@@ -1,0 +1,392 @@
+{
+  "name": "AI CEO Intelligent Chat System - MCP Validated",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "ai-chat",
+        "responseMode": "lastNode",
+        "responseData": "allEntries",
+        "onError": "continueRegularOutput",
+        "alwaysOutputData": true
+      },
+      "id": "c3d5f7a8-4b2a-4c3e-8f9d-1a2b3c4d5e6f",
+      "name": "Webhook Receiver",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [200, 400],
+      "webhookId": "3f7a9c21-8b4d-4e5f-9a1b-2c3d4e5f6a7b"
+    },
+    {
+      "parameters": {
+        "operation": "upsert",
+        "table": "users",
+        "columns": "email, session_id, last_message, last_seen",
+        "conflictColumns": "session_id",
+        "options": {
+          "returnFields": "*"
+        }
+      },
+      "id": "supabase-upsert-user",
+      "name": "Supabase - Upsert User",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [400, 400],
+      "credentials": {
+        "supabaseApi": {
+          "id": "{{ SUPABASE_CREDENTIALS_ID }}",
+          "name": "Supabase API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "table": "conversations",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "session_id",
+              "keyValue": "={{ $json.sessionId }}",
+              "condition": "equals"
+            }
+          ]
+        },
+        "options": {
+          "orderBy": {
+            "values": [
+              {
+                "column": "timestamp",
+                "direction": "DESC"
+              }
+            ]
+          },
+          "limit": 10
+        }
+      },
+      "id": "supabase-get-history",
+      "name": "Supabase - Get History",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [600, 500],
+      "credentials": {
+        "supabaseApi": {
+          "id": "{{ SUPABASE_CREDENTIALS_ID }}",
+          "name": "Supabase API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "text": "={{ $json.message }}",
+        "outputType": "output",
+        "systemMessage": "You are The AI CEO's intelligent sales assistant. You help businesses understand custom AI solutions.\n\nContext:\n- User Session: {{ $('supabase-upsert-user').item.json.session_id }}\n- Previous Messages: {{ $('supabase-get-history').item.json.length || 0 }}\n\nKey Services:\n1. Custom AI Agents (Voice & Chat)\n2. Workflow Automation (n8n)\n3. AI Strategy Consulting\n4. Prompt Engineering (Prompt Surgeon™)\n\nAlways:\n- Be conversational and helpful\n- Focus on business value\n- Mention free strategy sessions when relevant\n- Keep responses concise (2-3 paragraphs)",
+        "options": {
+          "returnIntermediateSteps": false
+        }
+      },
+      "id": "ai-agent-main",
+      "name": "AI Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [800, 400]
+    },
+    {
+      "parameters": {
+        "model": "gpt-4o",
+        "options": {
+          "temperature": 0.7,
+          "maxTokens": 500,
+          "topP": 0.9
+        }
+      },
+      "id": "openai-model",
+      "name": "OpenAI Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1,
+      "position": [800, 600],
+      "credentials": {
+        "openAiApi": {
+          "id": "{{ OPENAI_CREDENTIALS_ID }}",
+          "name": "OpenAI API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $json.sessionId }}",
+        "contextWindowLength": 10
+      },
+      "id": "memory-buffer",
+      "name": "Window Buffer Memory",
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.2,
+      "position": [800, 700]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.elevenlabs.io/v1/text-to-speech/21m00Tcm4TlvDq8ikWAM",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "xi-api-key",
+              "value": "={{ $credentials.elevenLabsApiKey }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ text: $json.output, model_id: 'eleven_monolingual_v1', voice_settings: { stability: 0.5, similarity_boost: 0.75 } }) }}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          },
+          "timeout": 10000
+        }
+      },
+      "id": "elevenlabs-tool",
+      "name": "ElevenLabs TTS Tool",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [600, 200],
+      "description": "Convert text to speech using ElevenLabs"
+    },
+    {
+      "parameters": {
+        "fromEmail": "={{ $credentials.email }}",
+        "toEmail": "={{ $json.email }}",
+        "subject": "Your AI Strategy Guide - The AI CEO",
+        "emailFormat": "html",
+        "html": "<h2>Welcome to The AI CEO!</h2><p>Thank you for downloading our AI Strategy Guide.</p><p>Your guide is attached to this email.</p><p><a href='https://theaiceo.com/book'>Book your free strategy session</a></p>",
+        "attachments": "={{ $json.pdfUrl }}",
+        "options": {}
+      },
+      "id": "gmail-tool",
+      "name": "Gmail Send Tool",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [600, 300],
+      "description": "Send emails with PDF attachments",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "{{ GMAIL_CREDENTIALS_ID }}",
+          "name": "Gmail OAuth"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "table": "conversations",
+        "columns": "session_id, user_message, ai_response, timestamp, mode",
+        "options": {}
+      },
+      "id": "supabase-store-convo",
+      "name": "Supabase - Store Conversation",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [1000, 400],
+      "credentials": {
+        "supabaseApi": {
+          "id": "{{ SUPABASE_CREDENTIALS_ID }}",
+          "name": "Supabase API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "response",
+              "value": "={{ $('ai-agent-main').item.json.output }}"
+            },
+            {
+              "name": "sessionId",
+              "value": "={{ $('Webhook Receiver').item.json.sessionId }}"
+            },
+            {
+              "name": "timestamp",
+              "value": "={{ new Date().toISOString() }}"
+            }
+          ],
+          "boolean": [
+            {
+              "name": "success",
+              "value": true
+            }
+          ],
+          "number": [
+            {
+              "name": "conversationCount",
+              "value": "={{ $('supabase-get-history').item.json.length || 0 }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "format-response",
+      "name": "Format Response",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [1200, 400]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "response",
+              "value": "I apologize, but I'm experiencing a temporary issue. Please try again in a moment or contact us directly at contact@theaiceo.com"
+            },
+            {
+              "name": "sessionId",
+              "value": "={{ $('Webhook Receiver').item.json.sessionId }}"
+            },
+            {
+              "name": "error",
+              "value": "={{ $json.error?.message || 'Service temporarily unavailable' }}"
+            }
+          ],
+          "boolean": [
+            {
+              "name": "success",
+              "value": false
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "error-response",
+      "name": "Error Response",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [1200, 600]
+    }
+  ],
+  "connections": {
+    "Webhook Receiver": {
+      "main": [
+        [
+          {
+            "node": "Supabase - Upsert User",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Supabase - Upsert User": {
+      "main": [
+        [
+          {
+            "node": "Supabase - Get History",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Supabase - Get History": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Supabase - Store Conversation",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Error Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Window Buffer Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ElevenLabs TTS Tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gmail Send Tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Supabase - Store Conversation": {
+      "main": [
+        [
+          {
+            "node": "Format Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "versionId": "mcp-validated-v1",
+  "id": "ai-ceo-mcp-validated"
+}

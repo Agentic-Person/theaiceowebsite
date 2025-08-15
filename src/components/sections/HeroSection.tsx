@@ -1,13 +1,17 @@
 'use client';
 
+import { useState } from 'react';
 import Container from '@/components/ui/Container';
 import Button from '@/components/ui/Button';
 import ParticleSystem from '@/components/ui/ParticleSystem';
+import LeadCaptureModal from '@/components/ui/LeadCaptureModal';
+import AnimatedChatButton from '@/components/ui/AnimatedChatButton';
 import { Send } from 'lucide-react';
 import { motion } from 'framer-motion';
 import AnimatedButton from '@/components/animations/AnimatedButton';
 
 export default function HeroSection() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   return (
     <section 
       id="hero" 
@@ -59,18 +63,21 @@ export default function HeroSection() {
             transition={{ duration: 0.5, delay: 0.6, ease: "easeOut" }}
             className="flex flex-col sm:flex-row gap-6 items-center justify-center"
           >
-            <AnimatedButton 
-              className="h-14 px-8 border-2"
-              size="lg"
-              style={{ backgroundColor: '#FFC44F', borderColor: '#FFFFFF' }}
-            >
-              Book your AI strategy session
-            </AnimatedButton>
+            <AnimatedChatButton 
+              onClick={() => {
+                // Scroll to the voice agent demo section
+                const demoSection = document.getElementById('team');
+                if (demoSection) {
+                  demoSection.scrollIntoView({ behavior: 'smooth' });
+                }
+              }}
+            />
             <AnimatedButton 
               variant="outline"
               className="h-14 px-8 border-2"
               size="lg"
               style={{ borderColor: '#FFFFFF', color: '#FFC44F' }}
+              onClick={() => setIsModalOpen(true)}
             >
               Download AI EDGE eBook
             </AnimatedButton>
@@ -148,6 +155,14 @@ export default function HeroSection() {
           </motion.div>
         </motion.div>
       </Container>
+
+      {/* Lead Capture Modal */}
+      <LeadCaptureModal 
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        ebookTitle="AI EDGE eBook"
+        ebookDescription="The Complete Guide to AI Implementation for SMBs"
+      />
     </section>
   );
 }

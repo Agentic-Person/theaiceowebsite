@@ -1,7 +1,7 @@
-# Task 1: Chatbot Integration
+  Task 1: Chatbot Integration
 
 ## Objective
-Implement a fully functional chatbot integration using n8n webhooks to power the ChatGPT-style interface on the homepage. This will transform the existing static chat interface into a dynamic, interactive system that can handle real user conversations.
+*0/-*
 
 ## Prerequisites
 - Phase 2 completion (Dark Theme & Content Integration) ✅

@@ -18,7 +18,10 @@
       "Bash(taskkill:*)",
       "Bash(rm:*)",
       "Bash(git checkout:*)",
-      "Bash(npm run lint)"
+      "Bash(npm run lint)",
+      "mcp__n8n-mcp__get_node_for_task",
+      "mcp__n8n-mcp__get_node_essentials",
+      "mcp__n8n-mcp__search_nodes"
     ],
     "deny": [],
     "defaultMode": "acceptEdits"

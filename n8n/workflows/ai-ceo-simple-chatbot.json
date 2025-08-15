@@ -1,0 +1,232 @@
+{
+  "name": "AI CEO Simple Chatbot",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "ai-ceo-chat",
+        "responseMode": "responseNode",
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Access-Control-Allow-Origin",
+                "value": "*"
+              },
+              {
+                "name": "Access-Control-Allow-Methods",
+                "value": "POST, OPTIONS"
+              },
+              {
+                "name": "Access-Control-Allow-Headers",
+                "value": "Content-Type"
+              }
+            ]
+          }
+        }
+      },
+      "id": "webhook-entry",
+      "name": "Webhook Entry",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [250, 300],
+      "webhookId": "ai-ceo-chat"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "voice-mode",
+              "leftValue": "={{ $json.mode }}",
+              "rightValue": "voice",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-mode",
+      "name": "Check If Voice Mode",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "authentication": "predefinedCredentialType",
+        "resource": "audio",
+        "operation": "transcribe",
+        "model": "whisper-1",
+        "binaryPropertyName": "audio"
+      },
+      "id": "speech-to-text",
+      "name": "Speech to Text",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1,
+      "position": [650, 200],
+      "credentials": {
+        "openAiApi": {
+          "id": "1",
+          "name": "OpenAI Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "chat",
+        "model": "gpt-4o",
+        "messages": {
+          "values": [
+            {
+              "role": "system",
+              "content": "You are an AI assistant for The AI CEO, a company that helps businesses implement custom AI solutions. \n\nCompany Information:\n- Name: The AI CEO\n- Services: Custom AI voice agents, chatbots, workflow automation, AI implementation strategy\n- Unique Value: We build AI that actually understands context and holds intelligent conversations, not dumb bots that frustrate customers\n- Target Clients: Businesses looking to improve sales, customer service, and operations with AI\n- Key Benefits: Never lose deals to poor AI, 24/7 intelligent customer engagement, custom solutions tailored to each business\n\nYour role:\n1. Answer questions about our services professionally and conversationally\n2. Explain how AI can transform their specific business\n3. Share examples of voice agents, chatbots, and automation we can build\n4. If they show interest, suggest scheduling a discovery call\n5. For scheduling, provide this link: https://calendly.com/aiceo/discovery\n\nKeep responses concise (under 150 words) and conversational. Focus on understanding their needs and explaining how we can help."
+            },
+            {
+              "role": "user",
+              "content": "={{ $json.mode === 'voice' ? $json.transcription : $json.message }}"
+            }
+          ]
+        },
+        "options": {
+          "temperature": 0.7,
+          "maxTokens": 300
+        }
+      },
+      "id": "openai-chat",
+      "name": "OpenAI Chat",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1,
+      "position": [850, 300],
+      "credentials": {
+        "openAiApi": {
+          "id": "1",
+          "name": "OpenAI Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "inputText": "={{ $json.message.content }}",
+        "voice": "shimmer",
+        "outputFormat": "mp3_44100_128",
+        "options": {}
+      },
+      "id": "text-to-speech",
+      "name": "Text to Speech",
+      "type": "@n8n/n8n-nodes-langchain.textToSpeech",
+      "typeVersion": 1,
+      "position": [1050, 200]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "response-prep",
+      "name": "Prepare Response",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3,
+      "position": [1250, 300],
+      "executeOnce": false,
+      "settings": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "message",
+              "name": "message",
+              "value": "={{ $('openai-chat').item.json.message.content }}",
+              "type": "string"
+            },
+            {
+              "id": "timestamp",
+              "name": "timestamp",
+              "value": "={{ new Date().toISOString() }}",
+              "type": "string"
+            },
+            {
+              "id": "mode",
+              "name": "mode",
+              "value": "={{ $('webhook-entry').item.json.mode || 'text' }}",
+              "type": "string"
+            },
+            {
+              "id": "sessionId",
+              "name": "sessionId",
+              "value": "={{ $('webhook-entry').item.json.sessionId }}",
+              "type": "string"
+            },
+            {
+              "id": "audioData",
+              "name": "audioData",
+              "value": "={{ $('webhook-entry').item.json.mode === 'voice' ? $('text-to-speech').item.binary.audio.data : null }}",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {
+          "responseCode": 200,
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              }
+            ]
+          }
+        },
+        "respondWith": "json",
+        "responseBody": "={{ $json }}"
+      },
+      "id": "response",
+      "name": "Send Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [1450, 300]
+    }
+  ],
+  "connections": {
+    "webhook-entry": {
+      "main": [[{"node": "check-mode", "type": "main", "index": 0}]]
+    },
+    "check-mode": {
+      "main": [
+        [{"node": "speech-to-text", "type": "main", "index": 0}],
+        [{"node": "openai-chat", "type": "main", "index": 0}]
+      ]
+    },
+    "speech-to-text": {
+      "main": [[{"node": "openai-chat", "type": "main", "index": 0}]]
+    },
+    "openai-chat": {
+      "main": [[{"node": "check-mode-2", "type": "main", "index": 0}]]
+    },
+    "text-to-speech": {
+      "main": [[{"node": "response-prep", "type": "main", "index": 0}]]
+    },
+    "response-prep": {
+      "main": [[{"node": "response", "type": "main", "index": 0}]]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "responseMode": "responseNode",
+    "description": "Simple chatbot workflow that handles both text and voice input, processes through OpenAI, and returns appropriate responses."
+  }
+}

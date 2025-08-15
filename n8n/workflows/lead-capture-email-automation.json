@@ -1,0 +1,252 @@
+{
+  "name": "Lead Capture Email Automation",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "# 📧 Lead Capture Email Automation\n\n## Overview\nThis workflow captures leads from your website's ebook download form, stores them in Supabase, and sends an automated email with the PDF download link.\n\n## Flow\n1. **Webhook receives** lead data from website\n2. **Store in Supabase** for CRM/follow-up\n3. **Send welcome email** with PDF link\n4. **Track engagement** for analytics\n\n## Required Setup\n- Supabase tables (see SQL below)\n- SMTP credentials (Gmail, SendGrid, etc.)\n- PDF hosted URL\n- Email template",
+        "height": 300,
+        "width": 350,
+        "color": 4
+      },
+      "id": "overview",
+      "name": "Workflow Overview",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [-200, 200]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "lead-capture",
+        "responseMode": "responseNode",
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Access-Control-Allow-Origin",
+                "value": "*"
+              }
+            ]
+          }
+        }
+      },
+      "id": "webhook",
+      "name": "Lead Capture Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [250, 300],
+      "webhookId": "lead-capture"
+    },
+    {
+      "parameters": {
+        "content": "## 🗄️ Supabase Setup\n\n**Create leads table:**\n```sql\nCREATE TABLE leads (\n  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n  name TEXT NOT NULL,\n  email TEXT UNIQUE NOT NULL,\n  business_type TEXT,\n  source TEXT,\n  ebook_requested TEXT,\n  created_at TIMESTAMP DEFAULT NOW(),\n  email_sent BOOLEAN DEFAULT FALSE,\n  email_opened BOOLEAN DEFAULT FALSE,\n  pdf_downloaded BOOLEAN DEFAULT FALSE\n);\n\n-- Index for quick lookups\nCREATE INDEX idx_leads_email ON leads(email);\n```",
+        "height": 280,
+        "width": 350,
+        "color": 5
+      },
+      "id": "supabase-setup",
+      "name": "Database Setup",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [250, 50]
+    },
+    {
+      "parameters": {
+        "operation": "upsert",
+        "schema": "public",
+        "table": "leads",
+        "columns": "name,email,business_type,source,ebook_requested",
+        "columnToMatchOn": "email",
+        "options": {}
+      },
+      "id": "store-lead",
+      "name": "Store Lead in Supabase",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [450, 300],
+      "credentials": {
+        "supabaseApi": {
+          "id": "1",
+          "name": "Supabase Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "values": {
+          "values": [
+            {
+              "name": "recipientEmail",
+              "value": "={{ $json.email }}"
+            },
+            {
+              "name": "recipientName",
+              "value": "={{ $json.name }}"
+            },
+            {
+              "name": "ebookTitle",
+              "value": "={{ $json.ebook_requested || 'AI EDGE eBook' }}"
+            },
+            {
+              "name": "downloadLink",
+              "value": "https://yourdomain.com/downloads/ai-edge-ebook.pdf"
+            },
+            {
+              "name": "emailSubject",
+              "value": "Your {{ $json.ebook_requested || 'AI EDGE eBook' }} is ready!"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "prepare-email",
+      "name": "Prepare Email Data",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3,
+      "position": [650, 300]
+    },
+    {
+      "parameters": {
+        "content": "## 📝 Email Template Variables\n\n**Available Variables:**\n- `recipientName` - Lead's name\n- `recipientEmail` - Lead's email\n- `ebookTitle` - Requested ebook\n- `downloadLink` - PDF URL\n\n**Update downloadLink:**\nChange the URL in 'Prepare Email Data' node to your actual PDF location:\n- Cloud storage (S3, Google Drive)\n- Your website /downloads folder\n- CDN URL\n\n**Security Tip:**\nConsider using signed URLs that expire for better security",
+        "height": 250,
+        "width": 300,
+        "color": 6
+      },
+      "id": "email-vars",
+      "name": "Email Configuration",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [650, 500]
+    },
+    {
+      "parameters": {
+        "fromEmail": "hello@theaiceo.com",
+        "fromName": "The AI CEO Team",
+        "toEmail": "={{ $json.recipientEmail }}",
+        "subject": "={{ $json.emailSubject }}",
+        "html": "<!DOCTYPE html>\n<html>\n<head>\n  <style>\n    body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }\n    .container { max-width: 600px; margin: 0 auto; padding: 20px; }\n    .header { background: #002246; color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }\n    .content { background: #f8f9fa; padding: 30px; border-radius: 0 0 10px 10px; }\n    .button { display: inline-block; padding: 15px 30px; background: #36b0d9; color: white; text-decoration: none; border-radius: 5px; margin: 20px 0; }\n    .footer { text-align: center; margin-top: 30px; font-size: 12px; color: #666; }\n  </style>\n</head>\n<body>\n  <div class=\"container\">\n    <div class=\"header\">\n      <h1>Your {{ $json.ebookTitle }} is Ready!</h1>\n    </div>\n    <div class=\"content\">\n      <p>Hi {{ $json.recipientName }},</p>\n      \n      <p>Thank you for your interest in <strong>{{ $json.ebookTitle }}</strong>!</p>\n      \n      <p>We're excited to share this comprehensive guide with you. It's packed with actionable insights to help you successfully implement AI in your business.</p>\n      \n      <center>\n        <a href=\"{{ $json.downloadLink }}\" class=\"button\">Download Your eBook</a>\n      </center>\n      \n      <h3>What's Inside:</h3>\n      <ul>\n        <li>✅ 5-step AI implementation framework</li>\n        <li>✅ Real-world case studies from SMBs</li>\n        <li>✅ ROI calculation templates</li>\n        <li>✅ Common pitfalls to avoid</li>\n        <li>✅ Resource checklist</li>\n      </ul>\n      \n      <p><strong>Next Steps:</strong><br>\n      After reading the ebook, feel free to <a href=\"https://calendly.com/aiceo/discovery\">schedule a free AI strategy session</a> to discuss your specific needs.</p>\n      \n      <p>Best regards,<br>\n      The AI CEO Team</p>\n    </div>\n    <div class=\"footer\">\n      <p>© 2024 The AI CEO. All rights reserved.<br>\n      <a href=\"https://theaiceo.com/unsubscribe\">Unsubscribe</a> | <a href=\"https://theaiceo.com/privacy\">Privacy Policy</a></p>\n    </div>\n  </div>\n</body>\n</html>",
+        "options": {
+          "allowUnauthorizedCerts": true
+        }
+      },
+      "id": "send-email",
+      "name": "Send Email",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [850, 300],
+      "credentials": {
+        "smtp": {
+          "id": "2",
+          "name": "SMTP Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## 📧 Email Provider Setup\n\n**Option 1: Gmail**\n- Enable 2FA\n- Create App Password\n- SMTP: smtp.gmail.com:587\n\n**Option 2: SendGrid**\n- Create API Key\n- Better for production\n- Analytics included\n\n**Option 3: Mailgun**\n- Good deliverability\n- Detailed tracking\n\n**Option 4: Amazon SES**\n- Cost effective\n- Scales well",
+        "height": 250,
+        "width": 250,
+        "color": 3
+      },
+      "id": "email-providers",
+      "name": "Email Providers",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [850, 500]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "schema": "public",
+        "table": "leads",
+        "columns": "email_sent",
+        "filterType": "manual",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "email",
+              "keyValue": "={{ $('webhook').item.json.email }}",
+              "condition": "equals"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "update-status",
+      "name": "Update Email Status",
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [1050, 300],
+      "credentials": {
+        "supabaseApi": {
+          "id": "1",
+          "name": "Supabase Account"
+        }
+      },
+      "values": {
+        "email_sent": true
+      }
+    },
+    {
+      "parameters": {
+        "options": {
+          "responseCode": 200,
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              }
+            ]
+          }
+        },
+        "respondWith": "json",
+        "responseBody": "{\n  \"success\": true,\n  \"message\": \"Lead captured and email sent successfully\"\n}"
+      },
+      "id": "response",
+      "name": "Send Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [1250, 300]
+    },
+    {
+      "parameters": {
+        "content": "## 🎯 Testing & Optimization\n\n**Test with:**\n```bash\ncurl -X POST https://your-n8n.com/webhook/lead-capture \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"name\": \"Test User\",\n    \"email\": \"test@example.com\",\n    \"businessType\": \"getting-started\"\n  }'\n```\n\n**Future Enhancements:**\n- Add to email sequence\n- Track PDF downloads\n- Segment by business type\n- A/B test subject lines\n- Add to CRM\n- Slack notifications",
+        "height": 300,
+        "width": 300,
+        "color": 7
+      },
+      "id": "testing",
+      "name": "Testing & Next Steps",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [1250, 500]
+    }
+  ],
+  "connections": {
+    "webhook": {
+      "main": [[{"node": "store-lead", "type": "main", "index": 0}]]
+    },
+    "store-lead": {
+      "main": [[{"node": "prepare-email", "type": "main", "index": 0}]]
+    },
+    "prepare-email": {
+      "main": [[{"node": "send-email", "type": "main", "index": 0}]]
+    },
+    "send-email": {
+      "main": [[{"node": "update-status", "type": "main", "index": 0}]]
+    },
+    "update-status": {
+      "main": [[{"node": "response", "type": "main", "index": 0}]]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "responseMode": "responseNode",
+    "description": "Automated lead capture system that stores leads in Supabase and sends email with ebook download link"
+  }
+}

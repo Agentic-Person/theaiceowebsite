@@ -1,0 +1,439 @@
+{
+  "meta": {
+    "instanceId": "ai-ceo-production-instance"
+  },
+  "name": "AI CEO Production Chatbot System",
+  "nodes": [
+    {
+      "id": "webhook-trigger",
+      "name": "Chat Webhook Trigger",
+      "type": "n8n-nodes-base.webhook",
+      "position": [200, 400],
+      "webhookId": "ai-chat-webhook",
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "ai-chat",
+        "responseMode": "lastNode",
+        "options": {
+          "rawBody": false
+        }
+      },
+      "typeVersion": 2
+    },
+    {
+      "id": "validate-input",
+      "name": "Validate Input",
+      "type": "n8n-nodes-base.code",
+      "position": [400, 400],
+      "parameters": {
+        "jsCode": "// Validate incoming chat message\nconst input = $input.first().json;\n\nif (!input.body?.message || !input.body?.sessionId) {\n  throw new Error('Missing required fields: message and sessionId');\n}\n\nreturn {\n  message: input.body.message,\n  sessionId: input.body.sessionId,\n  mode: input.body.mode || 'text',\n  email: input.body.email || null,\n  timestamp: new Date().toISOString(),\n  headers: input.headers,\n  ip: input.headers['x-forwarded-for'] || input.headers['x-real-ip'] || 'unknown'\n};"
+      },
+      "typeVersion": 2
+    },
+    {
+      "id": "supabase-check-user",
+      "name": "Check/Create User Session",
+      "type": "n8n-nodes-base.supabase",
+      "position": [600, 400],
+      "parameters": {
+        "operation": "upsert",
+        "table": "user_sessions",
+        "columns": "session_id, last_message, last_seen, ip_address, mode",
+        "conflictColumns": "session_id",
+        "options": {
+          "returnFields": "*"
+        }
+      },
+      "credentials": {
+        "supabaseApi": {
+          "id": "supabase-creds",
+          "name": "Supabase"
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "supabase-get-history",
+      "name": "Get Chat History",
+      "type": "n8n-nodes-base.supabase",
+      "position": [800, 500],
+      "parameters": {
+        "operation": "getAll",
+        "table": "conversations",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "session_id",
+              "keyValue": "={{ $node['Validate Input'].json.sessionId }}",
+              "condition": "equals"
+            }
+          ]
+        },
+        "options": {
+          "orderBy": {
+            "column": "created_at",
+            "direction": "DESC"
+          },
+          "limit": 10
+        }
+      },
+      "credentials": {
+        "supabaseApi": {
+          "id": "supabase-creds",
+          "name": "Supabase"
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "format-context",
+      "name": "Format Context for AI",
+      "type": "n8n-nodes-base.code",
+      "position": [1000, 400],
+      "parameters": {
+        "jsCode": "// Format conversation history for AI context\nconst currentMessage = $node['Validate Input'].json;\nconst history = $node['Get Chat History'].json || [];\nconst userInfo = $node['Check/Create User Session'].json;\n\n// Build conversation context\nlet conversationHistory = '';\nif (history.length > 0) {\n  conversationHistory = history.reverse().map(msg => \n    `${msg.role}: ${msg.content}`\n  ).join('\\n');\n}\n\nreturn {\n  currentMessage: currentMessage.message,\n  sessionId: currentMessage.sessionId,\n  mode: currentMessage.mode,\n  conversationHistory: conversationHistory,\n  messageCount: history.length,\n  isReturningUser: history.length > 0,\n  timestamp: currentMessage.timestamp\n};"
+      },
+      "typeVersion": 2
+    },
+    {
+      "id": "openai-chat",
+      "name": "OpenAI Chat Completion",
+      "type": "n8n-nodes-base.openAi",
+      "position": [1200, 400],
+      "parameters": {
+        "resource": "chat",
+        "model": "gpt-4-turbo-preview",
+        "messages": {
+          "values": [
+            {
+              "role": "system",
+              "content": "You are The AI CEO's intelligent sales assistant. You help businesses understand how custom AI solutions can transform their operations.\n\nCompany: The AI CEO\nSpecialization: Custom AI solutions for SMBs\n\nCore Services:\n1. Custom AI Agents (Voice & Chat)\n2. Workflow Automation with n8n\n3. AI Strategy Consulting\n4. Prompt Engineering (Prompt Surgeon™ methodology)\n\nKey Differentiators:\n- Consultation-first approach with free strategy sessions\n- SMB-focused pricing (not enterprise pricing)\n- Security-first implementation\n- No-code/low-code solutions\n\nCurrent Products:\n- Bankruptcy Navigator (AI paralegal)\n- AI Gimmick Guard (Fraud detection)\n- TValue Helper (Statistical analysis)\n- Equipment Finance Helper (Sales coaching)\n\nAlways:\n- Be conversational and helpful\n- Focus on business value and ROI\n- Mention free strategy sessions when relevant\n- Keep responses concise (2-3 paragraphs max)\n\nPrevious conversation:\n{{ $json.conversationHistory }}"
+            },
+            {
+              "role": "user",
+              "content": "={{ $json.currentMessage }}"
+            }
+          ]
+        },
+        "options": {
+          "temperature": 0.7,
+          "maxTokens": 500,
+          "topP": 0.9,
+          "frequencyPenalty": 0.3,
+          "presencePenalty": 0.3
+        }
+      },
+      "credentials": {
+        "openAiApi": {
+          "id": "openai-creds",
+          "name": "OpenAI"
+        }
+      },
+      "typeVersion": 1.3
+    },
+    {
+      "id": "check-lead-intent",
+      "name": "Check Lead Intent",
+      "type": "n8n-nodes-base.if",
+      "position": [1400, 400],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": false,
+            "leftValue": "",
+            "typeValidation": "loose"
+          },
+          "conditions": [
+            {
+              "leftValue": "={{ $node['Validate Input'].json.message.toLowerCase() }}",
+              "rightValue": "download|pdf|guide|ebook|strategy|free|book|session",
+              "operator": {
+                "type": "string",
+                "operation": "regex"
+              }
+            }
+          ],
+          "combinator": "or"
+        }
+      },
+      "typeVersion": 2
+    },
+    {
+      "id": "capture-lead",
+      "name": "Capture Lead",
+      "type": "n8n-nodes-base.supabase",
+      "position": [1600, 300],
+      "parameters": {
+        "operation": "create",
+        "table": "leads",
+        "columns": "session_id, email, interest_type, created_at",
+        "options": {}
+      },
+      "credentials": {
+        "supabaseApi": {
+          "id": "supabase-creds",
+          "name": "Supabase"
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "send-email",
+      "name": "Send Welcome Email",
+      "type": "n8n-nodes-base.gmail",
+      "position": [1800, 300],
+      "parameters": {
+        "sendTo": "={{ $node['Validate Input'].json.email }}",
+        "subject": "Your AI Strategy Guide - The AI CEO",
+        "message": "Thank you for your interest in The AI CEO!\n\nYour AI Strategy Guide is attached to this email.\n\nNext steps:\n1. Review the guide\n2. Book your free 30-minute strategy session: https://theaiceo.com/book\n3. Reply with any questions\n\nBest regards,\nThe AI CEO Team",
+        "attachments": "https://theaiceo.com/downloads/ai-strategy-guide.pdf",
+        "options": {}
+      },
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "gmail-creds",
+          "name": "Gmail"
+        }
+      },
+      "typeVersion": 2.1
+    },
+    {
+      "id": "store-conversation",
+      "name": "Store Conversation",
+      "type": "n8n-nodes-base.supabase",
+      "position": [1400, 500],
+      "parameters": {
+        "operation": "create",
+        "table": "conversations",
+        "columns": "session_id, role, content, created_at",
+        "options": {}
+      },
+      "credentials": {
+        "supabaseApi": {
+          "id": "supabase-creds",
+          "name": "Supabase"
+        }
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "format-response",
+      "name": "Format Response",
+      "type": "n8n-nodes-base.code",
+      "position": [1600, 400],
+      "parameters": {
+        "jsCode": "// Format final response\nconst aiResponse = $node['OpenAI Chat Completion'].json;\nconst inputData = $node['Validate Input'].json;\n\nreturn {\n  response: aiResponse.choices[0].message.content,\n  sessionId: inputData.sessionId,\n  timestamp: new Date().toISOString(),\n  success: true,\n  mode: inputData.mode,\n  messageCount: $node['Format Context for AI'].json.messageCount + 1\n};"
+      },
+      "typeVersion": 2
+    },
+    {
+      "id": "respond-webhook",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "position": [1800, 400],
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify($json) }}",
+        "options": {
+          "responseCode": 200,
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "name": "Access-Control-Allow-Origin",
+                "value": "*"
+              }
+            ]
+          }
+        }
+      },
+      "typeVersion": 1.1
+    },
+    {
+      "id": "error-handler",
+      "name": "Error Handler",
+      "type": "n8n-nodes-base.code",
+      "position": [1600, 600],
+      "parameters": {
+        "jsCode": "// Handle errors gracefully\nconst error = $json.error || 'An error occurred';\nconst sessionId = $node['Validate Input']?.json?.sessionId || 'unknown';\n\nreturn {\n  response: 'I apologize, but I\\'m experiencing a temporary issue. Please try again in a moment or contact us directly at contact@theaiceo.com for immediate assistance.',\n  sessionId: sessionId,\n  timestamp: new Date().toISOString(),\n  success: false,\n  error: error.message || error\n};"
+      },
+      "typeVersion": 2
+    },
+    {
+      "id": "sticky-overview",
+      "name": "Workflow Overview",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [0, 200],
+      "parameters": {
+        "width": 350,
+        "height": 400,
+        "content": "## AI CEO Chatbot Workflow\n\n### Features:\n✅ Webhook receiver for chat messages\n✅ Supabase integration for user sessions\n✅ Conversation history tracking\n✅ OpenAI GPT-4 integration\n✅ Lead capture detection\n✅ Email automation\n✅ Error handling\n\n### Setup Required:\n1. Configure Supabase credentials\n2. Add OpenAI API key\n3. Set up Gmail OAuth\n4. Activate workflow\n5. Update webhook URL in frontend\n\n### Database Tables:\n- user_sessions\n- conversations\n- leads"
+      },
+      "typeVersion": 1
+    }
+  ],
+  "connections": {
+    "Chat Webhook Trigger": {
+      "main": [
+        [
+          {
+            "node": "Validate Input",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate Input": {
+      "main": [
+        [
+          {
+            "node": "Check/Create User Session",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check/Create User Session": {
+      "main": [
+        [
+          {
+            "node": "Get Chat History",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Chat History": {
+      "main": [
+        [
+          {
+            "node": "Format Context for AI",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Context for AI": {
+      "main": [
+        [
+          {
+            "node": "OpenAI Chat Completion",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Completion": {
+      "main": [
+        [
+          {
+            "node": "Check Lead Intent",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Store Conversation",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Error Handler",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Lead Intent": {
+      "main": [
+        [
+          {
+            "node": "Capture Lead",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Format Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Capture Lead": {
+      "main": [
+        [
+          {
+            "node": "Send Welcome Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Welcome Email": {
+      "main": [
+        [
+          {
+            "node": "Format Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Store Conversation": {
+      "main": [
+        [
+          {
+            "node": "Format Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Response": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Error Handler": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "versionId": "ai-ceo-production-v1",
+  "id": "ai-ceo-production-chatbot"
+}

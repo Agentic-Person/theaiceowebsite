@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
 import Button from '@/components/ui/Button';
 import ScrollReveal from '@/components/animations/ScrollReveal';
 import StaggerReveal from '@/components/animations/StaggerReveal';
+import VoiceAgentDemo from './VoiceAgentDemo';
 
 const teamHighlights = [
   {
@@ -24,6 +25,13 @@ export default function TeamSection() {
   return (
     <section id="team" className="py-24" style={{ backgroundColor: 'var(--background)' }}>
       <Container>
+        {/* Interactive Demo Section - Moved from Voice Agents */}
+        <div id="about">
+          <ScrollReveal className="mb-20">
+            <VoiceAgentDemo />
+          </ScrollReveal>
+        </div>
+
         <ScrollReveal className="text-center mb-16">
           <h2 className="text-4xl lg:text-5xl font-bold mb-6" style={{ color: 'var(--text-primary)' }}>
             Meet The Team
