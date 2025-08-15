@@ -17,8 +17,10 @@ export function useChat() {
   const [isTyping, setIsTyping] = useState(false);
 
   useEffect(() => {
+    // Don't auto-load session on initial page load to prevent auto-scrolling
+    // Only load if explicitly requested
     const storedSession = sessionStorage.getItem(SESSION_STORAGE_KEY);
-    if (storedSession) {
+    if (storedSession && false) { // Disabled auto-load for now
       try {
         const session: ChatSession = JSON.parse(storedSession);
         setMessages(session.messages.map(msg => ({

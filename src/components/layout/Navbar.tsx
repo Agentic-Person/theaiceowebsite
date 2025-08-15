@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import { NavigationItem } from '@/types';
 import Button from '@/components/ui/Button';
@@ -61,8 +62,14 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center">
-            <div className="w-10 h-10 bg-[var(--primary)] rounded-lg flex items-center justify-center">
-              <span className="text-sm font-bold text-white">AI</span>
+            <div className="w-10 h-10 relative">
+              <Image
+                src="/aiceoicon.jpg"
+                alt="The AI CEO"
+                width={40}
+                height={40}
+                className="rounded-lg object-cover"
+              />
             </div>
             <span className="ml-2 text-xl font-bold" style={{ color: 'var(--text-primary)' }}>
               The AI CEO

@@ -35,20 +35,26 @@ export default function ChatInterface({
 
   const mode = externalMode || internalMode;
 
+  const [hasInteracted, setHasInteracted] = useState(false);
+  
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    // Only scroll within the chat container, not the whole page
+    if (hasInteracted && messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
+    }
   };
 
   useEffect(() => {
-    // Only scroll if there are messages to scroll to
-    if (messages.length > 0 || isTyping) {
+    // Only scroll if user has interacted and there are messages
+    if (hasInteracted && (messages.length > 0 || isTyping)) {
       scrollToBottom();
     }
-  }, [messages, isTyping]);
+  }, [messages, isTyping, hasInteracted]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (input.trim() && !isLoading) {
+      setHasInteracted(true);
       sendMessage(input);
       setInput('');
     }

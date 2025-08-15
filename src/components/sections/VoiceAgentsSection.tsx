@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { Brain, TrendingUp, Sparkles, Mic, Phone } from 'lucide-react';
 import Button from '../ui/Button';
@@ -99,16 +100,17 @@ const VoiceAgentsSection = () => {
                   variants={avatarVariants}
                   animate="idle"
                   whileHover="hover"
-                  className="relative w-48 h-48 bg-gradient-to-br from-cyan-500 via-blue-500 to-purple-500 rounded-full flex items-center justify-center shadow-2xl"
+                  className="relative w-48 h-48 rounded-full flex items-center justify-center shadow-2xl overflow-hidden"
                 >
-                  {/* Inner Avatar Design */}
-                  <div className="w-44 h-44 bg-slate-900 rounded-full flex items-center justify-center">
-                    <div className="relative">
-                      <Mic className="w-16 h-16 text-cyan-400" />
-                      <Phone className="w-8 h-8 text-cyan-300 absolute -top-2 -right-2 animate-pulse" />
-                      <Sparkles className="w-6 h-6 text-yellow-400 absolute -bottom-1 -left-1 animate-pulse" />
-                    </div>
-                  </div>
+                  <Image
+                    src="/ai-agent-avatar-02.png"
+                    alt="AI Voice Agent"
+                    width={192}
+                    height={192}
+                    className="w-full h-full object-cover"
+                  />
+                  {/* Sparkle overlay */}
+                  <Sparkles className="w-8 h-8 text-yellow-400 absolute bottom-4 right-4 animate-pulse" />
                 </motion.div>
               </div>
               
