@@ -10,6 +10,7 @@ export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
       enableSystem={false}
       disableTransitionOnChange={false}
       forcedTheme="dark"
+      enableColorScheme={false}
       {...props}
     >
       {children}

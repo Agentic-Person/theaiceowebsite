@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import Container from '@/components/ui/Container';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
 import Button from '@/components/ui/Button';
@@ -6,18 +7,24 @@ import ScrollReveal from '@/components/animations/ScrollReveal';
 import StaggerReveal from '@/components/animations/StaggerReveal';
 import VoiceAgentDemo from './VoiceAgentDemo';
 
-const teamHighlights = [
+const teamMembers = [
   {
-    title: "Founder-Led",
-    description: "Direct access to decision makers who care about your success"
+    name: "RJ Grimshaw",
+    title: "Founder & CEO of ABLE Leadership and The AI CEO",
+    description: "RJ empowers executives to adopt owner-mindsets, harness AI ethically, and drive transformative growth. As the growth architect behind UniFi Equipment Finance's meteoric rise—from $14 million to $250 million in revenue—RJ has partnered with everyone from Fortune 100 giants to high-velocity startups. An Upstart-certified AI Financial strategist and seasoned intrapreneurship mentor, he blends hands-on expertise with a clear, values-driven voice across keynotes, workshops, and digital programs, helping leaders scale what truly matters.",
+    image: "/rj.jpg"
   },
   {
-    title: "Expert-Driven", 
-    description: "Deep AI expertise combined with real-world business experience"
+    name: "Matthew Snow",
+    title: "AI Engineer, Automation Architect", 
+    description: "Founder of Me, Myself Plus AI, Matthew transforms ideas into intelligent systems. With deep expertise in agentic workflows, LLM integrations, and voice-driven automation, Matthew brings a sharp, hands-on approach to solving complex business challenges. His portfolio spans everything from n8n-powered orchestration to real-time data tools for marketing, healthcare, and automotive performance. Equal parts technical strategist and creative builder, Matthew isn't just chasing the future of AI—he's engineering it one agent at a time.",
+    image: "/mattsnow.png"
   },
   {
-    title: "SMB-Focused",
-    description: "Everything we do is designed specifically for small and medium businesses"
+    name: "Jimmy Davidson",
+    title: "Full-Stack Solutions Developer",
+    description: "Jimmy thrives on solving complex problems with creativity and code. With decades of experience as a game designer, he blends technical precision with imaginative problem-solving to build real-world systems that scale. As founder of Agentic Personnel, Jimmy is passionate about delivering innovative solutions that bring creativity and technology together.",
+    image: "/jimmy.png"
   }
 ];
 
@@ -44,23 +51,33 @@ export default function TeamSection() {
           </p>
         </ScrollReveal>
 
-        {/* Team Highlights */}
+        {/* Team Members */}
         <StaggerReveal 
           staggerDelay={0.2}
           direction="up"
           className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12"
         >
-          {teamHighlights.map((highlight, index) => (
+          {teamMembers.map((member, index) => (
             <Card key={index} className="text-center h-full hover:shadow-lg transition-shadow">
               <CardHeader>
-                <div className="w-16 h-16 rounded-full mx-auto mb-4 flex items-center justify-center" style={{ backgroundColor: 'var(--background)' }}>
-                  <div className="w-8 h-8 rounded-full" style={{ backgroundColor: 'var(--border)' }}></div>
+                <div className="relative w-32 h-32 mx-auto mb-4">
+                  <Image
+                    src={member.image}
+                    alt={member.name}
+                    fill
+                    className="rounded-full object-cover border-2"
+                    style={{ borderColor: 'var(--border)' }}
+                    sizes="(max-width: 768px) 128px, 128px"
+                  />
                 </div>
-                <CardTitle className="text-xl mb-3">{highlight.title}</CardTitle>
+                <CardTitle className="text-2xl mb-2">{member.name}</CardTitle>
+                <p className="text-lg font-medium mb-3" style={{ color: 'var(--text-secondary)' }}>
+                  {member.title}
+                </p>
               </CardHeader>
               <CardContent>
                 <p className="leading-relaxed" style={{ color: 'var(--text-body)' }}>
-                  {highlight.description}
+                  {member.description}
                 </p>
               </CardContent>
             </Card>

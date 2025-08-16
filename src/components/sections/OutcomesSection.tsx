@@ -42,6 +42,7 @@ export default function OutcomesSection() {
   return (
     <section id="outcomes" className="py-24" style={{ backgroundColor: 'var(--background)' }}>
       <Container>
+        <div className="mb-12" style={{ borderTop: '1px solid var(--border)' }}></div>
         <div className="text-center mb-16">
           <h2 className="text-4xl lg:text-5xl font-bold mb-6" style={{ color: 'var(--text-primary)' }}>
             Proven Results Across Industries
@@ -93,30 +94,12 @@ export default function OutcomesSection() {
             Our clients typically see meaningful improvements within 30-60 days of implementation. 
             Start with a free assessment to identify your biggest opportunities.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex justify-center">
             <Button variant="primary" size="lg">
-              Get Your Free Assessment
-            </Button>
-            <Button variant="outline" size="lg">
-              View Client Results
+              Schedule a Call with RJ
             </Button>
           </div>
-          
-          {/* Stats Preview */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12 pt-8" style={{ borderTop: '1px solid var(--border)' }}>
-            <div className="text-center">
-              <div className="text-3xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>85%</div>
-              <div className="text-sm" style={{ color: 'var(--text-secondary)' }}>Average efficiency gain</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>45 days</div>
-              <div className="text-sm" style={{ color: 'var(--text-secondary)' }}>Typical time to value</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>3.2x</div>
-              <div className="text-sm" style={{ color: 'var(--text-secondary)' }}>Average ROI within 12 months</div>
-            </div>
-          </div>
+          <div className="mt-12" style={{ borderTop: '1px solid var(--border)' }}></div>
         </div>
       </Container>
     </section>

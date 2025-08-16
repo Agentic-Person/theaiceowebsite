@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import Container from '@/components/ui/Container';
 import Button from '@/components/ui/Button';
 import ParticleSystem from '@/components/ui/ParticleSystem';
@@ -12,6 +13,12 @@ import AnimatedButton from '@/components/animations/AnimatedButton';
 
 export default function HeroSection() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const teamImages = [
+    { src: '/jimmy.png', alt: 'Jimmy Davidson' },
+    { src: '/mattsnow.png', alt: 'Matthew Snow' },
+    { src: '/rj.jpg', alt: 'RJ Grimshaw' }
+  ];
   return (
     <section 
       id="hero" 
@@ -92,8 +99,8 @@ export default function HeroSection() {
           >
             <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6">
               <div className="flex -space-x-2">
-                {/* Avatar Placeholders */}
-                {[0, 1, 2].map((index) => (
+                {/* Team Member Avatars */}
+                {teamImages.map((member, index) => (
                   <motion.div 
                     key={index}
                     initial={{ scale: 0, opacity: 0 }}
@@ -104,12 +111,19 @@ export default function HeroSection() {
                       type: 'spring',
                       stiffness: 150 
                     }}
-                    className="w-12 h-12 rounded-full border-2" 
+                    className="relative w-12 h-12 rounded-full border-2 overflow-hidden" 
                     style={{ 
-                      backgroundColor: index === 0 ? 'var(--primary)' : index === 1 ? 'var(--card-background)' : 'var(--text-secondary)', 
                       borderColor: 'var(--text-primary)' 
                     }}
-                  />
+                  >
+                    <Image
+                      src={member.src}
+                      alt={member.alt}
+                      fill
+                      className="object-cover"
+                      sizes="48px"
+                    />
+                  </motion.div>
                 ))}
               </div>
               <motion.div
