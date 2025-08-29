@@ -1,0 +1,166 @@
+{
+  "name": "AI Chat Webhook",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "ai-chat",
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "id": "webhook-node",
+      "name": "Chat Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        240,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Extract and validate chat message from webhook\nconst { message, sessionId } = $input.all()[0].json;\n\n// Validate input\nif (!message || typeof message !== 'string') {\n  return [{\n    json: {\n      error: \"Message is required and must be a string\",\n      status: \"error\"\n    }\n  }];\n}\n\n// Clean and prepare the message\nconst cleanMessage = message.trim();\nif (cleanMessage.length === 0) {\n  return [{\n    json: {\n      error: \"Message cannot be empty\",\n      status: \"error\"\n    }\n  }];\n}\n\nreturn [{\n  json: {\n    message: cleanMessage,\n    sessionId: sessionId || `session_${Date.now()}`,\n    timestamp: new Date().toISOString(),\n    status: \"processing\"\n  }\n}];"
+      },
+      "id": "process-node",
+      "name": "Process Message",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        440,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.openai.com/v1/chat/completions",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "openAiApi",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "Authorization",
+              "value": "Bearer YOUR_OPENAI_API_KEY_HERE"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "json",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "model",
+              "value": "gpt-3.5-turbo"
+            },
+            {
+              "name": "messages",
+              "value": "=[{\"role\": \"system\", \"content\": \"You are Emily, a helpful AI assistant for The AI CEO company. We help small and medium businesses implement custom AI solutions with a consultation-first approach. Be professional, concise, and focus on how AI can solve real business problems. If asked about our services, mention that we offer custom AI solutions without enterprise pricing.\"}, {\"role\": \"user\", \"content\": \"{{ $json.message }}\"}]"
+            },
+            {
+              "name": "max_tokens",
+              "value": "500"
+            },
+            {
+              "name": "temperature",
+              "value": "0.7"
+            }
+          ]
+        }
+      },
+      "id": "openai-node",
+      "name": "OpenAI Chat",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        640,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Process AI response and format for frontend\nconst aiResponse = $input.all()[0].json;\nconst previousData = $('Process Message').first().json;\n\ntry {\n  // Handle different response formats\n  let responseText = \"I'm sorry, I couldn't generate a response.\";\n  \n  if (aiResponse.choices && aiResponse.choices[0] && aiResponse.choices[0].message) {\n    responseText = aiResponse.choices[0].message.content;\n  } else if (aiResponse.text) {\n    responseText = aiResponse.text;\n  } else if (aiResponse.content) {\n    responseText = aiResponse.content;\n  }\n  \n  // Clean up the response\n  responseText = responseText.trim();\n  \n  if (!responseText) {\n    responseText = \"I received your message but couldn't generate a proper response. Please try rephrasing your question.\";\n  }\n  \n  return [{\n    json: {\n      success: true,\n      response: responseText,\n      sessionId: previousData.sessionId,\n      timestamp: new Date().toISOString(),\n      metadata: {\n        model: aiResponse.model || \"gpt-3.5-turbo\",\n        tokensUsed: aiResponse.usage?.total_tokens || 0\n      }\n    }\n  }];\n} catch (error) {\n  return [{\n    json: {\n      success: false,\n      error: \"Failed to process AI response\",\n      response: \"I'm experiencing technical difficulties. Please try again in a moment.\",\n      sessionId: previousData.sessionId,\n      timestamp: new Date().toISOString(),\n      errorDetails: error.message\n    }\n  }];\n}"
+      },
+      "id": "format-node",
+      "name": "Format Response",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        840,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $json }}"
+      },
+      "id": "response-node",
+      "name": "Send Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        1040,
+        300
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Chat Webhook": {
+      "main": [
+        [
+          {
+            "node": "Process Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process Message": {
+      "main": [
+        [
+          {
+            "node": "OpenAI Chat",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat": {
+      "main": [
+        [
+          {
+            "node": "Format Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Response": {
+      "main": [
+        [
+          {
+            "node": "Send Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "createdAt": "2025-01-28T12:00:00.000Z",
+  "updatedAt": "2025-01-28T12:00:00.000Z",
+  "id": "chatbot-workflow"
+}

@@ -7,12 +7,14 @@ import Button from '@/components/ui/Button';
 import ParticleSystem from '@/components/ui/ParticleSystem';
 import LeadCaptureModal from '@/components/ui/LeadCaptureModal';
 import AnimatedChatButton from '@/components/ui/AnimatedChatButton';
+import ChatModal from '@/components/ui/ChatModal';
 import { Send } from 'lucide-react';
 import { motion } from 'framer-motion';
 import AnimatedButton from '@/components/animations/AnimatedButton';
 
 export default function HeroSection() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isChatOpen, setIsChatOpen] = useState(false);
 
   const teamImages = [
     { src: '/jimmy.png', alt: 'Jimmy Davidson' },
@@ -71,13 +73,7 @@ export default function HeroSection() {
             className="flex flex-col sm:flex-row gap-6 items-center justify-center"
           >
             <AnimatedChatButton 
-              onClick={() => {
-                // Scroll to the voice agent demo section
-                const demoSection = document.getElementById('team');
-                if (demoSection) {
-                  demoSection.scrollIntoView({ behavior: 'smooth' });
-                }
-              }}
+              onClick={() => setIsChatOpen(true)}
             />
             <AnimatedButton 
               variant="outline"
@@ -176,6 +172,12 @@ export default function HeroSection() {
         onClose={() => setIsModalOpen(false)}
         ebookTitle="AI EDGE eBook"
         ebookDescription="The Complete Guide to AI Implementation for SMBs"
+      />
+
+      {/* Chat Modal */}
+      <ChatModal 
+        isOpen={isChatOpen}
+        onClose={() => setIsChatOpen(false)}
       />
     </section>
   );

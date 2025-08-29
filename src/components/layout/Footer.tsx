@@ -319,6 +319,20 @@ export default function Footer() {
               >
                 Cookie Policy
               </Link>
+              <Link 
+                href="/blog/admin/login" 
+                className="text-xs transition-colors hover:brightness-110 opacity-60 hover:opacity-100"
+                style={{ color: 'var(--text-body)' }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.color = 'var(--primary)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.color = 'var(--text-body)';
+                }}
+                title="Admin Access"
+              >
+                Admin
+              </Link>
             </div>
           </div>
         </div>

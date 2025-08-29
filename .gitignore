@@ -35,3 +35,16 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# private/sensitive files
+.private/
+.claude/
+.cursor/
+
+# secrets and keys
+**/keys.md
+**/KEYS.md
+**/secrets.md
+**/SECRETS.md
+**/*-keys.md
+**/*-KEYS.md

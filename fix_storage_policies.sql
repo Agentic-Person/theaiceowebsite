@@ -1,0 +1,1 @@
+ALTER POLICY "Allow authenticated users to upload images" ON storage.objects USING (auth.uid() IS NOT NULL); ALTER POLICY "Allow public read access to blog images" ON storage.objects FOR SELECT USING (bucket_id = 'blog-images'); ALTER POLICY "Allow authenticated users to delete their images" ON storage.objects FOR DELETE USING (auth.uid() IS NOT NULL);

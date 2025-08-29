@@ -20,10 +20,13 @@ npm install uuid @types/uuid
 
 ### Environment Variables Needed
 ```env
-NEXT_PUBLIC_N8N_WEBHOOK_URL=https://your-n8n-instance.com/webhook/chat
-N8N_WEBHOOK_SECRET=your-secret-key
+NEXT_PUBLIC_N8N_WEBHOOK_URL=https://agenticpersonnel.app.n8n.cloud/
+N8N_WEBHOOK_SECRET=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkZDY5Nzg4ZC03YTAzLTQxNjEtYmJiMS03Njk3ODA3YTE4YjMiLCJpc3MiOiJuOG4iLCJhdWQiOiJwdWJsaWMtYXBpIiwiaWF0IjoxNzU2NDEyNzU3LCJleHAiOjE3NjQxMzY4MDB9.gbuqgx16uklNLS_BkLhEzcw2m1r1jWKGn4VUT30RS1Y
 NEXT_PUBLIC_CHAT_API_ENDPOINT=/api/chat
 ```
+
+
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkZDY5Nzg4ZC03YTAzLTQxNjEtYmJiMS03Njk3ODA3YTE4YjMiLCJpc3MiOiJuOG4iLCJhdWQiOiJwdWJsaWMtYXBpIiwiaWF0IjoxNzU2NDEyNzU3LCJleHAiOjE3NjQxMzY4MDB9.gbuqgx16uklNLS_BkLhEzcw2m1r1jWKGn4VUT30RS1Y
 
 ## Implementation Steps
 

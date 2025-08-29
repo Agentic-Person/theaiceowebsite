@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { NavigationItem } from '@/types';
 import Button from '@/components/ui/Button';
@@ -18,14 +19,18 @@ const navigationItems: NavigationItem[] = [
   { label: 'AI Voice', href: '#ai-voice' },
   { label: 'About', href: '#about' },
   { label: 'Team', href: '#meet-team' },
+  { label: 'Blog', href: '/blog' },
 ];
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const pathname = usePathname();
   
-  // Active section tracking
-  const sectionIds = navigationItems.map(item => item.href.substring(1));
+  // Active section tracking (only for hash anchors)
+  const sectionIds = navigationItems
+    .filter(item => item.href.startsWith('#'))
+    .map(item => item.href.substring(1));
   const activeSection = useActiveSection(sectionIds, 100);
 
   useEffect(() => {
@@ -79,37 +84,72 @@ export default function Navbar() {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
             {navigationItems.map((item) => {
-              const sectionId = item.href.substring(1);
-              const isActive = activeSection === sectionId;
-              
-              return (
-                <a
-                  key={item.href}
-                  href={item.href}
-                  onClick={(e) => handleSectionClick(e, sectionId)}
-                  className={cn(
-                    "relative font-medium transition-all duration-300 cursor-pointer",
-                    "hover:text-[var(--primary)]",
-                    isActive ? "text-[var(--primary)]" : "text-[var(--text-secondary)]"
-                  )}
-                  style={{
-                    color: isActive ? 'var(--primary)' : undefined,
-                  }}
-                >
-                  {item.label}
-                  {/* Active indicator */}
-                  <span 
+              // Handle different types of navigation items
+              if (item.href.startsWith('#')) {
+                // Hash anchor - same page navigation
+                const sectionId = item.href.substring(1);
+                const isActive = activeSection === sectionId;
+                
+                return (
+                  <a
+                    key={item.href}
+                    href={item.href}
+                    onClick={(e) => handleSectionClick(e, sectionId)}
                     className={cn(
-                      "absolute -bottom-1 left-0 h-0.5 bg-[var(--primary)] transition-all duration-300",
-                      isActive ? "w-full" : "w-0"
+                      "relative font-medium transition-all duration-300 cursor-pointer",
+                      "hover:text-[var(--primary)]",
+                      isActive ? "text-[var(--primary)]" : "text-[var(--text-secondary)]"
                     )}
-                  />
-                  {/* Hover underline */}
-                  <span 
-                    className="absolute -bottom-1 left-0 w-full h-0.5 bg-[var(--primary)] scale-x-0 transition-transform duration-300 origin-left group-hover:scale-x-100"
-                  />
-                </a>
-              );
+                    style={{
+                      color: isActive ? 'var(--primary)' : undefined,
+                    }}
+                  >
+                    {item.label}
+                    {/* Active indicator */}
+                    <span 
+                      className={cn(
+                        "absolute -bottom-1 left-0 h-0.5 bg-[var(--primary)] transition-all duration-300",
+                        isActive ? "w-full" : "w-0"
+                      )}
+                    />
+                    {/* Hover underline */}
+                    <span 
+                      className="absolute -bottom-1 left-0 w-full h-0.5 bg-[var(--primary)] scale-x-0 transition-transform duration-300 origin-left group-hover:scale-x-100"
+                    />
+                  </a>
+                );
+              } else {
+                // Regular route - different page navigation
+                const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
+                
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className={cn(
+                      "relative font-medium transition-all duration-300 cursor-pointer",
+                      "hover:text-[var(--primary)]",
+                      isActive ? "text-[var(--primary)]" : "text-[var(--text-secondary)]"
+                    )}
+                    style={{
+                      color: isActive ? 'var(--primary)' : undefined,
+                    }}
+                  >
+                    {item.label}
+                    {/* Active indicator */}
+                    <span 
+                      className={cn(
+                        "absolute -bottom-1 left-0 h-0.5 bg-[var(--primary)] transition-all duration-300",
+                        isActive ? "w-full" : "w-0"
+                      )}
+                    />
+                    {/* Hover underline */}
+                    <span 
+                      className="absolute -bottom-1 left-0 w-full h-0.5 bg-[var(--primary)] scale-x-0 transition-transform duration-300 origin-left group-hover:scale-x-100"
+                    />
+                  </Link>
+                );
+              }
             })}
           </div>
 

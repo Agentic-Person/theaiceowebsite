@@ -1,218 +1,268 @@
+'use client';
+
+import { useState, useEffect } from 'react';
 import Container from '@/components/ui/Container';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/Card';
 import Button from '@/components/ui/Button';
 import { BlogPost } from '@/types';
-
-const featuredPost: BlogPost = {
-  title: "The SMB Owner's Guide to AI ROI: How to Calculate Real Value",
-  excerpt: "Learn the exact framework we use to help SMBs calculate potential AI returns and make informed investment decisions.",
-  slug: "smb-ai-roi-guide",
-  publishedAt: "2024-01-15",
-  readTime: 8,
-  category: "Strategy"
-};
-
-const blogPosts: BlogPost[] = [
-  {
-    title: "10 AI Tasks Every Legal Firm Should Automate First",
-    excerpt: "Starting your AI journey? These are the highest-impact automation opportunities for legal practices.",
-    slug: "legal-ai-automation-priorities", 
-    publishedAt: "2024-01-12",
-    readTime: 6,
-    category: "Industry Guide"
-  },
-  {
-    title: "ChatGPT vs. Custom AI: When to Choose What",
-    excerpt: "Understanding when generic AI tools work and when you need custom solutions for your business.",
-    slug: "chatgpt-vs-custom-ai",
-    publishedAt: "2024-01-10", 
-    readTime: 5,
-    category: "Strategy"
-  },
-  {
-    title: "Small Business AI Security: What You Need to Know",
-    excerpt: "Protecting your data while implementing AI solutions - a practical guide for SMBs.",
-    slug: "small-business-ai-security",
-    publishedAt: "2024-01-08",
-    readTime: 7,
-    category: "Security"
-  },
-  {
-    title: "AI Implementation Timeline: What to Expect",
-    excerpt: "Realistic timelines for AI implementation and what happens at each stage of the process.",
-    slug: "ai-implementation-timeline",
-    publishedAt: "2024-01-05",
-    readTime: 4,
-    category: "Implementation"
-  },
-  {
-    title: "5 AI Myths That Are Costing SMBs Money",
-    excerpt: "Debunking common misconceptions that prevent small businesses from AI success.",
-    slug: "ai-myths-smb-costs", 
-    publishedAt: "2024-01-03",
-    readTime: 6,
-    category: "Education"
-  }
-];
-
-const categories = ["All", "Strategy", "Implementation", "Industry Guide", "Security", "Education"];
+import { useBlog } from '@/hooks/useBlog';
+import { getBlogPosts, getBlogCategories, StaticBlogPost } from '@/data/blogPosts';
+import { formatDate, formatDateShort } from '@/lib/dateUtils';
+import Link from 'next/link';
+import Image from 'next/image';
 
 export default function BlogPage() {
+  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [searchQuery, setSearchQuery] = useState('');
+  const { posts: dynamicPosts, categories: dynamicCategories, loading, error, fetchPosts, fetchCategories } = useBlog();
+  const [displayPosts, setDisplayPosts] = useState<(BlogPost | StaticBlogPost)[]>([]);
+  const [displayCategories, setDisplayCategories] = useState<string[]>([]);
+  const [usingDynamicData, setUsingDynamicData] = useState(false);
+
+  useEffect(() => {
+    // First try to load dynamic data from Supabase
+    const loadData = async () => {
+      try {
+        await fetchPosts();
+        await fetchCategories();
+      } catch (err) {
+        console.log('Dynamic data not available, falling back to static data');
+      }
+    };
+    
+    loadData();
+  }, [fetchPosts, fetchCategories]);
+
+  useEffect(() => {
+    // Determine which data to use and set display data
+    if (dynamicPosts && dynamicPosts.length > 0) {
+      setDisplayPosts(dynamicPosts);
+      setDisplayCategories(dynamicCategories || []);
+      setUsingDynamicData(true);
+    } else {
+      // Fall back to static data
+      const staticPosts = getBlogPosts({ status: 'published' });
+      const staticCategories = getBlogCategories();
+      setDisplayPosts(staticPosts);
+      setDisplayCategories(staticCategories);
+      setUsingDynamicData(false);
+    }
+  }, [dynamicPosts, dynamicCategories]);
+
+  const handleCategoryFilter = (category: string) => {
+    setSelectedCategory(category);
+    
+    if (usingDynamicData) {
+      // Use dynamic data filtering
+      fetchPosts({
+        category: category === 'all' ? undefined : category,
+        search: searchQuery || undefined
+      });
+    } else {
+      // Use static data filtering
+      const filteredPosts = getBlogPosts({
+        category: category === 'all' ? undefined : category,
+        status: 'published'
+      });
+      setDisplayPosts(filteredPosts);
+    }
+  };
+
+  const handleSearch = (query: string) => {
+    setSearchQuery(query);
+    
+    if (usingDynamicData) {
+      // Use dynamic data search
+      fetchPosts({
+        category: selectedCategory === 'all' ? undefined : selectedCategory,
+        search: query || undefined
+      });
+    } else {
+      // Use static data search
+      const allPosts = getBlogPosts({ status: 'published' });
+      const filteredPosts = allPosts.filter(post => 
+        post.title.toLowerCase().includes(query.toLowerCase()) ||
+        post.excerpt.toLowerCase().includes(query.toLowerCase()) ||
+        post.category.toLowerCase().includes(query.toLowerCase())
+      );
+      setDisplayPosts(filteredPosts);
+    }
+  };
+
+  if (loading) {
+    return (
+      <main className="pt-24">
+        <Container>
+          <div className="text-center py-16">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 mx-auto"></div>
+            <p className="mt-4 text-gray-600">Loading blog posts...</p>
+          </div>
+        </Container>
+      </main>
+    );
+  }
+
+  if (error) {
+    return (
+      <main className="pt-24">
+        <Container>
+          <div className="text-center py-16">
+            <p className="text-red-600 mb-4">Error loading blog posts: {error}</p>
+            <Button onClick={() => window.location.reload()}>
+              Try Again
+            </Button>
+          </div>
+        </Container>
+      </main>
+    );
+  }
+
+  // Show up to 6 posts
+  const postsToShow = displayPosts.slice(0, 6);
+
   return (
-    <main className="pt-24">
-      {/* Hero Section */}
-      <section className="py-16 bg-gray-50">
-        <Container>
-          <div className="text-center max-w-4xl mx-auto">
-            <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
-              AI Insights for SMBs
-            </h1>
-            <p className="text-xl text-gray-600 mb-8">
-              Practical advice, case studies, and strategies to help your business succeed with AI.
-            </p>
-            <Button variant="outline" size="lg">
-              Subscribe to Updates
-            </Button>
-          </div>
-        </Container>
-      </section>
+    <main className="pt-24 min-h-screen" style={{ backgroundColor: '#001d39' }}>
+      <Container>
+        {/* Simple Blog Title */}
+        <div className="text-center py-12">
+          <h1 className="text-3xl font-bold" style={{ color: '#FFFFFF' }}>
+            AI Insights for SMBs
+          </h1>
+        </div>
 
-      {/* Featured Post */}
-      <section className="py-16">
-        <Container>
-          <div className="mb-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">Featured Article</h2>
-          </div>
-
-          <Card className="mb-16 overflow-hidden hover:shadow-xl transition-shadow">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              <div className="aspect-video bg-gray-200 flex items-center justify-center">
-                <span className="text-gray-500 font-medium">Featured Article Image</span>
-              </div>
-              <div className="p-6 lg:p-8">
-                <div className="flex items-center space-x-4 mb-4">
-                  <span className="bg-gray-900 text-white text-sm font-medium px-3 py-1 rounded-full">
-                    {featuredPost.category}
-                  </span>
-                  <span className="text-gray-500 text-sm">
-                    {featuredPost.readTime} min read
-                  </span>
-                </div>
-                <h3 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-4">
-                  {featuredPost.title}
-                </h3>
-                <p className="text-gray-600 mb-6 leading-relaxed">
-                  {featuredPost.excerpt}
-                </p>
-                <div className="flex items-center justify-between">
-                  <span className="text-gray-500 text-sm">
-                    {new Date(featuredPost.publishedAt).toLocaleDateString('en-US', {
-                      year: 'numeric',
-                      month: 'long', 
-                      day: 'numeric'
-                    })}
-                  </span>
-                  <Button variant="primary" size="md">
-                    Read Article
-                  </Button>
-                </div>
-              </div>
+        {/* 6-Card Grid */}
+        <div className="pb-24">
+          {loading ? (
+            <div className="text-center py-16">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 mx-auto" style={{ borderColor: '#36b0d9' }}></div>
+              <p className="mt-4" style={{ color: '#9ab6e0' }}>Loading blog posts...</p>
             </div>
-          </Card>
-        </Container>
-      </section>
-
-      {/* Category Filter */}
-      <section className="py-8 bg-white border-b border-gray-200">
-        <Container>
-          <div className="flex flex-wrap gap-2">
-            {categories.map((category) => (
-              <Button 
-                key={category}
-                variant={category === "All" ? "primary" : "ghost"}
-                size="sm"
-              >
-                {category}
-              </Button>
-            ))}
-          </div>
-        </Container>
-      </section>
-
-      {/* Blog Posts Grid */}
-      <section className="py-24">
-        <Container>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {blogPosts.map((post, index) => (
-              <Card key={index} className="h-full hover:shadow-lg transition-shadow cursor-pointer group">
-                <div className="aspect-video bg-gray-200 rounded-t-lg"></div>
-                <CardHeader>
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="bg-gray-100 text-gray-600 text-xs font-medium px-2 py-1 rounded-full">
-                      {post.category}
-                    </span>
-                    <span className="text-gray-500 text-sm">
-                      {post.readTime} min read
-                    </span>
-                  </div>
-                  <CardTitle className="text-xl group-hover:text-gray-700 transition-colors leading-tight">
-                    {post.title}
-                  </CardTitle>
-                  <CardDescription>
-                    {post.excerpt}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex items-center justify-between">
-                    <span className="text-gray-500 text-sm">
-                      {new Date(post.publishedAt).toLocaleDateString('en-US', {
-                        month: 'short',
-                        day: 'numeric',
-                        year: 'numeric'
-                      })}
-                    </span>
-                    <Button variant="ghost" size="sm">
-                      Read More →
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-
-          {/* Load More */}
-          <div className="text-center mt-12">
-            <Button variant="outline" size="lg">
-              Load More Articles
-            </Button>
-          </div>
-        </Container>
-      </section>
-
-      {/* Newsletter CTA */}
-      <section className="py-16 bg-gray-50">
-        <Container>
-          <div className="text-center max-w-2xl mx-auto">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              Never Miss an Update
-            </h2>
-            <p className="text-xl text-gray-600 mb-8">
-              Get our latest AI insights and strategies delivered to your inbox weekly.
-            </p>
-            
-            <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-transparent"
-              />
-              <Button variant="primary" size="md">
-                Subscribe
+          ) : error ? (
+            <div className="text-center py-16">
+              <p className="mb-4" style={{ color: '#FF6B6B' }}>Error loading blog posts: {error}</p>
+              <Button onClick={() => fetchPosts()}>
+                Try Again
               </Button>
             </div>
-          </div>
-        </Container>
-      </section>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {postsToShow.map((post) => (
+                <Card 
+                  key={post.id} 
+                  className="h-full transition-all duration-300 cursor-pointer group relative overflow-hidden"
+                  style={{ 
+                    backgroundColor: '#002246',
+                    border: '1px solid rgba(89, 109, 140, 0.2)',
+                    borderTop: '2px solid #36b0d9',
+                    boxShadow: `
+                      0 4px 16px rgba(0, 0, 0, 0.4),
+                      0 8px 32px rgba(0, 0, 0, 0.2),
+                      0 2px 8px rgba(54, 176, 217, 0.1),
+                      inset 0 1px 0 rgba(255, 255, 255, 0.05)
+                    `,
+                    transform: 'translateY(-2px)',
+                    background: `linear-gradient(145deg, #002246 0%, #001a35 100%)`,
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-8px)';
+                    e.currentTarget.style.boxShadow = `
+                      0 8px 32px rgba(0, 0, 0, 0.5),
+                      0 16px 48px rgba(0, 0, 0, 0.3),
+                      0 4px 16px rgba(54, 176, 217, 0.2),
+                      0 0 24px rgba(54, 176, 217, 0.1),
+                      inset 0 1px 0 rgba(255, 255, 255, 0.1)
+                    `;
+                    e.currentTarget.style.borderColor = 'rgba(54, 176, 217, 0.4)';
+                    e.currentTarget.style.borderTop = '2px solid #36b0d9';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-2px)';
+                    e.currentTarget.style.boxShadow = `
+                      0 4px 16px rgba(0, 0, 0, 0.4),
+                      0 8px 32px rgba(0, 0, 0, 0.2),
+                      0 2px 8px rgba(54, 176, 217, 0.1),
+                      inset 0 1px 0 rgba(255, 255, 255, 0.05)
+                    `;
+                    e.currentTarget.style.borderColor = 'rgba(89, 109, 140, 0.2)';
+                    e.currentTarget.style.borderTop = '2px solid #36b0d9';
+                  }}
+                >
+                  {/* Corner highlight */}
+                  <div 
+                    className="absolute top-0 left-0 w-16 h-16 opacity-30"
+                    style={{
+                      background: 'radial-gradient(circle at top left, rgba(54, 176, 217, 0.3) 0%, transparent 50%)'
+                    }}
+                  />
+
+                  {/* Top accent gradient */}
+                  <div 
+                    className="absolute top-0 left-0 right-0 h-0.5"
+                    style={{
+                      background: 'linear-gradient(90deg, #36b0d9 0%, rgba(54, 176, 217, 0.5) 50%, transparent 100%)'
+                    }}
+                  />
+                  {/* Blog Post Image */}
+                  <div className="aspect-video rounded-lg overflow-hidden mb-4 relative">
+                    <Image
+                      src={usingDynamicData ? (post as BlogPost).featured_image || '/placeholder-blog.jpg' : (post as StaticBlogPost).image}
+                      alt={post.title}
+                      fill
+                      className="object-cover transition-transform duration-300 group-hover:scale-105"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    />
+                    <div 
+                      className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    />
+                  </div>
+
+                  <CardHeader className="pb-4">
+                    {/* Category and Read Time */}
+                    <div className="flex items-center justify-between mb-3">
+                      <span 
+                        className="text-xs font-medium px-2 py-1 rounded-full"
+                        style={{ backgroundColor: '#36b0d9', color: '#FFFFFF' }}
+                      >
+                        {post.category}
+                      </span>
+                      {(usingDynamicData ? (post as BlogPost).read_time : (post as StaticBlogPost).read_time) && (
+                        <span className="text-sm" style={{ color: '#9ab6e0' }}>
+                          {usingDynamicData ? (post as BlogPost).read_time : (post as StaticBlogPost).read_time} min read
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Title */}
+                    <CardTitle className="text-lg leading-tight mb-3" style={{ color: '#FFFFFF' }}>
+                      {post.title}
+                    </CardTitle>
+
+                    {/* Excerpt */}
+                    <CardDescription className="text-sm leading-relaxed" style={{ color: '#596d8c' }}>
+                      {post.excerpt}
+                    </CardDescription>
+                  </CardHeader>
+
+                  <CardContent>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm" style={{ color: '#9ab6e0' }}>
+                        {formatDateShort(usingDynamicData ? (post as BlogPost).published_at : (post as StaticBlogPost).published_at)}
+                      </span>
+                      <Link 
+                        href={`/blog/${usingDynamicData ? (post as BlogPost).slug : (post as StaticBlogPost).slug}`}
+                        className="text-sm font-medium hover:underline transition-colors"
+                        style={{ color: '#36b0d9' }}
+                      >
+                        Read More →
+                      </Link>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          )}
+        </div>
+      </Container>
     </main>
   );
 }

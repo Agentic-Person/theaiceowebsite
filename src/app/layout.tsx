@@ -6,6 +6,20 @@ import Footer from "@/components/layout/Footer";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import ScrollPreventionOnLoad from "@/components/ScrollPreventionOnLoad";
 
+// Suppress hydration warnings caused by browser extensions
+if (typeof window !== 'undefined') {
+  const originalError = console.error;
+  console.error = (...args: any[]) => {
+    if (args[0]?.includes?.('A tree hydrated but some attributes of the server rendered HTML didn\'t match the client properties')) {
+      return;
+    }
+    if (args[0]?.includes?.('cz-shortcut-listen')) {
+      return;
+    }
+    originalError.call(console, ...args);
+  };
+}
+
 const inter = Inter({ 
   subsets: ["latin"],
   variable: "--font-inter",
@@ -13,6 +27,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('http://localhost:3002'),
   title: "The AI CEO - Custom AI Solutions for SMBs",
   description: "Stop fighting with generic AI tools. Get custom AI that actually understands your business - without the enterprise price tag. Free assessment available.",
   keywords: "AI consulting, small business AI, custom AI solutions, AI implementation, SMB automation",
@@ -46,14 +61,15 @@ export const metadata: Metadata = {
     images: ["/og-image.jpg"],
     creator: "@theaiceo",
   },
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-    maximumScale: 5,
-  },
   verification: {
     google: "your-google-verification-code",
   },
+};
+
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
 };
 
 export default function RootLayout({
@@ -75,4 +91,6 @@ export default function RootLayout({
       </body>
     </html>
   );
-}// Trigger Vercel deploy - Thu, Aug 14, 2025  6:32:08 PM
+}
+
+// Trigger Vercel deploy - Thu, Aug 14, 2025  6:32:08 PM

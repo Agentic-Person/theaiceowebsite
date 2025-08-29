@@ -9,12 +9,57 @@ export interface ContainerProps {
 }
 
 export interface BlogPost {
+  id: string;
   title: string;
-  excerpt: string;
   slug: string;
-  publishedAt: string;
-  readTime: number;
+  excerpt: string;
+  content: string;
+  featured_image?: string;
   category: string;
+  tags?: string[];
+  read_time?: number;
+  status: 'draft' | 'published' | 'scheduled';
+  published_at?: string;
+  created_at: string;
+  updated_at: string;
+  author_id: string;
+  author?: UserProfile;
+  category_info?: BlogCategory;
+}
+
+export interface BlogCategory {
+  id: string;
+  name: string;
+  slug: string;
+  description?: string;
+  color?: string;
+  created_at: string;
+}
+
+export interface UserProfile {
+  id: string;
+  email: string;
+  full_name?: string;
+  role: 'admin' | 'editor' | 'user';
+  avatar_url?: string;
+  bio?: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface CreateBlogPostData {
+  title: string;
+  content: string;
+  excerpt: string;
+  category: string;
+  tags?: string[];
+  featured_image?: string;
+  status?: 'draft' | 'published' | 'scheduled';
+  published_at?: string;
+}
+
+export interface UpdateBlogPostData extends Partial<CreateBlogPostData> {
+  id: string;
 }
 
 export interface Resource {
